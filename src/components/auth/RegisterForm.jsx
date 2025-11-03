@@ -3,7 +3,7 @@ import { MdEmail, MdPerson } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import OTPModal from "./OTPModal";
-import { register, sendVerificationEmail } from "../../services/authService";
+import { register } from "../../services/authService";
 
 export default function RegisterForm({ onSwitchToLogin }) {
   const [formData, setFormData] = useState({
@@ -25,31 +25,15 @@ export default function RegisterForm({ onSwitchToLogin }) {
     setSuccess(null);
 
     try {
-      // Bước 1: Đăng ký tài khoản
+      // Đăng ký tài khoản (API register đã tự động gửi OTP)
       const registerResponse = await register(formData);
 
-      if (registerResponse.code === 0 && registerResponse.result) {
-        // Bước 2: Gửi email OTP
-        try {
-          const otpResponse = await sendVerificationEmail(formData.email);
-
-          if (otpResponse.code === 0) {
-            setSuccess(
-              "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
-            );
-            // Bước 3: Hiển thị modal OTP
-            setShowOTPModal(true);
-          } else {
-            setError(
-              "Đăng ký thành công nhưng không thể gửi email xác thực. Vui lòng thử lại sau."
-            );
-          }
-        } catch (otpError) {
-          console.error("OTP Error:", otpError);
-          setError(
-            "Đăng ký thành công nhưng không thể gửi email xác thực. Vui lòng thử lại sau."
-          );
-        }
+      if (registerResponse.code === 1000 && registerResponse.result) {
+        setSuccess(
+          "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
+        );
+        // Hiển thị modal OTP ngay sau khi đăng ký thành công
+        setShowOTPModal(true);
       } else {
         setError(
           registerResponse.message || "Đăng ký thất bại. Vui lòng thử lại."

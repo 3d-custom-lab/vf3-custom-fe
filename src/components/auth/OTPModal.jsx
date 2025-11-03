@@ -77,7 +77,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
     try {
       const response = await verifyEmail(email, otpCode);
 
-      if (response.code === 0 && response.result) {
+      if (response.code === 1000 && response.result) {
         // Xác thực thành công
         onVerified();
       } else {
@@ -105,7 +105,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
     try {
       const response = await sendVerificationEmail(email);
 
-      if (response.code === 0) {
+      if (response.code === 1000) {
         setResendSuccess(true);
         setOtp(["", "", "", "", "", ""]); // Clear OTP inputs
         inputRefs.current[0]?.focus(); // Focus lại ô đầu tiên
