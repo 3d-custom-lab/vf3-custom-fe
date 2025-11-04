@@ -1,6 +1,3 @@
-/**
- * Constants for application-wide configuration
- */
 
 // User roles trong hệ thống
 export const ROLES = {

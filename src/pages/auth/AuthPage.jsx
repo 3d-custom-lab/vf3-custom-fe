@@ -20,9 +20,9 @@ export default function AuthPage() {
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-2xl shadow-2xl shadow-blue-500/50 mb-6"
+            className="inline-flex items-center justify-center w-32 h-32 shadow-2xl shadow-blue-500/50 mb-6"
           >
-            <FaCar className="text-4xl text-white" />
+            <img src="/img/logo.png" alt="VF3 Logo" className="w-full h-full" />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
@@ -30,16 +30,8 @@ export default function AuthPage() {
             transition={{ delay: 0.2 }}
             className="text-4xl font-bold text-white mb-2"
           >
-            VF<span className="text-blue-400">3</span>
+            3D <span className="text-blue-400">Custom</span> Lab
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-gray-400"
-          >
-            Premium Automotive Experience
-          </motion.p>
         </div>
 
         <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
@@ -72,12 +64,6 @@ export default function AuthPage() {
               )}
             </AnimatePresence>
           </div>
-        </div>
-
-        <div className="text-center mt-8">
-          <p className="text-gray-500 text-sm">
-            © 2024 VF3. All rights reserved.
-          </p>
         </div>
       </div>
     </div>

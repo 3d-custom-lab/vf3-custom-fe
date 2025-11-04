@@ -2,7 +2,7 @@ import api from "../utils/api";
 
 // Đăng ký người dùng mới
 export const register = async (data) => {
-  const res = await api.post("/users/create", data);
+  const res = await api.post("/auth/register", data);
   return res.data;
 };
 

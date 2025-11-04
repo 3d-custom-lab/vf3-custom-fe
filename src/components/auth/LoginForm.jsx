@@ -19,9 +19,7 @@ export default function LoginForm({ onSwitchToRegister }) {
     password: "",
   });
 
-  /**
-   * Xử lý submit form đăng nhập
-   */
+  // Xử lý submit form đăng nhập
   const handleSubmit = async (e) => {
     e.preventDefault();
     clearError();
@@ -42,9 +40,7 @@ export default function LoginForm({ onSwitchToRegister }) {
     }
   };
 
-  /**
-   * Xử lý đăng nhập bằng Google (TODO: Implement OAuth)
-   */
+  // Xử lý đăng nhập với Google (chưa implement)
   const handleGoogleLogin = () => {
     console.log("Google login clicked - Feature coming soon");
     // TODO: Implement Google OAuth flow
@@ -122,19 +118,19 @@ export default function LoginForm({ onSwitchToRegister }) {
         </button>
 
         {/* Divider */}
-        <div className="relative my-6">
+        {/* <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-700"></div>
+            <div className="w-full border-b border-gray-700"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-[#0f0f0f] text-gray-400">
+            <span className="px-4 bg-gray-800 text-gray-400">
               Or continue with
             </span>
           </div>
         </div>
 
         {/* Google Login Button */}
-        <button
+        {/* <button
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
@@ -142,7 +138,7 @@ export default function LoginForm({ onSwitchToRegister }) {
         >
           <FcGoogle className="text-2xl" />
           <span>Login with Google</span>
-        </button>
+        </button>  */}
       </form>
 
       {/* Switch to Register */}
