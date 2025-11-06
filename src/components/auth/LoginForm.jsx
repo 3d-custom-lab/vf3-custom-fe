@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
-import { FaLock } from "react-icons/fa";
+import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useAuthStore } from "../../store/authStore";
-import { ROUTES, ROLES } from "../../utils/constants";
+import { ROLES } from "../../utils/constants";
 
 /**
  * Login Form Component
@@ -18,6 +18,7 @@ export default function LoginForm({ onSwitchToRegister }) {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Xử lý submit form đăng nhập
   const handleSubmit = async (e) => {
@@ -33,9 +34,9 @@ export default function LoginForm({ onSwitchToRegister }) {
 
       // Redirect dựa trên role
       if (currentUser?.type === ROLES.ADMIN) {
-        navigate(ROUTES.ADMIN_DASHBOARD);
+        navigate("/admin/dashboard");
       } else {
-        navigate(ROUTES.HOME);
+        navigate("/");
       }
     }
   };
@@ -85,16 +86,28 @@ export default function LoginForm({ onSwitchToRegister }) {
             <FaLock className="text-blue-400 text-lg" />
           </div>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             required
             placeholder="Password"
             value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
-            className="w-full pl-12 pr-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+            className="w-full pl-12 pr-12 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
             disabled={loading}
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-400 transition-colors duration-200"
+            disabled={loading}
+          >
+            {showPassword ? (
+              <FaEyeSlash className="text-lg" />
+            ) : (
+              <FaEye className="text-lg" />
+            )}
+          </button>
         </div>
 
         {/* Forgot Password Link */}

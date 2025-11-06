@@ -5,7 +5,7 @@ import HomePage from "./pages/customer/HomePage";
 import DashboardPage from "./pages/admin/DashboardPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
-import { ROUTES, ROLES } from "./utils/constants";
+import { ROLES } from "./utils/constants";
 
 export default function App() {
   const { isAuthenticated, checkAuth, user } = useAuthStore();
@@ -19,16 +19,12 @@ export default function App() {
       <Routes>
         {/* Auth Route - Trang đăng nhập/đăng ký */}
         <Route
-          path={ROUTES.AUTH}
+          path="/auth"
           element={
             isAuthenticated ? (
               // Nếu đã đăng nhập, redirect về trang tương ứng với role
               <Navigate
-                to={
-                  user?.type === ROLES.ADMIN
-                    ? ROUTES.ADMIN_DASHBOARD
-                    : ROUTES.HOME
-                }
+                to={user?.type === ROLES.ADMIN ? "/admin/dashboard" : "/"}
                 replace
               />
             ) : (
@@ -37,18 +33,20 @@ export default function App() {
           }
         />
 
+        <Route path="/" element={<HomePage />} />
+
         {/* Customer Routes */}
-        <Route
-          path={ROUTES.HOME}
+        {/* <Route
+          path="/"
           element={
             <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
               <HomePage />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route
-          path={ROUTES.CUSTOMER_DASHBOARD}
+          path="/customer/dashboard"
           element={
             <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
               <HomePage />
@@ -58,7 +56,7 @@ export default function App() {
 
         {/* Admin Routes - Tất cả routes admin có prefix /admin */}
         <Route
-          path={ROUTES.ADMIN_DASHBOARD}
+          path="/admin/dashboard"
           element={
             <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
               <DashboardPage />
@@ -72,15 +70,11 @@ export default function App() {
           element={
             isAuthenticated ? (
               <Navigate
-                to={
-                  user?.type === ROLES.ADMIN
-                    ? ROUTES.ADMIN_DASHBOARD
-                    : ROUTES.HOME
-                }
+                to={user?.type === ROLES.ADMIN ? "/admin/dashboard" : "/"}
                 replace
               />
             ) : (
-              <Navigate to={ROUTES.AUTH} replace />
+              <Navigate to="/auth" replace />
             )
           }
         />

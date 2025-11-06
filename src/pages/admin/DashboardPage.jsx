@@ -8,7 +8,6 @@ import {
   FaChartLine,
   FaCog,
 } from "react-icons/fa";
-import { ROUTES } from "../../utils/constants";
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ function DashboardPage() {
 
   const handleLogout = async () => {
     await logout();
-    navigate(ROUTES.AUTH);
+    navigate("/auth");
   };
 
   return (

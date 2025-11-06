@@ -1,6 +1,5 @@
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { ROUTES } from "../../utils/constants";
 
 /**
  * Protected Route Component
@@ -16,7 +15,7 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
 
   // Nếu chưa đăng nhập, redirect về trang auth
   if (!isAuthenticated) {
-    return <Navigate to={ROUTES.AUTH} replace />;
+    return <Navigate to="/auth" replace />;
   }
 
   // Nếu có yêu cầu về roles
@@ -26,8 +25,7 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
 
     if (!hasPermission) {
       // Nếu không có quyền, redirect về trang chủ tương ứng với role
-      const redirectPath =
-        user?.type === "ADMIN" ? ROUTES.ADMIN_DASHBOARD : ROUTES.HOME;
+      const redirectPath = user?.type === "ADMIN" ? "/admin/dashboard" : "/";
 
       return <Navigate to={redirectPath} replace />;
     }

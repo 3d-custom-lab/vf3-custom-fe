@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MdEmail, MdPerson } from "react-icons/md";
-import { FaLock } from "react-icons/fa";
+import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import OTPModal from "./OTPModal";
 import { register } from "../../services/authService";
@@ -17,6 +17,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -131,7 +132,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
               <FaLock className="text-blue-400 text-lg" />
             </div>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               placeholder="Password"
               minLength={6}
@@ -139,9 +140,21 @@ export default function RegisterForm({ onSwitchToLogin }) {
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
               }
-              className="w-full pl-12 pr-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              className="w-full pl-12 pr-12 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
               disabled={loading}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-400 transition-colors duration-200"
+              disabled={loading}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-lg" />
+              ) : (
+                <FaEye className="text-lg" />
+              )}
+            </button>
           </div>
 
           {/* Gender Select */}
