@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./pages/auth/AuthPage";
 import HomePage from "./pages/customer/HomePage";
 import DashboardPage from "./pages/admin/DashboardPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
-import { ROLES } from "./utils/constants";
 
 export default function App() {
   const { isAuthenticated, checkAuth, user } = useAuthStore();
@@ -24,7 +24,7 @@ export default function App() {
             isAuthenticated ? (
               // Nếu đã đăng nhập, redirect về trang tương ứng với role
               <Navigate
-                to={user?.type === ROLES.ADMIN ? "/admin/dashboard" : "/"}
+                to={user?.type === "ADMIN" ? "/admin/dashboard" : "/"}
                 replace
               />
             ) : (
@@ -33,51 +33,34 @@ export default function App() {
           }
         />
 
+        {/* Home Page - Public route, ai cũng có thể truy cập */}
         <Route path="/" element={<HomePage />} />
 
-        {/* Customer Routes */}
-        {/* <Route
-          path="/"
-          element={
-            <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        /> */}
-
+        {/* Customer - Protected route cho CUSTOMER */}
         <Route
-          path="/customer/dashboard"
+          path="/home"
           element={
-            <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
+            <ProtectedRoute allowedRoles={["CUSTOMER"]}>
               <HomePage />
             </ProtectedRoute>
           }
         />
 
-        {/* Admin Routes - Tất cả routes admin có prefix /admin */}
+        {/* Admin - Protected route cho ADMIN */}
         <Route
           path="/admin/dashboard"
           element={
-            <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
               <DashboardPage />
             </ProtectedRoute>
           }
         />
 
-        {/* Catch all route - Redirect về auth nếu chưa đăng nhập */}
-        <Route
-          path="*"
-          element={
-            isAuthenticated ? (
-              <Navigate
-                to={user?.type === ROLES.ADMIN ? "/admin/dashboard" : "/"}
-                replace
-              />
-            ) : (
-              <Navigate to="/auth" replace />
-            )
-          }
-        />
+        {/* 404 Not Found Page */}
+        <Route path="/404" element={<NotFoundPage />} />
+
+        {/* Catch all route - Redirect to 404 */}
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
     </BrowserRouter>
   );

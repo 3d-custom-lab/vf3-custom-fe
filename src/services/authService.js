@@ -33,10 +33,10 @@ export const introspect = async (token) => {
 };
 
 // Lấy thông tin user hiện tại
-export const getCurrentUser = async () => {
-  const res = await api.get("/users/my-info");
-  return res.data;
-};
+// export const getCurrentUser = async () => {
+//   const res = await api.get("/users/my-info");
+//   return res.data;
+// };
 
 // Đăng xuất người dùng
 export const logout = async () => {

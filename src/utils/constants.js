@@ -1,12 +1,14 @@
 
-// User roles trong hệ thống
-export const ROLES = {
-  ADMIN: "ADMIN",
-  CUSTOMER: "CUSTOMER",
-};
-
 // Local storage keys
 export const STORAGE_KEYS = {
-  TOKEN: "token",
-  USER: "user",
+  TOKEN: "",
+  USER: "",
+};
+
+// User roles - CHỈ ĐỂ THAM KHẢO
+// Các giá trị này được lấy trực tiếp từ field 'type' trong database
+// Không sử dụng trong code, chỉ để document
+export const USER_ROLES = {
+  ADMIN: "ADMIN",
+  CUSTOMER: "CUSTOMER",
 };

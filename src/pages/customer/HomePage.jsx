@@ -1,28 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../store/authStore";
+import Header from "../../components/layout/Header";
 import HeroSection from "../../components/landing/HeroSection";
 import FeaturesSection from "../../components/landing/FeaturesSection";
 import ShowcaseSection from "../../components/landing/ShowcaseSection";
 import TestimonialsSection from "../../components/landing/TestimonialsSection";
 import CTASection from "../../components/landing/CTASection";
+import Footer from "../../components/layout/Footer";
 
 function HomePage() {
-  const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
-
-  // Xử lý đăng xuất
-  const handleLogout = async () => {
-    await logout();
-    navigate("/auth");
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black">
+      <Header />
       <HeroSection />
       <FeaturesSection />
       <ShowcaseSection />
       <TestimonialsSection />
       <CTASection />
+      <Footer />
     </div>
   );
 }

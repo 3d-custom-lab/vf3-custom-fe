@@ -26,6 +26,8 @@ export const useAuthStore = create(
           // Kiểm tra response có token không
           if (res.result?.token && res.result?.authenticated) {
             const token = res.result.token;
+            console.log(token);
+            
 
             // Lưu token vào localStorage
             localStorage.setItem(STORAGE_KEYS.TOKEN, token);
@@ -109,12 +111,19 @@ export const useAuthStore = create(
 
       logout: async () => {
         try {
-          // Gọi API logout nếu có
-          await logoutService();
+          // Thử gọi API logout nếu có, nhưng không quan trọng nếu fail
+          const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+          if (token) {
+            try {
+              await logoutService();
+            } catch (apiError) {
+              console.warn("Logout API call failed, but continuing with local logout:", apiError);
+            }
+          }
         } catch (err) {
           console.error("Logout error:", err);
         } finally {
-          // Xóa tất cả dữ liệu auth
+          // Luôn xóa tất cả dữ liệu auth ở client
           localStorage.removeItem(STORAGE_KEYS.TOKEN);
           localStorage.removeItem(STORAGE_KEYS.USER);
           set({
@@ -122,6 +131,7 @@ export const useAuthStore = create(
             token: null,
             isAuthenticated: false,
             error: null,
+            loading: false,
           });
         }
       },

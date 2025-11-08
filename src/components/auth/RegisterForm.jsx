@@ -29,11 +29,10 @@ export default function RegisterForm({ onSwitchToLogin }) {
       // Đăng ký tài khoản (API register đã tự động gửi OTP)
       const registerResponse = await register(formData);
 
-      if (registerResponse.code === 1000 && registerResponse.result) {
+      if (registerResponse.code === 1000) {
         setSuccess(
           "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
         );
-        // Hiển thị modal OTP ngay sau khi đăng ký thành công
         setShowOTPModal(true);
       } else {
         setError(

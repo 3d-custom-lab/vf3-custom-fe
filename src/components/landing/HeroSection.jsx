@@ -1,7 +1,22 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { useAuthStore } from "../../store/authStore";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      // Nếu đã đăng nhập, chuyển đến trang custom (có thể tạo sau)
+      navigate("/custom");
+    } else {
+      // Nếu chưa đăng nhập, chuyển đến trang auth
+      navigate("/auth");
+    }
+  };
+
   return (
     <section
       id="hero"
@@ -48,11 +63,12 @@ const HeroSection = () => {
               transition={{ delay: 0.6 }}
             >
               <motion.button
+                onClick={handleGetStarted}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
               >
-                Bắt đầu tùy chỉnh ngay
+                {isAuthenticated ? "Bắt đầu tùy chỉnh ngay" : "Đăng nhập để bắt đầu"}
                 <FaArrowRight />
               </motion.button>
 

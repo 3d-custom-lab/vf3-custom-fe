@@ -4,7 +4,6 @@ import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useAuthStore } from "../../store/authStore";
-import { ROLES } from "../../utils/constants";
 
 /**
  * Login Form Component
@@ -32,11 +31,11 @@ export default function LoginForm({ onSwitchToRegister }) {
       // Lấy thông tin user sau khi login
       const currentUser = useAuthStore.getState().user;
 
-      // Redirect dựa trên role
-      if (currentUser?.type === ROLES.ADMIN) {
+      // Redirect dựa trên role type từ backend
+      if (currentUser?.type === "ADMIN") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/");
+        navigate("/home");
       }
     }
   };
