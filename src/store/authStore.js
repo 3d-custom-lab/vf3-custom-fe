@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import {
-  login,
-  introspect,
-  getCurrentUser,
-  logout as logoutService,
-} from "../services/authService";
-import { STORAGE_KEYS } from "../utils/constants";
+import { login, introspect } from "../services/authService";
+
+// Storage keys - hardcode trực tiếp
+const STORAGE_KEYS = {
+  TOKEN: "auth_token",
+  USER: "user_info",
+};
 
 export const useAuthStore = create(
   persist(
@@ -26,15 +26,27 @@ export const useAuthStore = create(
           // Kiểm tra response có token không
           if (res.result?.token && res.result?.authenticated) {
             const token = res.result.token;
-            console.log(token);
             
-
             // Lưu token vào localStorage
             localStorage.setItem(STORAGE_KEYS.TOKEN, token);
-            set({ token, isAuthenticated: true });
+            
+            // Set token và authenticated state
+            set({ 
+              token, 
+              isAuthenticated: true,
+              // Hardcode user info từ login response (vì chưa có API /users/my-info)
+              user: {
+                email: email,
+                type: res.result.type || "CUSTOMER", // Lấy type từ response hoặc mặc định là CUSTOMER
+              }
+            });
 
-            // Lấy thông tin user sau khi login thành công
-            await get().fetchUserInfo();
+            // Lưu user info vào localStorage
+            const userInfo = {
+              email: email,
+              type: res.result.type || "CUSTOMER",
+            };
+            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userInfo));
 
             return { success: true, token };
           } else {
@@ -52,21 +64,6 @@ export const useAuthStore = create(
         }
       },
 
-      fetchUserInfo: async () => {
-        try {
-          const res = await getCurrentUser();
-          if (res.result) {
-            const user = res.result;
-            set({ user });
-            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
-          }
-        } catch (err) {
-          console.error("Failed to fetch user info:", err);
-          // Nếu không lấy được thông tin user, logout
-          get().logout();
-        }
-      },
-
       checkAuth: async () => {
         const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
         const userStr = localStorage.getItem(STORAGE_KEYS.USER);
@@ -81,20 +78,17 @@ export const useAuthStore = create(
           const res = await introspect(token);
 
           if (res.result?.valid) {
-            set({ token, isAuthenticated: true });
-
             // Nếu có user trong localStorage, load lên
+            let user = null;
             if (userStr) {
               try {
-                const user = JSON.parse(userStr);
-                set({ user });
+                user = JSON.parse(userStr);
               } catch (e) {
                 console.error("Failed to parse user data:", e);
               }
             }
 
-            // Fetch lại thông tin user mới nhất
-            await get().fetchUserInfo();
+            set({ token, isAuthenticated: true, user });
           } else {
             // Token không hợp lệ, xóa và logout
             localStorage.removeItem(STORAGE_KEYS.TOKEN);
@@ -109,31 +103,17 @@ export const useAuthStore = create(
         }
       },
 
-      logout: async () => {
-        try {
-          // Thử gọi API logout nếu có, nhưng không quan trọng nếu fail
-          const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-          if (token) {
-            try {
-              await logoutService();
-            } catch (apiError) {
-              console.warn("Logout API call failed, but continuing with local logout:", apiError);
-            }
-          }
-        } catch (err) {
-          console.error("Logout error:", err);
-        } finally {
-          // Luôn xóa tất cả dữ liệu auth ở client
-          localStorage.removeItem(STORAGE_KEYS.TOKEN);
-          localStorage.removeItem(STORAGE_KEYS.USER);
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            error: null,
-            loading: false,
-          });
-        }
+      logout: () => {
+        // API logout chưa được implement ở backend, chỉ xóa dữ liệu ở client
+        localStorage.removeItem(STORAGE_KEYS.TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.USER);
+        set({
+          user: null,
+          token: null,
+          isAuthenticated: false,
+          error: null,
+          loading: false,
+        });
       },
 
       /**

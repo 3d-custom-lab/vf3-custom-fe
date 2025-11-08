@@ -8,7 +8,7 @@ import Footer from "../../components/layout/Footer";
 
 function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-950 to-black">
       <Header />
       <HeroSection />
       <FeaturesSection />

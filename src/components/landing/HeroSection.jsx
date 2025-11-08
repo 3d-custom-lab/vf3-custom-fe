@@ -37,10 +37,10 @@ const HeroSection = () => {
               transition={{ delay: 0.2 }}
             >
               3D Custom Lab
-              <span className="block bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mt-2">
+              <span className="block bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mt-2">
                 Tự tay tạo nên phong cách
               </span>
-              <span className="block bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+              <span className="block bg-linear-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
                 cho chiếc VF3 của bạn
               </span>
             </motion.h1>
@@ -66,7 +66,7 @@ const HeroSection = () => {
                 onClick={handleGetStarted}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
+                className="bg-linear-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
               >
                 {isAuthenticated ? "Bắt đầu tùy chỉnh ngay" : "Đăng nhập để bắt đầu"}
                 <FaArrowRight />

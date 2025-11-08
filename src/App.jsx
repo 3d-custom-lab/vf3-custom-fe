@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./pages/auth/AuthPage";
 import HomePage from "./pages/customer/HomePage";
+import StudioPage from "./pages/customer/StudioPage";
 import DashboardPage from "./pages/admin/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -35,6 +36,16 @@ export default function App() {
 
         {/* Home Page - Public route, ai cũng có thể truy cập */}
         <Route path="/" element={<HomePage />} />
+        
+        {/* Studio Page - Protected route, chỉ user đã login mới vào được */}
+        <Route
+          path="/studio"
+          element={
+            <ProtectedRoute>
+              <StudioPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Customer - Protected route cho CUSTOMER */}
         <Route

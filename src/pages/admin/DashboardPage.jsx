@@ -21,12 +21,12 @@ function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
       {/* Header/Navbar */}
-      <nav className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800">
+      <nav className="bg-linear-to-r from-gray-900 to-gray-800 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-linear-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
                 <FaCar className="text-white text-xl" />
               </div>
               <div>
@@ -62,7 +62,7 @@ function DashboardPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Welcome Section */}
-        <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 mb-8">
+        <div className="bg-linear-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 mb-8">
           <h2 className="text-3xl font-bold text-white mb-2">
             Admin Dashboard 👑
           </h2>
@@ -74,7 +74,7 @@ function DashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Stat Card 1 */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-purple-500/50 transition-all duration-300">
+          <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-purple-500/50 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                 <FaUsers className="text-purple-400 text-xl" />
@@ -86,7 +86,7 @@ function DashboardPage() {
           </div>
 
           {/* Stat Card 2 */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300">
+          <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
                 <FaCar className="text-blue-400 text-xl" />
@@ -98,7 +98,7 @@ function DashboardPage() {
           </div>
 
           {/* Stat Card 3 */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-cyan-500/50 transition-all duration-300">
+          <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-cyan-500/50 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
                 <FaChartLine className="text-cyan-400 text-xl" />
@@ -110,7 +110,7 @@ function DashboardPage() {
           </div>
 
           {/* Stat Card 4 */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-pink-500/50 transition-all duration-300">
+          <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-pink-500/50 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center">
                 <svg
@@ -137,7 +137,7 @@ function DashboardPage() {
         {/* Management Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Quick Actions */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
+          <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <FaCog className="text-purple-400" />
               Quick Actions
@@ -159,7 +159,7 @@ function DashboardPage() {
           </div>
 
           {/* Admin Info */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
+          <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <FaUser className="text-purple-400" />
               Admin Information
@@ -190,7 +190,7 @@ function DashboardPage() {
         </div>
 
         {/* Recent Activity */}
-        <div className="mt-6 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
+        <div className="mt-6 bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
           <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
             <FaChartLine className="text-purple-400" />
             Recent Activity

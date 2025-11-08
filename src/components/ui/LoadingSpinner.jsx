@@ -1,15 +1,5 @@
 import { motion } from "framer-motion";
 
-/**
- * Loading Spinner Component
- * Có thể tùy chỉnh kích thước và màu sắc
- * 
- * @param {Object} props
- * @param {string} props.size - Kích thước: "sm", "md", "lg" (default: "md")
- * @param {string} props.color - Màu sắc: "cyan", "blue", "purple" (default: "cyan")
- * @param {boolean} props.fullScreen - Hiển thị full screen (default: false)
- * @param {string} props.message - Thông báo loading (optional)
- */
 export default function LoadingSpinner({ 
   size = "md", 
   color = "cyan", 
@@ -50,7 +40,7 @@ export default function LoadingSpinner({
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-linear-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center z-50">
         {spinner}
       </div>
     );

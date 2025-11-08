@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -18,7 +18,7 @@ export default function NotFoundPage() {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="inline-flex items-center justify-center w-24 h-24 mb-8 rounded-full bg-gradient-to-br from-red-500/20 to-orange-500/20 border-2 border-red-500/50"
+          className="inline-flex items-center justify-center w-24 h-24 mb-8 rounded-full bg-linear-to-br from-red-500/20 to-orange-500/20 border-2 border-red-500/50"
         >
           <FaExclamationTriangle className="text-5xl text-red-400" />
         </motion.div>
@@ -28,7 +28,7 @@ export default function NotFoundPage() {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 mb-4"
+          className="text-9xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-blue-500 to-purple-500 mb-4"
         >
           404
         </motion.h1>
@@ -65,7 +65,7 @@ export default function NotFoundPage() {
 
           <button
             onClick={() => navigate("/")}
-            className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2 group"
+            className="px-8 py-3 bg-linear-to-r from-cyan-500 to-blue-600 text-white rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2 group"
           >
             <FaHome className="group-hover:scale-110 transition-transform" />
             <span>Về trang chủ</span>
