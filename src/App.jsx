@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./pages/auth/AuthPage";
 import HomePage from "./pages/customer/HomePage";
 import StudioPage from "./pages/customer/StudioPage";
+import ForumPage from "./pages/customer/ForumPage";
 import DashboardPage from "./pages/admin/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -23,7 +24,6 @@ export default function App() {
           path="/auth"
           element={
             isAuthenticated ? (
-              // Nếu đã đăng nhập, redirect về trang tương ứng với role
               <Navigate
                 to={user?.type === "ADMIN" ? "/admin/dashboard" : "/"}
                 replace
@@ -36,8 +36,10 @@ export default function App() {
 
         {/* Home Page - Public route, ai cũng có thể truy cập */}
         <Route path="/" element={<HomePage />} />
-        
-        {/* Studio Page - Protected route, chỉ user đã login mới vào được */}
+
+        {/* CUSTOMER */}
+
+        {/* Studio Page*/}
         <Route
           path="/studio"
           element={
@@ -46,18 +48,17 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Customer - Protected route cho CUSTOMER */}
+        {/* Forum Page */}
         <Route
-          path="/home"
+          path="/forum"
           element={
-            <ProtectedRoute allowedRoles={["CUSTOMER"]}>
-              <HomePage />
+            <ProtectedRoute>
+              <ForumPage />
             </ProtectedRoute>
           }
         />
 
-        {/* Admin - Protected route cho ADMIN */}
+        {/* ADMIN */}
         <Route
           path="/admin/dashboard"
           element={

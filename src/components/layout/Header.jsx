@@ -30,10 +30,10 @@ export default function Header() {
   };
 
   const menuItems = [
-    { name: "Trang chủ", navigate: "/" },
+    { name: "Home", navigate: "/" },
     { name: "Studio", navigate: "/studio" },
-    { name: "Hình ảnh", navigate: "#showcase" },
-    { name: "Liên hệ", navigate: "#footer" },
+    { name: "Discussion", navigate: "/forum" },
+    { name: "Contact", navigate: "#footer" },
   ];
 
   return (
