@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import ForumHeader from "../../components/forum/ForumHeader";
 import CreatePost from "../../components/forum/CreatePost";
 import PostList from "../../components/forum/PostList";
 import Header from "../../components/layout/Header";
