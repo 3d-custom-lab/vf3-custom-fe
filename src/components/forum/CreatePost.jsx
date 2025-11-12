@@ -6,6 +6,7 @@ import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 
 function CreatePost({ onPostCreated }) {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
@@ -49,6 +50,11 @@ function CreatePost({ onPostCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!title.trim()) {
+      showError("Please enter post title");
+      return;
+    }
+
     if (!content.trim()) {
       showError("Please enter post content");
       return;
@@ -59,6 +65,7 @@ function CreatePost({ onPostCreated }) {
     try {
       // Create post first
       const postData = {
+        title: title.trim(),
         content: content.trim(),
       };
 
@@ -78,6 +85,7 @@ function CreatePost({ onPostCreated }) {
       }
 
       // Reset form
+      setTitle("");
       setContent("");
       setImageFile(null);
       setImagePreview("");
@@ -124,6 +132,14 @@ function CreatePost({ onPostCreated }) {
           </div>
 
           <div>
+            <input
+              type="text"
+              placeholder="Post title..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-900 text-white rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 outline-none transition-all placeholder-slate-500 mb-3"
+              disabled={isSubmitting}
+            />
             <textarea
               placeholder="What's on your mind?"
               value={content}
@@ -187,7 +203,7 @@ function CreatePost({ onPostCreated }) {
 
             <button
               type="submit"
-              disabled={isSubmitting || !content.trim()}
+              disabled={isSubmitting || !title.trim() || !content.trim()}
               className="px-6 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all transform hover:scale-105 active:scale-95 disabled:transform-none"
             >
               {isSubmitting ? (

@@ -16,6 +16,7 @@ import {
   likePost,
   uploadPostImage,
 } from "../../services/postService";
+import { getCommentsByPostId } from "../../services/commentService";
 import { useAuthStore } from "../../store/authStore";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
@@ -36,7 +37,9 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
   const [isLiked, setIsLiked] = useState(likedUserIds.includes(currentUserId));
   const [likeCount, setLikeCount] = useState(likedUserIds.length);
   const [showComments, setShowComments] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState(post.title || "");
   const [editContent, setEditContent] = useState(post.content);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(firstImageUrl);
@@ -50,6 +53,33 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
     setIsLiked(likedUserIds.includes(currentUserId));
     setLikeCount(likedUserIds.length);
   }, [post.likedUserIds, currentUserId]);
+
+  useEffect(() => {
+    // Load comment count
+    loadCommentCount();
+  }, [post.id]);
+
+  const loadCommentCount = async () => {
+    try {
+      const response = await getCommentsByPostId(post.id);
+      const comments = response.result || [];
+      
+      // Count parent comments + all their replies
+      let totalCount = comments.length;
+
+      // Add reply counts from each parent comment
+      comments.forEach(comment => {
+        if (comment.replies && Array.isArray(comment.replies)) {
+          totalCount += comment.replies.length;
+        }
+      });
+
+      setCommentCount(totalCount);
+    } catch (error) {
+      console.error("Error loading comment count:", error);
+      // Silently fail, don't show error to user
+    }
+  };
 
   const handleLike = async () => {
     try {
@@ -71,10 +101,15 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
   const handleToggleComments = () => {
     setShowComments(!showComments);
+    // Reload comment count when opening comments
+    if (!showComments) {
+      loadCommentCount();
+    }
   };
 
   const handleEdit = () => {
     setIsEditing(true);
+    setEditTitle(post.title || "");
     setEditContent(post.content);
     setImagePreview(post.imageUrl || "");
     setImageFile(null);
@@ -82,6 +117,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
+    setEditTitle(post.title || "");
     setEditContent(post.content);
     setImagePreview(post.imageUrl || "");
     setImageFile(null);
@@ -119,6 +155,11 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
   };
 
   const handleSaveEdit = async () => {
+    if (!editTitle.trim()) {
+      showError("Post title cannot be empty");
+      return;
+    }
+
     if (!editContent.trim()) {
       showError("Post content cannot be empty");
       return;
@@ -129,6 +170,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
     try {
       // Update post content
       const updateData = {
+        title: editTitle.trim(),
         content: editContent.trim(),
       };
 
@@ -255,6 +297,14 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
           {isEditing ? (
           <div className="space-y-3 mb-4">
+            <input
+              type="text"
+              placeholder="Post title..."
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-900 text-white rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 outline-none transition-all"
+              disabled={isUpdating}
+            />
             <textarea
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
@@ -300,7 +350,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
             <div className="flex gap-2">
               <button
                 onClick={handleSaveEdit}
-                disabled={isUpdating || !editContent.trim()}
+                disabled={isUpdating || !editTitle.trim() || !editContent.trim()}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-all"
               >
                 {isUpdating ? (
@@ -327,6 +377,11 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
           </div>
         ) : (
           <>
+            {post.title && (
+              <h2 className="text-xl font-bold text-white mb-3">
+                {post.title}
+              </h2>
+            )}
             <p className="text-slate-200 mb-4 whitespace-pre-wrap wrap-break-word leading-relaxed">
               {post.content}
             </p>
@@ -367,6 +422,11 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
             <FaComment />
             <span className="font-medium">
               {showComments ? "Hide Comments" : "Comments"}
+              {commentCount > 0 && (
+                <span className="ml-1.5 px-2 py-0.5 bg-blue-500 text-white text-xs rounded-full">
+                  {commentCount}
+                </span>
+              )}
             </span>
           </button>
         </div>
@@ -374,7 +434,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
       {showComments && (
         <div className="px-6 pb-6 bg-slate-750 border-t border-slate-700">
-          <CommentList postId={post.id} />
+          <CommentList postId={post.id} onCommentChange={loadCommentCount} />
         </div>
       )}
     </div>
