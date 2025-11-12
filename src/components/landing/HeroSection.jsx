@@ -9,10 +9,8 @@ const HeroSection = () => {
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      // Nếu đã đăng nhập, chuyển đến trang custom (có thể tạo sau)
-      navigate("/custom");
+      navigate("/studio");
     } else {
-      // Nếu chưa đăng nhập, chuyển đến trang auth
       navigate("/auth");
     }
   };
@@ -66,18 +64,12 @@ const HeroSection = () => {
                 onClick={handleGetStarted}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-linear-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
+                className="cursor-pointer bg-linear-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
               >
-                {isAuthenticated ? "Bắt đầu tùy chỉnh ngay" : "Đăng nhập để bắt đầu"}
+                {isAuthenticated
+                  ? "Bắt đầu tùy chỉnh ngay"
+                  : "Đăng nhập để bắt đầu"}
                 <FaArrowRight />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-cyan-500 text-cyan-400 px-8 py-4 rounded-full hover:bg-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/30 transition-all"
-              >
-                Xem demo
               </motion.button>
             </motion.div>
           </motion.div>
@@ -91,9 +83,9 @@ const HeroSection = () => {
           >
             <div className="relative z-10">
               <img
-                src="https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src="../../../img/car-home.png"
                 alt="VF3 Custom"
-                className="rounded-2xl shadow-2xl"
+                className="w-full h-auto"
               />
             </div>
 

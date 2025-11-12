@@ -20,6 +20,7 @@ import { getCommentsByPostId } from "../../services/commentService";
 import { useAuthStore } from "../../store/authStore";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
+import { Modal } from "../ui/Modal";
 
 function PostItem({ post, onPostUpdated, onPostDeleted }) {
   const { user } = useAuthStore();
@@ -42,6 +43,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(firstImageUrl);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const isAuthor = user?.email === authorEmail;
 
@@ -193,11 +195,14 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
     }
   };
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this post?")) {
-      return;
-    }
+  const handleDelete = () => {
+    // open modal to confirm deletion
+    setShowDeleteModal(true);
+  };
 
+  const confirmDelete = async () => {
+    setShowDeleteModal(false);
+    setIsUpdating(true);
     try {
       const response = await deletePost(post.id);
 
@@ -212,6 +217,8 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       const errorMessage =
         error.response?.data?.message || "Failed to delete post. Please try again.";
       showError(errorMessage);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -242,18 +249,13 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
           duration={toast.duration}
         />
       )}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-800 via-slate-850 to-slate-900 rounded-3xl shadow-2xl border-2 border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 group/post animate-fadeIn">
-        {/* Glow effects */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl group-hover/post:bg-blue-500/20 transition-all duration-500"></div>
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl group-hover/post:bg-purple-500/20 transition-all duration-500"></div>
-        
-        <div className="relative p-8">
+      <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-700/50 transition-all duration-200 group/post">
+        <div className="p-6">
           {/* Header */}
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">
-              <div className="relative group/avatar">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-md opacity-50 group-hover/avatar:opacity-75 transition-opacity"></div>
-                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-xl border-2 border-slate-600">
+              <div className="shrink-0">
+                <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold text-lg border border-slate-600">
                   {authorName?.charAt(0).toUpperCase() || "U"}
                 </div>
               </div>
@@ -267,186 +269,103 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
             {isAuthor && (
               <div className="flex gap-2">
-                <button
-                  onClick={handleEdit}
-                  className="relative p-3 text-slate-400 hover:text-blue-400 bg-slate-700/50 hover:bg-blue-500/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg group/edit overflow-hidden"
-                  title="Edit post"
-                  disabled={isUpdating}
-                >
-                  <div className="absolute inset-0 bg-blue-500/10 translate-y-full group-hover/edit:translate-y-0 transition-transform duration-200"></div>
-                  <FaEdit className="relative" />
+                <button onClick={handleEdit} className="p-2 text-slate-300 bg-slate-800 rounded-md hover:bg-slate-700 cursor-pointer transition" title="Edit post" disabled={isUpdating}>
+                  <FaEdit />
                 </button>
-                <button
-                  onClick={handleDelete}
-                  className="relative p-3 text-slate-400 hover:text-red-400 bg-slate-700/50 hover:bg-red-500/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg group/delete overflow-hidden"
-                  title="Delete post"
-                  disabled={isUpdating}
-                >
-                  <div className="absolute inset-0 bg-red-500/10 translate-y-full group-hover/delete:translate-y-0 transition-transform duration-200"></div>
-                  <FaTrash className="relative" />
-                </button>
+                  <button onClick={handleDelete} className="p-2 text-slate-300 bg-slate-800 rounded-md hover:bg-slate-700 cursor-pointer transition" title="Delete post" disabled={isUpdating}>
+                    <FaTrash />
+                  </button>
               </div>
             )}
           </div>
 
           {isEditing ? (
-          <div className="space-y-4 mb-6">
-            <div className="relative group/input">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl opacity-0 group-focus-within/input:opacity-20 blur transition-opacity"></div>
-              <input
-                type="text"
-                placeholder="Post title..."
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-                className="relative w-full px-5 py-3 bg-slate-900/80 backdrop-blur-sm text-white font-semibold rounded-xl border-2 border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 outline-none transition-all shadow-lg"
-                disabled={isUpdating}
-              />
-            </div>
-            <div className="relative group/textarea">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl opacity-0 group-focus-within/textarea:opacity-20 blur transition-opacity"></div>
-              <textarea
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-                rows="5"
-                className="relative w-full px-5 py-3 bg-slate-900/80 backdrop-blur-sm text-white rounded-xl border-2 border-slate-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 outline-none resize-none transition-all shadow-lg leading-relaxed"
-                disabled={isUpdating}
-              />
-            </div>
+          <div className="space-y-3 mb-6">
+            <input
+              type="text"
+              placeholder="Post title"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              className="w-full px-4 py-2 bg-slate-800 text-white rounded-md border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isUpdating}
+            />
 
-            <div className="space-y-3">
-              <label className="relative flex items-center justify-center gap-3 w-full px-5 py-3 bg-slate-900/50 text-slate-300 rounded-xl border-2 border-dashed border-slate-600 cursor-pointer hover:border-blue-500 hover:text-blue-400 transition-all group/upload overflow-hidden">
-                <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover/upload:opacity-100 transition-opacity"></div>
-                <FaUpload className="relative" />
-                <span className="relative font-bold">
-                  {imageFile ? "Change Image" : "Upload New Image"}
-                </span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  disabled={isUpdating}
-                />
+            <textarea
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+              rows="5"
+              className="w-full px-4 py-2 bg-slate-800 text-white rounded-md border border-slate-700 resize-none"
+              disabled={isUpdating}
+            />
+
+            <div>
+              <label className="flex items-center gap-3 px-3 py-2 bg-slate-800 text-slate-300 rounded-md border border-dashed border-slate-700 cursor-pointer hover:bg-slate-700 transition">
+                <FaUpload />
+                <span className="font-medium text-sm">{imageFile ? "Change image" : "Upload image"}</span>
+                <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" disabled={isUpdating} />
               </label>
 
               {imagePreview && (
-                <div className="relative rounded-xl overflow-hidden border-2 border-slate-700 shadow-xl group/preview">
-                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/preview:opacity-100 transition-opacity"></div>
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-full max-h-72 object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="absolute top-3 right-3 p-2.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all hover:scale-110 active:scale-95 shadow-lg"
-                    disabled={isUpdating}
-                  >
-                    <FaTimes />
-                  </button>
+                <div className="mt-3 relative rounded-md overflow-hidden border border-slate-700">
+                  <img src={imagePreview} alt="Preview" className="w-full max-h-72 object-cover" />
+                  <button type="button" onClick={handleRemoveImage} className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-md" disabled={isUpdating}><FaTimes /></button>
                 </div>
               )}
             </div>
 
-            <div className="flex gap-3 pt-2">
-              <button
-                onClick={handleSaveEdit}
-                disabled={isUpdating || !editTitle.trim() || !editContent.trim()}
-                className="relative flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg overflow-hidden group/save"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-x-full group-hover/save:translate-x-0 transition-transform duration-300"></div>
-                {isUpdating ? (
-                  <>
-                    <span className="relative w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    <span className="relative">Saving...</span>
-                  </>
-                ) : (
-                  <>
-                    <FaSave className="relative" />
-                    <span className="relative">Save</span>
-                  </>
-                )}
+            <div className="flex gap-2 pt-2 justify-end">
+              <button onClick={handleSaveEdit} disabled={isUpdating || !editTitle.trim() || !editContent.trim()} className="px-4 py-2 bg-blue-600 text-white rounded-md">
+                {isUpdating ? "Saving..." : "Save"}
               </button>
-              <button
-                onClick={handleCancelEdit}
-                disabled={isUpdating}
-                className="flex items-center gap-2 px-6 py-3 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 text-white font-bold rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"
-              >
-                <FaTimes />
-                <span>Cancel</span>
-              </button>
+              <button onClick={handleCancelEdit} disabled={isUpdating} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-md">Cancel</button>
             </div>
           </div>
         ) : (
           <>
-            {post.title && (
-              <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight">
-                {post.title}
-              </h2>
-            )}
-            <p className="text-slate-200 text-base mb-6 whitespace-pre-wrap wrap-break-word leading-relaxed">
-              {post.content}
-            </p>
+            {post.title && (<h2 className="text-2xl font-bold mb-3">{post.title}</h2>)}
+            <p className="text-slate-200 text-base mb-4 whitespace-pre-wrap leading-relaxed">{post.content}</p>
 
             {firstImageUrl && (
-              <div className="mb-6 rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-xl group/image">
-                <div className="relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity"></div>
-                  <img
-                    src={firstImageUrl}
-                    alt="Post"
-                    className="w-full max-h-[500px] object-cover transform group-hover/image:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                    }}
-                  />
-                </div>
+              <div className="mb-4 rounded-md overflow-hidden border border-slate-700">
+                <img src={firstImageUrl} alt="Post" className="w-full max-h-[500px] object-cover" onError={(e) => { e.target.style.display = "none"; }} />
               </div>
             )}
           </>
         )}
 
         {/* Action buttons with enhanced design */}
-        <div className="flex items-center gap-3 pt-6 border-t-2 border-slate-700/50">
-          <button
-            onClick={handleLike}
-            disabled={isUpdating}
-            className={`cursor-pointer relative flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-lg overflow-hidden group/like ${
-              isLiked
-                ? "bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white shadow-red-500/50"
-                : "bg-slate-700/80 hover:bg-slate-700 text-slate-300 hover:text-white"
-            }`}
-          >
-            <div className="absolute inset-0 bg-white/10 translate-x-full group-hover/like:translate-x-0 transition-transform duration-300"></div>
-            {isLiked ? <FaHeart className="relative text-lg animate-pulse" /> : <FaRegHeart className="relative text-lg" />}
-            <span className="relative text-base">{likeCount}</span>
+            <div className="flex items-center gap-3 pt-6 border-t border-slate-700/50">
+          <button onClick={handleLike} disabled={isUpdating} className={`flex items-center gap-2 px-3 py-2 rounded-md font-semibold ${isLiked ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'} cursor-pointer transition`}>
+            {isLiked ? <FaHeart /> : <FaRegHeart />}
+            <span>{likeCount}</span>
           </button>
 
-          <button
-            onClick={handleToggleComments}
-            className="cursor-pointer relative flex items-center gap-3 px-6 py-3 bg-slate-700/80 hover:bg-gradient-to-r hover:from-blue-500/80 hover:to-purple-500/80 text-slate-300 hover:text-white rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 font-bold shadow-lg overflow-hidden group/comment"
-          >
-            <FaComment className="relative text-lg" />
-            <span className="relative text-base">
-              {showComments ? "Hide Comments" : "Comments"}
-            </span>
-            {commentCount > 0 && (
-              <span className="relative px-2.5 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold rounded-full shadow-lg">
-                {commentCount}
-              </span>
-            )}
+          <button onClick={handleToggleComments} className="flex items-center gap-2 px-3 py-2 bg-slate-800 text-slate-200 rounded-md cursor-pointer hover:bg-slate-700 transition">
+            <FaComment />
+            <span>{showComments ? 'Hide Comments' : 'Comments'}</span>
+            {commentCount > 0 && <span className="ml-2 px-2 py-0.5 bg-slate-700 text-slate-200 text-xs rounded-full border border-slate-600">{commentCount}</span>}
           </button>
         </div>
       </div>
 
       {showComments && (
-        <div className="relative px-8 pb-8 bg-gradient-to-b from-slate-850 to-slate-900 rounded-b-3xl border-x-2 border-b-2 border-slate-700/50 -mt-6 pt-4 animate-slideDown">
+        <div className="px-6 pb-6 bg-slate-900 rounded-b-2xl border-x border-b border-slate-700/50 -mt-4 pt-4">
           <CommentList postId={post.id} onCommentChange={loadCommentCount} />
         </div>
       )}
     </div>
-    </>
+
+    {/* Delete confirmation modal */}
+    <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} title="Confirm delete">
+      <div className="space-y-4">
+        <p className="text-slate-700 dark:text-slate-200">Are you sure you want to delete this post? This action cannot be undone.</p>
+        <div className="flex justify-end gap-3">
+          <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 transition">Cancel</button>
+          <button onClick={confirmDelete} className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition">Delete</button>
+        </div>
+      </div>
+    </Modal>
+  </>
   );
 }
 

@@ -77,7 +77,7 @@ export default function Header() {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
+                  className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-linear-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
                 >
                   {/* Avatar Icon */}
                   <div className="w-8 h-8 rounded-full bg-linear-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">

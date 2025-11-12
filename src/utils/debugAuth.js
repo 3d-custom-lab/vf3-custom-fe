@@ -3,49 +3,62 @@
  * Use in browser console: window.debugAuth()
  */
 
-export const debugAuth = () => {
-  const token = localStorage.getItem("auth_token");
-  const userStr = localStorage.getItem("user_info");
-  
-  console.group("🔐 Authentication Debug");
-  console.log("Token exists:", !!token);
+// dev-only helper to inspect / seed auth data in development
+// Safe no-op in production. Importing this file in production does nothing.
+
+export function debugAuth(options = {}) {
+  const tokenKey = options.tokenKey || 'auth_token';
+  const userKey = options.userKey || 'user_info';
+
+  const token = localStorage.getItem(tokenKey);
+  const userStr = localStorage.getItem(userKey);
+
+  console.group('debugAuth');
+  console.log('Has token:', !!token);
   if (token) {
-    console.log("Token preview:", token.substring(0, 50) + "...");
-    
-    // Try to decode JWT token (if it's a JWT)
+    console.log('Token (truncated):', token.slice(0, 60) + (token.length > 60 ? '...' : ''));
+    // try to decode JWT payload if possible
     try {
       const parts = token.split('.');
       if (parts.length === 3) {
         const payload = JSON.parse(atob(parts[1]));
-        console.log("Token payload:", payload);
-        
-        // Check expiration
+        console.log('Token payload:', payload);
         if (payload.exp) {
-          const expirationDate = new Date(payload.exp * 1000);
-          const isExpired = expirationDate < new Date();
-          console.log("Token expiration:", expirationDate.toLocaleString());
-          console.log("Token expired:", isExpired);
+          const exp = new Date(payload.exp * 1000);
+          console.log('Token expires at:', exp.toLocaleString());
         }
       }
     } catch (e) {
-      console.log("Token is not a valid JWT or cannot be decoded");
+      // ignore
     }
-  } else {
-    console.log("❌ No token found in localStorage");
   }
-  
-  console.log("\nUser info:", userStr ? JSON.parse(userStr) : "No user info");
-  console.log("\nAll localStorage keys:", Object.keys(localStorage));
+
+  console.log('User in localStorage:', userStr ? JSON.parse(userStr) : null);
+  console.log('All localStorage keys:', Object.keys(localStorage));
+
+  // If dev and missing, optionally seed a mock user (non-destructive)
+  if (import.meta.env.DEV) {
+    if (!token && options.seedToken) {
+      localStorage.setItem(tokenKey, options.seedToken);
+      console.log('Seeded token into localStorage');
+    }
+
+    if (!userStr && options.seedUser) {
+      localStorage.setItem(userKey, JSON.stringify(options.seedUser));
+      console.log('Seeded user into localStorage');
+    }
+  }
+
   console.groupEnd();
-  
+
   return {
     hasToken: !!token,
-    token: token,
-    user: userStr ? JSON.parse(userStr) : null
+    token,
+    user: userStr ? JSON.parse(userStr) : null,
   };
-};
+}
 
-// Make it available globally in dev mode
+// Attach to window in dev for quick console access
 if (typeof window !== 'undefined' && import.meta.env.DEV) {
   window.debugAuth = debugAuth;
 }
