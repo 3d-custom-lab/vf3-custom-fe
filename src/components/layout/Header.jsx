@@ -33,7 +33,6 @@ export default function Header() {
     { name: "Home", navigate: "/" },
     { name: "Studio", navigate: "/studio" },
     { name: "Discussion", navigate: "/forum" },
-    { name: "Contact", navigate: "#footer" },
   ];
 
   return (
