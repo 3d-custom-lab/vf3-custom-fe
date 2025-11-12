@@ -2,7 +2,7 @@ import { FaComments } from "react-icons/fa";
 
 function ForumHeader() {
   return (
-    <header className="bg-gradient-to-r from-slate-800 to-slate-900 border-b border-slate-700 sticky top-0 z-50 shadow-lg">
+    <header className="bg-linear-to-r from-slate-800 to-slate-900 border-b border-slate-700 sticky top-0 z-50 shadow-lg">
       <div className="max-w-4xl mx-auto px-4 py-4">
         <div className="flex items-center gap-3">
           <div className="bg-blue-500 p-2 rounded-lg">
