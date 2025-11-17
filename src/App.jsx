@@ -8,6 +8,7 @@ import DashboardPage from "./pages/admin/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
+import { getHomeRouteForRole, ROLE_KEYS } from "./utils/roleConfig";
 
 export default function App() {
   const { isAuthenticated, checkAuth, user } = useAuthStore();
@@ -24,10 +25,7 @@ export default function App() {
           path="/auth"
           element={
             isAuthenticated ? (
-              <Navigate
-                to={user?.type === "ADMIN" ? "/admin/dashboard" : "/"}
-                replace
-              />
+              <Navigate to={getHomeRouteForRole(user?.type)} replace />
             ) : (
               <AuthPage />
             )
@@ -62,7 +60,7 @@ export default function App() {
         <Route
           path="/admin/dashboard"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <ProtectedRoute allowedRoles={[ROLE_KEYS.ADMIN]}>
               <DashboardPage />
             </ProtectedRoute>
           }

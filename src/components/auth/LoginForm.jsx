@@ -1,22 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useAuthStore } from "../../store/authStore";
+import { getHomeRouteForRole } from "../../utils/roleConfig";
 
-/**
- * Login Form Component
- * Component form đăng nhập với email/password và Google OAuth
- */
 export default function LoginForm({ onSwitchToRegister }) {
   const navigate = useNavigate();
-  const { loginUser, loading, error, clearError, user } = useAuthStore();
+  const { loginUser, loading, error, clearError } = useAuthStore();
 
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
   });
+  const passwordRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
 
   // Xử lý submit form đăng nhập
@@ -25,26 +22,23 @@ export default function LoginForm({ onSwitchToRegister }) {
     clearError();
 
     // Gọi action login từ store
-    const result = await loginUser(formData.email, formData.password);
+  const password = passwordRef.current ? passwordRef.current.value : "";
+  const result = await loginUser(formData.email, password);
 
     if (result.success) {
       // Lấy thông tin user sau khi login
-      const currentUser = useAuthStore.getState().user;
+  const currentUser = useAuthStore.getState().user;
 
-      // Redirect dựa trên role type từ backend
-      if (currentUser?.type === "ADMIN") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/");
-      }
+  // Clear password input after use
+  if (passwordRef.current) passwordRef.current.value = "";
+
+      // Redirect dựa trên role bằng helper tập trung (không hardcode trong component)
+      const target = getHomeRouteForRole(currentUser?.type, "/");
+      navigate(target);
     }
   };
 
-  // Xử lý đăng nhập với Google (chưa implement)
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked - Feature coming soon");
-    // TODO: Implement Google OAuth flow
-  };
+  // Google login is intentionally omitted until OAuth is implemented.
 
   return (
     <div className="w-full max-w-md">
@@ -88,10 +82,8 @@ export default function LoginForm({ onSwitchToRegister }) {
             type={showPassword ? "text" : "password"}
             required
             placeholder="Password"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+            ref={passwordRef}
+            onChange={() => { /* intentionally uncontrolled for security */ }}
             className="w-full pl-12 pr-12 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
             disabled={loading}
           />
