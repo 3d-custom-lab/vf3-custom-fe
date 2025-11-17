@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import PostItem from "./PostItem";
 import { getAllPosts } from "../../services/postService";
-import { useAuthStore } from "../../store/authStore";
+import { useAuth } from "../../contexts/AuthContext";
 import { FaSpinner, FaExclamationTriangle } from "react-icons/fa";
 
 function PostList({ refreshTrigger }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {

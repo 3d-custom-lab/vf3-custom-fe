@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import AuthPage from "./pages/auth/AuthPage";
 import HomePage from "./pages/customer/HomePage";
 import StudioPage from "./pages/customer/StudioPage";
@@ -8,80 +9,82 @@ import DashboardPage from "./pages/admin/DashboardPage";
 import ManageUser from "./pages/admin/ManageUser";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import { useAuthStore } from "./store/authStore";
-import { getHomeRouteForRole, ROLE_KEYS } from "./utils/roleConfig";
 
-export default function App() {
-  const { isAuthenticated, checkAuth, user } = useAuthStore();
+function AppRoutes() {
+  const { isAuthenticated, checkAuth, getHomeRoute } = useAuth();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Auth Route - Trang đăng nhập/đăng ký */}
-        <Route
-          path="/auth"
-          element={
-            isAuthenticated ? (
-              <Navigate to={getHomeRouteForRole(user?.type)} replace />
-            ) : (
-              <AuthPage />
-            )
-          }
-        />
+    <Routes>
+      {/* Auth Route */}
+      <Route
+        path="/auth"
+        element={
+          isAuthenticated ? (
+            <Navigate to={getHomeRoute()} replace />
+          ) : (
+            <AuthPage />
+          )
+        }
+      />
 
-        {/* Home Page - Public route, ai cũng có thể truy cập */}
-        <Route path="/" element={<HomePage />} />
+      {/* Public Home Page */}
+      <Route path="/" element={<HomePage />} />
 
-        {/* CUSTOMER */}
+      {/* Customer Routes - Require Authentication */}
+      <Route
+        path="/studio"
+        element={
+          <ProtectedRoute>
+            <StudioPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/forum"
+        element={
+          <ProtectedRoute>
+            <ForumPage />
+          </ProtectedRoute>
+        }
+      />
 
-        {/* Studio Page*/}
-        <Route
-          path="/studio"
-          element={
-            <ProtectedRoute>
-              <StudioPage />
-            </ProtectedRoute>
-          }
-        />
-        {/* Forum Page */}
-        <Route
-          path="/forum"
-          element={
-            <ProtectedRoute>
-              <ForumPage />
-            </ProtectedRoute>
-          }
-        />  
+      {/* Admin Routes - Require ADMIN role */}
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/manage-users"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <ManageUser />
+          </ProtectedRoute>
+        }
+      />
 
-        {/* ADMIN */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={[ROLE_KEYS.ADMIN]}>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
+      {/* 404 Not Found */}
+      <Route path="/404" element={<NotFoundPage />} />
 
-        <Route
-          path="/admin/manage-users"
-          element={
-            <ProtectedRoute allowedRoles={[ROLE_KEYS.ADMIN]}>
-              <ManageUser />
-            </ProtectedRoute>
-          }
-        />
+      {/* Catch all */}
+      <Route path="*" element={<Navigate to="/404" replace />} />
+    </Routes>
+  );
+}
 
-        {/* 404 Not Found Page */}
-        <Route path="/404" element={<NotFoundPage />} />
-
-        {/* Catch all route - Redirect to 404 */}
-        <Route path="*" element={<Navigate to="/404" replace />} />
-      </Routes>
-    </BrowserRouter>
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

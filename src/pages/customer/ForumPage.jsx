@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import CreatePost from "../../components/forum/CreatePost";
 import PostList from "../../components/forum/PostList";
 import Header from "../../components/layout/Header";
-import { useAuthStore } from "../../store/authStore";
+import { useAuth } from "../../contexts/AuthContext";
 
 function ForumPage() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const { isAuthenticated, user, token, checkAuth } = useAuthStore();
+  const { isAuthenticated, user, token, checkAuth } = useAuth();
 
   useEffect(() => {
     checkAuth();

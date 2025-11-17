@@ -1,10 +1,10 @@
 import { FaCar, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../store/authStore";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminHeader() {
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
+  const { user, logout } = useAuth();
 
   const handleLogout = async () => {
     await logout();
@@ -32,8 +32,8 @@ export default function AdminHeader() {
                 <FaUser className="text-purple-400 text-sm" />
               </div>
               <div>
-                <p className="text-sm font-medium">{user?.name}</p>
-                <p className="text-xs text-purple-400">Administrator</p>
+                <p className="text-sm font-medium">{user?.email}</p>
+                <p className="text-xs text-purple-400">{user?.role}</p>
               </div>
             </div>
 

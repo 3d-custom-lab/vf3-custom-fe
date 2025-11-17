@@ -2,13 +2,15 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { useAuthStore } from "../../store/authStore";
-import { getHomeRouteForRole } from "../../utils/roleConfig";
+import { useAuth } from "../../contexts/AuthContext";
 
+/**
+ * Login Form Component
+ * Handles user login with email and password
+ */
 export default function LoginForm({ onSwitchToRegister }) {
   const navigate = useNavigate();
-  const { loginUser, loading, error, clearError } = useAuthStore();
+  const { login, loading, error, clearError, getHomeRoute } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -16,29 +18,23 @@ export default function LoginForm({ onSwitchToRegister }) {
   const passwordRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Xử lý submit form đăng nhập
+  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     clearError();
 
-    // Gọi action login từ store
-  const password = passwordRef.current ? passwordRef.current.value : "";
-  const result = await loginUser(formData.email, password);
+    const password = passwordRef.current ? passwordRef.current.value : "";
+    const result = await login(formData.email, password);
 
     if (result.success) {
-      // Lấy thông tin user sau khi login
-  const currentUser = useAuthStore.getState().user;
+      // Clear password input after use
+      if (passwordRef.current) passwordRef.current.value = "";
 
-  // Clear password input after use
-  if (passwordRef.current) passwordRef.current.value = "";
-
-      // Redirect dựa trên role bằng helper tập trung (không hardcode trong component)
-      const target = getHomeRouteForRole(currentUser?.type, "/");
-      navigate(target);
+      // Redirect to home route based on user role from JWT
+      const homeRoute = getHomeRoute();
+      navigate(homeRoute);
     }
   };
-
-  // Google login is intentionally omitted until OAuth is implemented.
 
   return (
     <div className="w-full max-w-md">

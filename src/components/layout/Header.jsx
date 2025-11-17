@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
 import { Car, User } from "lucide-react";
-import { useAuthStore } from "../../store/authStore";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated } = useAuthStore();
+  const { user, logout, isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
@@ -95,7 +95,7 @@ export default function Header() {
                         {user.email}
                       </p>
                       <p className="text-xs text-cyan-400 mt-1">
-                        Role: {user.type}
+                        Role: {user.role}
                       </p>
                     </div>
 
@@ -154,7 +154,7 @@ export default function Header() {
                       <p className="text-white font-semibold text-sm">
                         {user.email}
                       </p>
-                      <p className="text-xs text-cyan-400">Role: {user.type}</p>
+                      <p className="text-xs text-cyan-400">Role: {user.role}</p>
                     </div>
                   </div>
                 </div>

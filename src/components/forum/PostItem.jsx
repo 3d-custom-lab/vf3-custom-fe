@@ -17,13 +17,13 @@ import {
   uploadPostImage,
 } from "../../services/postService";
 import { getCommentsByPostId } from "../../services/commentService";
-import { useAuthStore } from "../../store/authStore";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 import { Modal } from "../ui/Modal";
 
 function PostItem({ post, onPostUpdated, onPostDeleted }) {
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const { toast, showSuccess, showError, hideToast } = useToast();
   
   const authorEmail = post.author?.email || "";

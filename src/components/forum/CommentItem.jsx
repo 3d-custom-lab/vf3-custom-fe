@@ -4,11 +4,11 @@ import {
   createComment,
   getRepliesByParentId,
 } from "../../services/commentService";
-import { useAuthStore } from "../../store/authStore";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 
 function CommentItem({ comment, postId, onReplyCreated }) {
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const { showSuccess, showError } = useToast();
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [replyContent, setReplyContent] = useState("");

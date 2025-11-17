@@ -1,28 +1,27 @@
 import axios from "axios";
+import { getCookie } from "./cookieUtils";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_BE_PORT,
   headers: { "Content-Type": "application/json" },
 });
 
+// Request interceptor - Add JWT token from cookie to all requests
 api.interceptors.request.use((config) => {
-  // Use the same key as authStore.js
-  const token = localStorage.getItem("auth_token");
+  const token = getCookie("auth_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Add response interceptor for better error handling
+// Response interceptor - Handle unauthorized errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token invalid or expired
       console.warn("Unauthorized access - token may be invalid or expired");
-      // Optionally redirect to login
-      // window.location.href = '/auth';
+      // Optionally redirect to login or dispatch logout action
     }
     return Promise.reject(error);
   }
