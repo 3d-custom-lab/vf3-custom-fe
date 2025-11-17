@@ -1,66 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import {
-  FaCar,
-  FaSignOutAlt,
-  FaUser,
-  FaUsers,
-  FaChartLine,
-  FaCog,
-} from "react-icons/fa";
+import { FaUsers, FaChartLine, FaCog } from "react-icons/fa";
+import AdminHeader from "../../components/layout/AdminHeader";
+import AdminSidebar from "../../components/layout/AdminSidebar";
 
 function DashboardPage() {
-  const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate("/auth");
-  };
+  const { user } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
-      {/* Header/Navbar */}
-      <nav className="bg-linear-to-r from-gray-900 to-gray-800 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
-                <FaCar className="text-white text-xl" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">
-                  VF<span className="text-purple-400">3</span> Admin
-                </h1>
-              </div>
-            </div>
+      <AdminHeader />
 
-            {/* User Info & Logout */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
-                  <FaUser className="text-purple-400 text-sm" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">{user?.name}</p>
-                  <p className="text-xs text-purple-400">Administrator</p>
-                </div>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-all duration-300"
-              >
-                <FaSignOutAlt />
-                <span className="text-sm font-medium">Logout</span>
-              </button>
-            </div>
-          </div>
+      {/* Main Content with Sidebar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-3">
+          <AdminSidebar />
         </div>
-      </nav>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main className="lg:col-span-9">
         {/* Welcome Section */}
         <div className="bg-linear-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 mb-8">
           <h2 className="text-3xl font-bold text-white mb-2">
@@ -189,8 +145,8 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="mt-6 bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
+  {/* Recent Activity */}
+  <div className="mt-6 bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-6">
           <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
             <FaChartLine className="text-purple-400" />
             Recent Activity
@@ -225,6 +181,7 @@ function DashboardPage() {
             </div>
           </div>
         </div>
+        </main>
       </div>
     </div>
   );

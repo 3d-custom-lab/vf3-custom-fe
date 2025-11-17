@@ -5,6 +5,7 @@ import HomePage from "./pages/customer/HomePage";
 import StudioPage from "./pages/customer/StudioPage";
 import ForumPage from "./pages/customer/ForumPage";
 import DashboardPage from "./pages/admin/DashboardPage";
+import ManageUser from "./pages/admin/ManageUser";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
@@ -54,7 +55,7 @@ export default function App() {
               <ForumPage />
             </ProtectedRoute>
           }
-        />
+        />  
 
         {/* ADMIN */}
         <Route
@@ -62,6 +63,15 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={[ROLE_KEYS.ADMIN]}>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/manage-users"
+          element={
+            <ProtectedRoute allowedRoles={[ROLE_KEYS.ADMIN]}>
+              <ManageUser />
             </ProtectedRoute>
           }
         />
