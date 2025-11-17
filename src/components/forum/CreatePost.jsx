@@ -12,7 +12,6 @@ function CreatePost({ onPostCreated }) {
   const [imagePreview, setImagePreview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
-  const { user } = useAuth();
   const { toast, showSuccess, showError, hideToast } = useToast();
 
   const handleImageChange = (e) => {

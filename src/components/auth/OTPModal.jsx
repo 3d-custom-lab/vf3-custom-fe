@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdClose } from "react-icons/md";
 import { verifyEmail, sendVerificationEmail } from "../../services/authService";
+import Loading from "../ui/Loading";
 
 export default function OTPModal({ email, onClose, onVerified }) {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -219,8 +220,9 @@ export default function OTPModal({ email, onClose, onVerified }) {
           <button
             onClick={handleVerify}
             disabled={otp.some((digit) => !digit) || loading}
-            className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
           >
+            {loading && <Loading variant="spinner" size="sm" color="blue" />}
             {loading ? "Verifying..." : "Verify"}
           </button>
 
@@ -229,8 +231,9 @@ export default function OTPModal({ email, onClose, onVerified }) {
             <button
               onClick={handleResend}
               disabled={resendLoading}
-              className="text-sm text-gray-400 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm text-gray-400 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
             >
+              {resendLoading && <Loading variant="dots" size="xs" color="blue" />}
               Didn't receive code?{" "}
               <span className="font-semibold">
                 {resendLoading ? "Sending..." : "Resend"}

@@ -52,19 +52,28 @@ export const Studio = () => {
       const imageUrl = canvas ? canvas.toDataURL("image/png") : "placeholder";
 
       const customizationData = getAllCustomization();
-      const userId = generateUserId();
-      const username = getUsername();
+      
+      // TODO: Integrate with backend API
+      // Previously used Supabase, now needs backend integration
+      // const userId = generateUserId();
+      // const username = getUsername();
+      // const { error } = await supabase.from("posts").insert({
+      //   user_id: userId,
+      //   username,
+      //   title,
+      //   description,
+      //   image_url: imageUrl,
+      //   customization_data: customizationData,
+      // });
+      // if (error) throw error;
 
-      const { error } = await supabase.from("posts").insert({
-        user_id: userId,
-        username,
+      // Temporary: just show success and log data
+      console.log("Design saved:", {
         title,
         description,
-        image_url: imageUrl,
-        customization_data: customizationData,
+        imageUrl: imageUrl.substring(0, 50) + "...",
+        customizationData,
       });
-
-      if (error) throw error;
 
       alert("Thiết kế đã được lưu thành công!");
       setShowSaveModal(false);

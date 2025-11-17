@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { motion } from "framer-motion";
+import Loading from "../ui/Loading";
 
 /**
  * Protected Route Component
@@ -21,15 +21,7 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
 
   // Show loading spinner while checking authentication
   if (loading) {
-    return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full"
-        />
-      </div>
-    );
+    return <Loading fullScreen variant="spinner" size="lg" text="Verifying authentication..." />;
   }
 
   // Redirect to login if not authenticated

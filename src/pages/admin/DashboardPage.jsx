@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { FaUsers, FaChartLine, FaCog, FaCar, FaUser } from "react-icons/fa";
 import AdminHeader from "../../components/layout/AdminHeader";

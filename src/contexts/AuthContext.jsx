@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { login as loginAPI, introspect } from '../services/authService';
 import { getCookie, setCookie, clearAuthCookies } from '../utils/cookieUtils';
-import { getUserFromToken, isTokenExpired, getRoleFromToken } from '../utils/jwtUtils';
+import { getUserFromToken, isTokenExpired } from '../utils/jwtUtils';
 
 const AuthContext = createContext(null);
 
