@@ -30,7 +30,7 @@ React 19 • Vite 7 • Tailwind 4 • React Router 7 • Zustand • Axios • 
 - `/studio` - 3D Studio (protected)
 - `/forum` - Forum (protected)
 - `/profile` - Profile (protected)
-- `/admin/*` - Admin (ADMIN role)
+- `/admin/*` - Admin
 
 ## Authentication
 
