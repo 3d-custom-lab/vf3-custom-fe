@@ -110,29 +110,6 @@ function CreatePost({ onPostCreated }) {
       )}
       <div className="relative bg-slate-900 rounded-2xl shadow-md p-6 border border-slate-700/50 transition-all duration-200">
         <form onSubmit={handleSubmit} className="relative space-y-6">
-          {/* User info header */}
-          <div className="flex items-center gap-3 mt-3">
-            <label className="flex items-center gap-3 px-3 py-2 bg-slate-800 text-slate-300 rounded-md border border-dashed border-slate-700 cursor-pointer hover:bg-slate-700 transition">
-              <FaUpload />
-              <span className="font-medium text-sm">
-                {imageFile ? "Change image" : "Upload image"}
-              </span>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 cursor-pointer transition"
-            >
-              Post
-            </button>
-          </div>
-
           {/* Title input with gradient border */}
           <div>
             <input
