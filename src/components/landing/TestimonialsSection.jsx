@@ -5,23 +5,23 @@ import { FaStar } from 'react-icons/fa';
 
 const testimonials = [
   {
-    name: 'Nguyễn Văn A',
+    name: 'Nguyễn Tuấn Vũ',
     role: 'Chủ xe VF3',
-    avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200',
+    avatar: 'https://scontent.fhan3-2.fna.fbcdn.net/v/t39.30808-6/558436371_1216966850473615_8734924411749036286_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeGRKy0k5bbL-HnSUmoqrUGkzIEqV8ZtgCbMgSpXxm2AJsYFa7yQJLVeWn0GYDThG_MwljCHWaRLnPMVbEV_iX86&_nc_ohc=fPS7vNXcvlIQ7kNvwGfIX5z&_nc_oc=AdmbTkUKolyPg-pdI-CuU1qjK9Rmu4issw7pJ-pC496-UibSgeN2FJwR2sZJvUX2g6jYgsXBGU3U-qNWaV3uZRpz&_nc_zt=23&_nc_ht=scontent.fhan3-2.fna&_nc_gid=urbTvi1hnIUNnAYIU1MiWg&oh=00_AfgYlPhR9uIaZzUlCXmo01-R_q4sTkEmtb81VOycw3sCOQ&oe=692322FF',
     content: 'Công nghệ 3D tuyệt vời! Tôi đã thử hàng chục màu sơn trước khi quyết định. Rất hài lòng với kết quả.',
     rating: 5,
   },
   {
-    name: 'Trần Thị B',
+    name: 'Nguyễn Thanh Tùng',
     role: 'Designer',
-    avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200',
+    avatar: 'https://scontent.fhan3-2.fna.fbcdn.net/v/t39.30808-6/572009459_2672251156472109_5787999813392930188_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEksOT8Q6wC83ljnuKXub8zltqq4dugt6-W2qrh26C3rxjHtfrFSk47dR-wmdywmIDlTnF7OHPZuhGbDD0ADp9r&_nc_ohc=m3mAOaIuD1IQ7kNvwEkHqQO&_nc_oc=Adnu61Ls-Os-5GYBi1r8McRLcBaWOYH5mHNnvW_RhyTXDPW6it6Jq9qiEmzeaMsBwfmHw3GN5RdHgtXrOpi6dvRS&_nc_zt=23&_nc_ht=scontent.fhan3-2.fna&_nc_gid=y2FDf-d4TitekxM7IgLnHg&oh=00_AfgMMcf3zmmtnwjGpCje0znF6nX-YxZcrcKEQBQPjrhcdg&oe=692311E6',
     content: 'Giao diện đẹp, dễ sử dụng. Tôi có thể tùy chỉnh mọi chi tiết từ màu sơn đến mâm xe một cách trực quan.',
     rating: 5,
   },
   {
-    name: 'Lê Minh C',
+    name: 'Nguyễn Đàm Thái Sơn',
     role: 'Doanh nhân',
-    avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200',
+    avatar: 'https://scontent.fhan3-1.fna.fbcdn.net/v/t39.30808-6/419128520_1755277188282232_5375968373233193336_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGINeZnDU9-SgYf9_wmrLPN5zbKzLss59DnNsrMuyzn0KTzTY4xBMMkm95xGl3M9_UPdmtb7IX_gOmZa8f2qbzr&_nc_ohc=QmjUSEqu4DcQ7kNvwFXPij6&_nc_oc=AdmMTcwxXFUBKoeJSAIG76u8RjuVAp8F7Tmogm8FIb1HzarVnY9YuIZAzDcUVI0qVxYVf98Xh-E0B_bB730cl91w&_nc_zt=23&_nc_ht=scontent.fhan3-1.fna&_nc_gid=FgVwo0hno3tqnNOQ6LdC_A&oh=00_AfgoWVO9kWXNHx3EmFSUnhflLu9mYd6X86LiV8_uOZFUhQ&oe=69231AB2',
     content: 'Nền tảng tuyệt vời để thể hiện phong cách cá nhân. Render 3D cực kỳ chi tiết và chân thực.',
     rating: 5,
   },
