@@ -13,7 +13,7 @@ export default function ManageUserPage() {
 
         <main className="lg:col-span-9">
           <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-4">Manage Users</h2>
+            <h2 className="text-2xl font-bold text-green-400 mb-4 underline">Manage Users</h2>
             <p className="text-gray-400">This is the ManageUser component inside the admin folder.</p>
             <p className="text-gray-400 mt-3">AdminHeader appears above, AdminSidebar on the left.</p>
           </div>
