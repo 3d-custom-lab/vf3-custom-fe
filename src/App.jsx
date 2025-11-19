@@ -2,14 +2,18 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import AuthPage from "./pages/auth/AuthPage";
+// CUSTOMER ROUTES IMPORTS
 import HomePage from "./pages/customer/HomePage";
 import StudioPage from "./pages/customer/StudioPage";
 import ForumPage from "./pages/customer/ForumPage";
 import ProfilePage from "./pages/customer/ProfilePage";
-import DashboardPage from "./pages/admin/DashboardPage";
-import ManageUser from "./pages/admin/ManageUser";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+// ADMIN ROUTES IMPORTS
+import DashboardPage from "./pages/admin/DashboardPage";
+import ManageUserPage from "./pages/admin/ManageUserPage";
+import ManageGaraPage from "./pages/admin/ManageGaraPage";
+import ManageCarPage from "./pages/admin/ManageCarPage";
 
 function AppRoutes() {
   const { isAuthenticated, checkAuth, getHomeRoute } = useAuth();
@@ -60,9 +64,21 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="/admin/manage-users" element={
+      <Route path="/admin/users" element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
-            <ManageUser />
+            <ManageUserPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/admin/garas" element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <ManageGaraPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/admin/cars" element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <ManageCarPage />
           </ProtectedRoute>
         }
       />
