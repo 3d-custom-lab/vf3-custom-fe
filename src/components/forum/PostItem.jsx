@@ -50,12 +50,12 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
   useEffect(() => {
     setIsLiked(likedUserIds.includes(currentUserId));
     setLikeCount(likedUserIds.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post.likedUserIds, currentUserId]);
 
-  useEffect(() => {
-    loadCommentCount();
-  }, [post.id]);
-
+  /**
+   * Load comment count for the post
+   */
   const loadCommentCount = async () => {
     try {
       const response = await getCommentsByPostId(post.id);
@@ -71,10 +71,18 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
       setCommentCount(totalCount);
     } catch (error) {
-      console.error("Error loading comment count:", error);
+      console.error("Error loading comments count:", error);
     }
   };
 
+  useEffect(() => {
+    loadCommentCount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post.id]);
+
+  /**
+   * Handle like toggle
+   */
   const handleLike = async () => {
     try {
       const response = await likePost(post.id);

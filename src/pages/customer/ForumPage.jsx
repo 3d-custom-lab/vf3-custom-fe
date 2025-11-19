@@ -1,12 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CreatePost from "../../components/forum/CreatePost";
 import PostList from "../../components/forum/PostList";
 import Header from "../../components/layout/Header";
 import { useAuth } from "../../contexts/AuthContext";
+import { getAllPosts } from "../../services/postService";
 
 function ForumPage() {
+  // controls for fetching posts
+  const [keyword, setKeyword] = useState("");
+  const [debouncedKeyword, setDebouncedKeyword] = useState("");
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(20);
+
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // trigger refresh when new post created
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const { isAuthenticated, user, token, checkAuth } = useAuth();
+
+  const { isAuthenticated, checkAuth } = useAuth();
 
   useEffect(() => {
     checkAuth();
@@ -16,13 +29,59 @@ function ForumPage() {
     setRefreshTrigger((prev) => prev + 1);
   };
 
+  // debounce keyword input to avoid multiple calls while typing
   useEffect(() => {
-    console.log("Forum Auth State:", {
-      isAuthenticated,
-      user,
-      hasToken: !!token,
-    });
-  }, [isAuthenticated, user, token]);
+    const t = setTimeout(() => setDebouncedKeyword(keyword.trim()), 400);
+    return () => clearTimeout(t);
+  }, [keyword]);
+
+  // central fetch function - only one API call per change
+  const fetchPosts = useCallback(async (opts) => {
+    if (!isAuthenticated) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const params = {
+        keyword: opts.keyword || "",
+        page: Number.isInteger(opts.page) ? opts.page : 0,
+        size: opts.size || 20,
+      };
+
+      const res = await getAllPosts(params);
+
+      // normalize response
+      const postsData = Array.isArray(res?.result?.content)
+        ? res.result.content
+        : Array.isArray(res?.result)
+        ? res.result
+        : [];
+
+      setPosts(postsData);
+    } catch (err) {
+      setPosts([]);
+      if (err.response?.data?.message) setError(err.response.data.message);
+      else setError("Failed to load posts. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated]);
+
+  // fetch when relevant inputs change (debounced keyword, page, size, refresh)
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setPosts([]);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
+    fetchPosts({ keyword: debouncedKeyword, page, size });
+  }, [debouncedKeyword, page, size, refreshTrigger, isAuthenticated, fetchPosts]);
+
+  // Handlers for UI controls
+  const handleSearchChange = (e) => setKeyword(e.target.value);
+  const handlePageChange = (value) => setPage(Math.max(0, value));
+  const handleSizeChange = (value) => setSize(Math.max(1, Number(value) || 20));
 
   return (
     <>
@@ -72,7 +131,48 @@ function ForumPage() {
               </div>
 
               <CreatePost onPostCreated={handlePostCreated} />
-              <PostList refreshTrigger={refreshTrigger} />
+
+              {/* Controls: search / page / size */}
+              <div className="mt-6 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center gap-3 w-full sm:w-1/2">
+                  <input
+                    aria-label="Search posts"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700 text-slate-200"
+                    placeholder="Search posts..."
+                    value={keyword}
+                    onChange={handleSearchChange}
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <label className="text-sm text-slate-300">Page</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={page}
+                    onChange={(e) => handlePageChange(Number(e.target.value))}
+                    className="w-20 px-3 py-2 rounded-lg bg-slate-800/60 border border-slate-700 text-slate-200"
+                  />
+
+                  <label className="text-sm text-slate-300">Size</label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={size}
+                    onChange={(e) => handleSizeChange(Number(e.target.value))}
+                    className="w-20 px-3 py-2 rounded-lg bg-slate-800/60 border border-slate-700 text-slate-200"
+                  />
+                </div>
+              </div>
+
+              <PostList
+                posts={posts}
+                loading={loading}
+                error={error}
+                onRetry={() => fetchPosts({ keyword: debouncedKeyword, page, size })}
+                onPostUpdated={() => fetchPosts({ keyword: debouncedKeyword, page, size })}
+                onPostDeleted={(id) => setPosts((prev) => prev.filter((p) => p.id !== id))}
+              />
             </>
           ) : (
             <div className="relative overflow-hidden bg-gradient-to-br from-slate-800 via-slate-850 to-slate-900 rounded-3xl shadow-2xl border-2 border-slate-700/50 p-16 text-center animate-fadeIn">

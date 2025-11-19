@@ -5,6 +5,7 @@ import AuthPage from "./pages/auth/AuthPage";
 import HomePage from "./pages/customer/HomePage";
 import StudioPage from "./pages/customer/StudioPage";
 import ForumPage from "./pages/customer/ForumPage";
+import ProfilePage from "./pages/customer/ProfilePage";
 import DashboardPage from "./pages/admin/DashboardPage";
 import ManageUser from "./pages/admin/ManageUser";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -48,6 +49,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <ForumPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />

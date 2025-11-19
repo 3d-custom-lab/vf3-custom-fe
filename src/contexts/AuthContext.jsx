@@ -1,5 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { login as loginAPI, introspect } from '../services/authService';
+import { getUserInfo } from '../services/userService';
 import { getCookie, setCookie, clearAuthCookies } from '../utils/cookieUtils';
 import { getUserFromToken, isTokenExpired } from '../utils/jwtUtils';
 
@@ -46,23 +48,14 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      // Verify token with backend
-      try {
-        const res = await introspect(savedToken);
-        
-        if (res.result?.valid) {
-          const userInfo = getUserFromToken(savedToken);
-          setToken(savedToken);
-          setUser(userInfo);
-          setIsAuthenticated(true);
-        } else {
-          clearAuthCookies();
-          setIsAuthenticated(false);
-          setUser(null);
-          setToken(null);
-        }
-      } catch (err) {
-        console.error('Token verification failed:', err);
+      // Do not call introspect on every app load. If token exists and not expired,
+      // derive user info directly from token (introspect is only run once after login)
+      const userInfo = getUserFromToken(savedToken);
+      if (userInfo) {
+        setToken(savedToken);
+        setUser(userInfo);
+        setIsAuthenticated(true);
+      } else {
         clearAuthCookies();
         setIsAuthenticated(false);
         setUser(null);
@@ -91,7 +84,19 @@ export const AuthProvider = ({ children }) => {
       if (res.result?.token && res.result?.authenticated) {
         const jwtToken = res.result.token;
 
-        // Extract user info from JWT token
+        try {
+          const validRes = await introspect(jwtToken);
+          if (!validRes.result?.valid) {
+            setError('Token verification failed');
+            setLoading(false);
+            return { success: false, error: 'Token verification failed' };
+          }
+        } catch {
+          setError('Token verification failed');
+          setLoading(false);
+          return { success: false, error: 'Token verification failed' };
+        }
+
         const userInfo = getUserFromToken(jwtToken);
 
         if (!userInfo || !userInfo.role) {
@@ -100,10 +105,29 @@ export const AuthProvider = ({ children }) => {
           return { success: false, error: 'Invalid token: role not found' };
         }
 
-        // Save token to cookie
         setCookie('auth_token', jwtToken, 7);
 
-        // Update state
+        try {
+          const userInfoRes = await getUserInfo();
+          if (userInfoRes.code === 0 || userInfoRes.code === 1000) {
+            const fullUserInfo = {
+              ...userInfo,
+              ...userInfoRes.result,
+            };
+            setToken(jwtToken);
+            setUser(fullUserInfo);
+            setIsAuthenticated(true);
+            setLoading(false);
+            return { success: true, token: jwtToken, user: fullUserInfo };
+          }
+        } catch {
+          setToken(jwtToken);
+          setUser(userInfo);
+          setIsAuthenticated(true);
+          setLoading(false);
+          return { success: true, token: jwtToken, user: userInfo };
+        }
+
         setToken(jwtToken);
         setUser(userInfo);
         setIsAuthenticated(true);

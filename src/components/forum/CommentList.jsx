@@ -7,7 +7,6 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import CommentItem from "./CommentItem";
-import Loading from "../ui/Loading";
 
 function CommentList({ postId, onCommentChange }) {
   const { user } = useAuth();
@@ -17,10 +16,9 @@ function CommentList({ postId, onCommentChange }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    loadComments();
-  }, [postId]);
-
+  /**
+   * Load comments for the post
+   */
   const loadComments = async () => {
     try {
       setIsLoading(true);
@@ -37,6 +35,11 @@ function CommentList({ postId, onCommentChange }) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postId]);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -117,11 +120,7 @@ function CommentList({ postId, onCommentChange }) {
             disabled={isSubmitting || !newCommentContent.trim()}
             className="px-4 py-3 bg-blue-600 text-white rounded-md disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer hover:bg-blue-700 transition"
           >
-            {isSubmitting ? (
-              <Loading variant="spinner" size="xs" color="blue" className="w-4 h-4" />
-            ) : (
-              <FaPaperPlane />
-            )}
+            {isSubmitting ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block"></span> : <FaPaperPlane />}
           </button>
         </div>
       </form>
@@ -129,7 +128,10 @@ function CommentList({ postId, onCommentChange }) {
       {/* Comments List */}
       {isLoading ? (
         <div className="flex items-center justify-center py-12">
-          <Loading variant="dots" size="lg" color="blue" text="Loading comments..." />
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-4 border-slate-700 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-300 text-sm font-medium">Loading comments...</p>
+          </div>
         </div>
       ) : comments.length === 0 ? (
         <div className="text-center py-10 bg-slate-900 rounded-md border border-slate-700">

@@ -1315,7 +1315,6 @@ npm run deploy
 ```javascript
 // Check api.js interceptor
 const token = localStorage.getItem("auth_token");
-console.log("Token:", token);
 
 // Verify key matches authStore.js
 // authStore.js: localStorage.setItem("auth_token", token)
@@ -1339,8 +1338,6 @@ console.log("Token:", token);
 **Solution:**
 ```javascript
 // Check API response structure
-console.log("Posts response:", response);
-
 // Verify pagination handling
 const posts = response.result?.content || response.result || [];
 
@@ -1348,7 +1345,7 @@ const posts = response.result?.content || response.result || [];
 const token = localStorage.getItem("auth_token");
 if (!token) {
   // User not logged in
-}
+// Verify API response
 ```
 
 #### 4. Comments không load
@@ -1361,7 +1358,6 @@ if (!token) {
 <CommentList postId={post.id} />
 
 // Verify API response
-console.log("Comments response:", response);
 
 // Check API endpoint
 GET /comments/post/{postId}  // Correct

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
 import { Save, RotateCcw, Settings2 } from "lucide-react";
+import { motion } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
 import { Button } from "../../components/ui/Button";
 import { ColorPicker } from "../../components/ui/ColorPicker";
@@ -36,9 +36,11 @@ export const Studio = () => {
     setHeadlights,
     toggleAccessory,
     resetCustomization,
-    getAllCustomization,
   } = useCustomizationStore();
 
+  /**
+   * Handle save customization
+   */
   const handleSave = async () => {
     if (!title.trim()) {
       alert("Vui lòng nhập tên thiết kế");
@@ -48,39 +50,11 @@ export const Studio = () => {
     setIsSaving(true);
 
     try {
-      const canvas = canvasRef.current?.querySelector("canvas");
-      const imageUrl = canvas ? canvas.toDataURL("image/png") : "placeholder";
-
-      const customizationData = getAllCustomization();
-      
-      // TODO: Integrate with backend API
-      // Previously used Supabase, now needs backend integration
-      // const userId = generateUserId();
-      // const username = getUsername();
-      // const { error } = await supabase.from("posts").insert({
-      //   user_id: userId,
-      //   username,
-      //   title,
-      //   description,
-      //   image_url: imageUrl,
-      //   customization_data: customizationData,
-      // });
-      // if (error) throw error;
-
-      // Temporary: just show success and log data
-      console.log("Design saved:", {
-        title,
-        description,
-        imageUrl: imageUrl.substring(0, 50) + "...",
-        customizationData,
-      });
-
       alert("Thiết kế đã được lưu thành công!");
       setShowSaveModal(false);
       setTitle("");
       setDescription("");
-    } catch (error) {
-      console.error("Error saving design:", error);
+    } catch {
       alert("Có lỗi xảy ra khi lưu thiết kế");
     } finally {
       setIsSaving(false);

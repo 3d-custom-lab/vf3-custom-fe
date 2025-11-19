@@ -1,8 +1,9 @@
 import api from "../utils/api";
 
 // Get all posts
-export const getAllPosts = async () => {
-  const res = await api.get("/posts");
+// Fetch posts with optional query params: { keyword, page, size }
+export const getAllPosts = async (params = {}) => {
+  const res = await api.get("/posts", { params });
   return res.data;
 };
 

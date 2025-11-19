@@ -4,9 +4,7 @@ import {
   createComment,
   getRepliesByParentId,
 } from "../../services/commentService";
-import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
-import Loading from "../ui/Loading";
 
 function CommentItem({ comment, postId, onReplyCreated }) {
   const { showSuccess, showError } = useToast();
@@ -133,7 +131,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
             {replyCount > 0 && (
               <button onClick={toggleReplies} disabled={isLoadingReplies} className="flex items-center gap-2 px-2 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700 cursor-pointer hover:bg-slate-700 transition">
                 {isLoadingReplies ? (
-                  <Loading variant="spinner" size="xs" color="blue" />
+                  <span className="w-3 h-3 border-2 border-slate-500 border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <FaReply className="text-xs text-slate-300" />
@@ -158,11 +156,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
                 />
               </div>
               <button type="submit" disabled={isSubmittingReply || !replyContent.trim()} className="px-3 py-2 bg-blue-600 text-white rounded-md cursor-pointer hover:bg-blue-700 transition">
-                {isSubmittingReply ? (
-                  <Loading variant="spinner" size="xs" color="blue" />
-                ) : (
-                  <FaPaperPlane />
-                )}
+                {isSubmittingReply ? <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" /> : <FaPaperPlane />}
               </button>
               <button type="button" onClick={() => { setShowReplyInput(false); setReplyContent(""); }} className="px-3 py-2 bg-slate-700 text-slate-200 rounded-md cursor-pointer hover:bg-slate-700 transition">
                 <FaTimes />

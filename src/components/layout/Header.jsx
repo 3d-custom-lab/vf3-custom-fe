@@ -102,6 +102,16 @@ export default function Header() {
                     {/* Menu Items */}
                     <div className="py-2">
                       <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          navigate("/profile");
+                        }}
+                        className="w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors flex items-center gap-3"
+                      >
+                        <User className="w-4 h-4" />
+                        <span>Profile</span>
+                      </button>
+                      <button
                         onClick={handleLogout}
                         className="w-full px-4 py-2.5 text-left text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-3"
                       >
@@ -174,7 +184,17 @@ export default function Header() {
 
               {/* Auth Buttons Mobile */}
               {isAuthenticated && user ? (
-                <div className="pt-3 border-t border-gray-800">
+                <div className="pt-3 border-t border-gray-800 space-y-2">
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      navigate("/profile");
+                    }}
+                    className="w-full text-left px-4 py-2 text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-lg transition-colors flex items-center gap-2"
+                  >
+                    <User className="w-4 h-4" />
+                    Profile
+                  </button>
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);

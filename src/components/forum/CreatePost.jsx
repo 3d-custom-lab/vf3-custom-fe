@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaImage, FaTimes, FaUpload, FaFeatherAlt } from "react-icons/fa";
 import { createPost, uploadPostImage } from "../../services/postService";
-import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 
