@@ -1,17 +1,13 @@
-import api from '../utils/api';
+import api from "../utils/api";
 
-/**
- * Get current user information
- */
+// Get user information
 export const getUserInfo = async () => {
-  const response = await api.get('/users/my-info');
+  const response = await api.get("/users/my-info");
   return response.data;
 };
 
-/**
- * Update user profile
- */
+// Update user profile
 export const updateUserProfile = async (userData) => {
-  const response = await api.put('/users/my-info', userData);
+  const response = await api.put("/users/my-info", userData);
   return response.data;
 };

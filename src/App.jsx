@@ -21,9 +21,7 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Auth Route */}
-      <Route
-        path="/auth"
-        element={
+      <Route path="/auth" element={
           isAuthenticated ? (
             <Navigate to={getHomeRoute()} replace />
           ) : (
@@ -35,44 +33,34 @@ function AppRoutes() {
       {/* Public Home Page */}
       <Route path="/" element={<HomePage />} />
 
-      {/* Customer Routes - Require Authentication */}
-      <Route
-        path="/studio"
-        element={
+      {/* Customer Routes */}
+      <Route path="/studio" element={
           <ProtectedRoute>
             <StudioPage />
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/forum"
-        element={
+      <Route path="/forum" element={
           <ProtectedRoute>
             <ForumPage />
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/profile"
-        element={
+      <Route path="/profile" element={
           <ProtectedRoute>
             <ProfilePage />
           </ProtectedRoute>
         }
       />
 
-      {/* Admin Routes - Require ADMIN role */}
-      <Route
-        path="/admin/dashboard"
-        element={
+      {/* Admin Routes */}
+      <Route path="/admin/dashboard" element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
             <DashboardPage />
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/admin/manage-users"
-        element={
+      <Route path="/admin/manage-users" element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
             <ManageUser />
           </ProtectedRoute>

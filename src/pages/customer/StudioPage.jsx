@@ -38,9 +38,7 @@ export const Studio = () => {
     resetCustomization,
   } = useCustomizationStore();
 
-  /**
-   * Handle save customization
-   */
+  // Handle save customization
   const handleSave = async () => {
     if (!title.trim()) {
       alert("Vui lòng nhập tên thiết kế");

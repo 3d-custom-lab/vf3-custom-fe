@@ -5,7 +5,6 @@ import {
   FaComment,
   FaEdit,
   FaTrash,
-  FaSave,
   FaTimes,
   FaUpload,
 } from "react-icons/fa";

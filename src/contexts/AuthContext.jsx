@@ -22,9 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /**
-   * Initialize auth state from cookie
-   */
+  // Initialize auth state from cookie
   const initAuth = useCallback(async () => {
     setLoading(true);
     try {

@@ -31,17 +31,3 @@ export const introspect = async (token) => {
   const res = await api.post("/auth/introspect", { token });
   return res.data;
 };
-
-// Lấy thông tin user hiện tại
-// API này chưa được implement ở backend
-// export const getCurrentUser = async () => {
-//   const res = await api.get("/users/my-info");
-//   return res.data;
-// };
-
-// Đăng xuất người dùng
-// API này chưa được implement ở backend
-// export const logout = async () => {
-//   const res = await api.post("/auth/logout");
-//   return res.data;
-// };

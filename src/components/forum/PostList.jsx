@@ -1,24 +1,10 @@
 import PostItem from "./PostItem";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
-/**
- * Presentational list for posts. The parent (ForumPage) is responsible for
- * fetching posts and providing loading/error state. This component solely
- * renders posts and forwards update/delete callbacks.
- */
 function PostList({ posts = [], loading = false, error = null, onRetry, onPostUpdated, onPostDeleted }) {
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="text-center">
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-50 animate-pulse"></div>
-            <div className="relative animate-spin text-blue-400 text-6xl mb-4">🔄</div>
-          </div>
-          <p className="text-slate-300 text-lg font-semibold mt-4 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Loading posts...
-          </p>
-        </div>
-      </div>
+      <LoadingSpinner size="lg" className="mx-auto my-20" />
     );
   }
 

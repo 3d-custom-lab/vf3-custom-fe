@@ -1,35 +1,24 @@
-/**
- * JWT Token utilities
- * Handles JWT token parsing and role extraction
- */
-
-/**
- * Decode JWT token payload
- * @param {string} token - JWT token
- * @returns {object|null} Decoded payload or null if invalid
- */
+// JWT Token utilities
 export function decodeJWT(token) {
   if (!token) return null;
 
   try {
-    const parts = token.split('.');
+    const parts = token.split(".");
     if (parts.length !== 3) return null;
 
     const payload = parts[1];
-    const decoded = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
-    
+    const decoded = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+    );
+
     return decoded;
   } catch (error) {
-    console.error('Failed to decode JWT:', error);
+    console.error("Failed to decode JWT:", error);
     return null;
   }
 }
 
-/**
- * Extract role from JWT token
- * @param {string} token - JWT token
- * @returns {string|null} Role extracted from token scope or null
- */
+// Extract role from JWT token
 export function getRoleFromToken(token) {
   const payload = decodeJWT(token);
   if (!payload) return null;
@@ -38,17 +27,13 @@ export function getRoleFromToken(token) {
   if (payload.scope) {
     const scope = payload.scope;
     // Remove "ROLE_" prefix if present
-    return scope.startsWith('ROLE_') ? scope.substring(5) : scope;
+    return scope.startsWith("ROLE_") ? scope.substring(5) : scope;
   }
 
   return null;
 }
 
-/**
- * Check if token is expired
- * @param {string} token - JWT token
- * @returns {boolean} True if token is expired
- */
+// Check if JWT token is expired
 export function isTokenExpired(token) {
   const payload = decodeJWT(token);
   if (!payload || !payload.exp) return true;
@@ -57,11 +42,7 @@ export function isTokenExpired(token) {
   return expirationDate < new Date();
 }
 
-/**
- * Get user info from JWT token
- * @param {string} token - JWT token
- * @returns {object|null} User info object or null
- */
+// Get user info from JWT token
 export function getUserFromToken(token) {
   const payload = decodeJWT(token);
   if (!payload) return null;

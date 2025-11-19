@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { FaImage, FaTimes, FaUpload, FaFeatherAlt } from "react-icons/fa";
+import { FaTimes, FaUpload } from "react-icons/fa";
 import { createPost, uploadPostImage } from "../../services/postService";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 
@@ -11,6 +12,7 @@ function CreatePost({ onPostCreated }) {
   const [imagePreview, setImagePreview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
+  const { user } = useAuth();
   const { toast, showSuccess, showError, hideToast } = useToast();
 
   const handleImageChange = (e) => {
@@ -27,7 +29,7 @@ function CreatePost({ onPostCreated }) {
       }
 
       setImageFile(file);
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -68,7 +70,7 @@ function CreatePost({ onPostCreated }) {
       if (imageFile && response.result?.id) {
         const formData = new FormData();
         formData.append("image", imageFile);
-        
+
         try {
           await uploadPostImage(response.result.id, formData);
         } catch (imageError) {
@@ -90,7 +92,8 @@ function CreatePost({ onPostCreated }) {
     } catch (error) {
       console.error("Error creating post:", error);
       const errorMessage =
-        error.response?.data?.message || "Failed to create post. Please try again.";
+        error.response?.data?.message ||
+        "Failed to create post. Please try again.";
       showError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -108,17 +111,28 @@ function CreatePost({ onPostCreated }) {
         />
       )}
       <div className="relative bg-slate-900 rounded-2xl shadow-md p-6 border border-slate-700/50 transition-all duration-200">
-        
         <form onSubmit={handleSubmit} className="relative space-y-6">
           {/* User info header */}
           <div className="flex items-center gap-3 mt-3">
             <label className="flex items-center gap-3 px-3 py-2 bg-slate-800 text-slate-300 rounded-md border border-dashed border-slate-700 cursor-pointer hover:bg-slate-700 transition">
               <FaUpload />
-              <span className="font-medium text-sm">{imageFile ? "Change image" : "Upload image"}</span>
-              <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+              <span className="font-medium text-sm">
+                {imageFile ? "Change image" : "Upload image"}
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
             </label>
 
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 cursor-pointer transition">Post</button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 cursor-pointer transition"
+            >
+              Post
+            </button>
           </div>
 
           {/* Title input with gradient border */}
@@ -187,7 +201,11 @@ function CreatePost({ onPostCreated }) {
             <button
               type="button"
               onClick={() => setShowImageInput(!showImageInput)}
-              className={`px-4 py-2 rounded-md text-sm font-medium border border-slate-700 ${showImageInput ? 'bg-slate-800 text-white' : 'text-slate-300 bg-transparent'} cursor-pointer hover:bg-slate-700 transition`}
+              className={`px-4 py-2 rounded-md text-sm font-medium border border-slate-700 ${
+                showImageInput
+                  ? "bg-slate-800 text-white"
+                  : "text-slate-300 bg-transparent"
+              } cursor-pointer hover:bg-slate-700 transition`}
               disabled={isSubmitting}
             >
               {showImageInput ? "Hide image" : "Add image"}
