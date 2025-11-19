@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaTimes, FaUpload } from "react-icons/fa";
 import { createPost, uploadPostImage } from "../../services/postService";
-import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 
@@ -12,7 +11,6 @@ function CreatePost({ onPostCreated }) {
   const [imagePreview, setImagePreview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
-  const { user } = useAuth();
   const { toast, showSuccess, showError, hideToast } = useToast();
 
   const handleImageChange = (e) => {
