@@ -1,48 +1,41 @@
-import { FaCar, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { Search, Bell, Moon, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminHeader() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate("/auth");
-  };
+  const { user } = useAuth();
 
   return (
-    <header className="bg-linear-to-r from-gray-900 to-gray-800 border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-linear-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center">
-              <FaCar className="text-white text-xl" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">
-                VF<span className="text-purple-400">3</span> Admin
-              </h1>
-            </div>
+    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <div className="px-6 py-4">
+        <div className="flex justify-between items-center">
+          {/* Title */}
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800">Welcome back, {user?.name || "Nirmal"}!</h1>
           </div>
 
+          {/* Right Side Actions */}
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-gray-300">
-              <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
-                <FaUser className="text-purple-400 text-sm" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">{user?.email}</p>
-                <p className="text-xs text-purple-400">{user?.role}</p>
-              </div>
+            {/* Search Box */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input
+                type="text"
+                placeholder="Search"
+                className="pl-10 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
+              />
             </div>
 
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-all duration-300"
-            >
-              <FaSignOutAlt />
-              <span className="text-sm font-medium">Logout</span>
+            {/* Icon Buttons */}
+            <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+              <Bell size={20} className="text-slate-600" />
+            </button>
+            <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+              <Moon size={20} className="text-slate-600" />
+            </button>
+            <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+              <User size={20} className="text-slate-600" />
             </button>
           </div>
         </div>
