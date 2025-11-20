@@ -6,8 +6,8 @@ export const getUserInfo = async () => {
   return response.data;
 };
 
-// Update user profile
-export const updateUserProfile = async (userData) => {
-  const response = await api.put("/users/my-info", userData);
+// Update user profile by ID
+export const updateUserProfile = async (userId, userData) => {
+  const response = await api.put(`/users/${userId}`, userData);
   return response.data;
 };
