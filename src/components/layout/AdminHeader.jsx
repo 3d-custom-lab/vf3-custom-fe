@@ -13,7 +13,7 @@ export default function AdminHeader() {
           {/* Title */}
           <div>
             <h1 className="text-2xl font-bold text-slate-800">
-              Welcome back, {user?.name || "Admin"}!
+              Welcome back, {user?.name + " - Admin" || "Admin"}!
             </h1>
           </div>
 
