@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/layout/Header";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
-import { getUserInfo } from "../../services/userService";
-import { useAuth } from "../../contexts/AuthContext";
+import EditProfileModal from "../../components/modal/EditProfileModal";
+import { getUserInfo, updateUserProfile } from "../../services/userService";
+import useToast from "../../hooks/useToast";
 import {
   User,
   Mail,
@@ -15,14 +16,16 @@ import {
   Activity,
   CheckCircle2,
   Hash,
+  Edit3,
 } from "lucide-react";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { showSuccess, showError } = useToast();
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -44,9 +47,24 @@ export default function ProfilePage() {
     loadUserInfo();
   }, []);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/auth");
+  const handleSaveProfile = async (formData) => {
+    try {
+      const response = await updateUserProfile(userInfo.id, formData);
+      if (response.code === 0 || response.code === 1000) {
+        setUserInfo(response.result);
+        showSuccess("Profile updated successfully!");
+        setIsEditModalOpen(false);
+      } else {
+        throw new Error(response.message || "Failed to update profile");
+      }
+    } catch (error) {
+      showError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to update profile"
+      );
+      throw error;
+    }
   };
 
   // Helper component for detail cards
@@ -117,7 +135,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-[#0B1120] relative overflow-hidden font-sans selection:bg-indigo-500/30">
         {/* Ambient Background Effects */}
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-indigo-900/20 to-transparent opacity-50" />
+          <div className="absolute top-0 left-0 w-full h-[500px] bg-linear-to-b from-indigo-900/20 to-transparent opacity-50" />
           <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px]" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]" />
         </div>
@@ -126,9 +144,9 @@ export default function ProfilePage() {
           {/* Main Profile Card */}
           <div className="bg-slate-900/60 backdrop-blur-2xl rounded-[2.5rem] border border-slate-800 shadow-2xl overflow-hidden">
             {/* Cover Banner */}
-            <div className="h-48 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 relative">
+            <div className="h-48 w-full bg-linear-to-r from-indigo-600 via-purple-600 to-blue-600 relative">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/90"></div>
+              <div className="absolute inset-0 bg-linear-to-b from-transparent to-slate-900/90"></div>
             </div>
 
             <div className="px-8 pb-8 md:px-12 md:pb-12 -mt-20 relative">
@@ -136,7 +154,7 @@ export default function ProfilePage() {
               <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-10">
                 {/* Avatar with Rings */}
                 <div className="relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                  <div className="absolute -inset-0.5 bg-linear-to-br from-indigo-500 to-fuchsia-500 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
                   <div className="relative w-40 h-40 rounded-full p-1 bg-slate-900">
                     <img
                       src={
@@ -200,27 +218,27 @@ export default function ProfilePage() {
                 {/* Header Actions (Desktop) */}
                 <div className="hidden md:flex gap-3">
                   <button
+                    onClick={() => setIsEditModalOpen(true)}
+                    className="cursor-pointer px-6 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl transition-all duration-300 font-semibold flex items-center gap-2 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 group"
+                  >
+                    <Edit3
+                      size={18}
+                      className="group-hover:rotate-12 transition-transform"
+                    />
+                    <span>Edit Profile</span>
+                  </button>
+                  <button
                     onClick={() => navigate("/")}
-                    className="p-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700"
+                    className="cursor-pointer p-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700"
                     title="Go Home"
                   >
                     <Home size={20} />
-                  </button>
-                  <button
-                    onClick={handleLogout}
-                    className="px-6 py-3 bg-slate-800 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 text-slate-300 rounded-xl transition-all duration-300 border border-slate-700 font-medium flex items-center gap-2 group"
-                  >
-                    <span>Sign Out</span>
-                    <LogOut
-                      size={18}
-                      className="group-hover:translate-x-1 transition-transform"
-                    />
                   </button>
                 </div>
               </div>
 
               {/* Divider */}
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-10"></div>
+              <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700 to-transparent mb-10"></div>
 
               {/* Bento Grid Layout for Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -265,7 +283,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Account Status Banner */}
-              <div className="bg-gradient-to-r from-slate-800/50 to-slate-800/30 rounded-2xl p-6 border border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
+              <div className="bg-linear-to-r from-slate-800/50 to-slate-800/30 rounded-2xl p-6 border border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -295,22 +313,31 @@ export default function ProfilePage() {
               {/* Mobile Actions */}
               <div className="md:hidden mt-8 grid grid-cols-2 gap-4">
                 <button
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20"
+                >
+                  <Edit3 size={18} />
+                  Edit Profile
+                </button>
+                <button
                   onClick={() => navigate("/")}
                   className="flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700"
                 >
                   <Home size={18} /> Home
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center justify-center gap-2 py-3 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl"
-                >
-                  <LogOut size={18} /> Logout
                 </button>
               </div>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        userInfo={userInfo}
+        onSave={handleSaveProfile}
+      />
     </>
   );
 }

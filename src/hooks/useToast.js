@@ -20,3 +20,5 @@ export function useToast() {
     showInfo: useCallback((message, duration) => showToast(message, "info", duration), [showToast]),
   };
 }
+
+export default useToast;
