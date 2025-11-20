@@ -4,6 +4,18 @@ import Header from "../../components/layout/Header";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import { getUserInfo } from "../../services/userService";
 import { useAuth } from "../../contexts/AuthContext";
+import {
+  User,
+  Mail,
+  Calendar,
+  Shield,
+  CreditCard,
+  LogOut,
+  Home,
+  Activity,
+  CheckCircle2,
+  Hash,
+} from "lucide-react";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -12,7 +24,6 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  //   Load user information from API
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
@@ -33,17 +44,42 @@ export default function ProfilePage() {
     loadUserInfo();
   }, []);
 
-  //   Handle user logout
   const handleLogout = () => {
     logout();
     navigate("/auth");
   };
 
+  // Helper component for detail cards
+  const DetailCard = ({
+    icon: Icon,
+    label,
+    value,
+    colorClass = "text-blue-400",
+  }) => (
+    <div className="bg-slate-800/40 backdrop-blur-md p-4 rounded-2xl border border-slate-700/50 hover:border-slate-600 hover:bg-slate-800/60 transition-all duration-300 group">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">
+            {label}
+          </p>
+          <p className="text-slate-100 font-semibold truncate">
+            {value || "Not specified"}
+          </p>
+        </div>
+        <div
+          className={`p-2 rounded-xl bg-slate-900/50 ${colorClass} group-hover:scale-110 transition-transform duration-300`}
+        >
+          <Icon size={18} />
+        </div>
+      </div>
+    </div>
+  );
+
   if (loading) {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+        <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
           <LoadingSpinner />
         </div>
       </>
@@ -54,14 +90,20 @@ export default function ProfilePage() {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-red-400 mb-4">{error}</p>
+        <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
+          <div className="bg-slate-800 p-8 rounded-3xl border border-red-500/20 shadow-2xl max-w-md w-full text-center">
+            <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield size={32} className="text-red-500" />
+            </div>
+            <h2 className="text-xl font-bold text-white mb-2">
+              Oops! Something went wrong
+            </h2>
+            <p className="text-slate-400 mb-6">{error}</p>
             <button
               onClick={() => navigate("/")}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="w-full py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors font-medium"
             >
-              Go Home
+              Return Home
             </button>
           </div>
         </div>
@@ -72,132 +114,199 @@ export default function ProfilePage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      <div className="min-h-screen bg-[#0B1120] relative overflow-hidden font-sans selection:bg-indigo-500/30">
+        {/* Ambient Background Effects */}
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div
-            className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
+          <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-indigo-900/20 to-transparent opacity-50" />
+          <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]" />
         </div>
 
-        <main className="relative max-w-4xl mx-auto px-4 sm:px-6 py-24">
-          <div className="bg-linear-to-br from-slate-800/80 via-slate-850/80 to-slate-900/80 backdrop-blur-xl rounded-3xl p-8 border-2 border-slate-700/50 shadow-2xl">
-            <div className="flex flex-col items-center mb-8">
-              <div className="relative mb-4">
-                <img
-                  src={
-                    userInfo?.avatar ||
-                    "https://ui-avatars.com/api/?name=" +
-                      encodeURIComponent(userInfo?.name || "User")
-                  }
-                  alt={userInfo?.name}
-                  className="w-32 h-32 rounded-full border-4 border-blue-500/50 shadow-lg"
-                />
-                <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-linear-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center border-4 border-slate-800">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clipRule="evenodd"
+        <main className="relative max-w-5xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+          {/* Main Profile Card */}
+          <div className="bg-slate-900/60 backdrop-blur-2xl rounded-[2.5rem] border border-slate-800 shadow-2xl overflow-hidden">
+            {/* Cover Banner */}
+            <div className="h-48 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 relative">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/90"></div>
+            </div>
+
+            <div className="px-8 pb-8 md:px-12 md:pb-12 -mt-20 relative">
+              {/* Profile Header Section */}
+              <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-10">
+                {/* Avatar with Rings */}
+                <div className="relative group">
+                  <div className="absolute -inset-0.5 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                  <div className="relative w-40 h-40 rounded-full p-1 bg-slate-900">
+                    <img
+                      src={
+                        userInfo?.avatar ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          userInfo?.name || "User"
+                        )}&background=random`
+                      }
+                      alt={userInfo?.name}
+                      className="w-full h-full rounded-full object-cover border-4 border-slate-900 shadow-inner"
                     />
-                  </svg>
+                  </div>
+                  {/* Status Indicator */}
+                  <div className="absolute bottom-3 right-3 w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center">
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 border-slate-900 ${
+                        userInfo?.status === "ACTIVE"
+                          ? "bg-emerald-500"
+                          : "bg-slate-500"
+                      }`}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Name and Badges */}
+                <div className="flex-1 text-center md:text-left mb-4 md:mb-0">
+                  <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">
+                    {userInfo?.name}
+                  </h1>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-3 items-center">
+                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium">
+                      <Mail size={14} />
+                      {userInfo?.email}
+                    </div>
+
+                    {/* Dynamic Role Badge */}
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide border ${
+                        userInfo?.type === "ADMIN"
+                          ? "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                          : "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                      }`}
+                    >
+                      {userInfo?.type}
+                    </span>
+
+                    {/* Dynamic Payment Badge */}
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide border flex items-center gap-1 ${
+                        userInfo?.paymentType === "FREE"
+                          ? "bg-slate-700/30 border-slate-600 text-slate-400"
+                          : "bg-amber-500/10 border-amber-500/20 text-amber-400"
+                      }`}
+                    >
+                      <CreditCard size={12} />
+                      {userInfo?.paymentType}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Header Actions (Desktop) */}
+                <div className="hidden md:flex gap-3">
+                  <button
+                    onClick={() => navigate("/")}
+                    className="p-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700"
+                    title="Go Home"
+                  >
+                    <Home size={20} />
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="px-6 py-3 bg-slate-800 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 text-slate-300 rounded-xl transition-all duration-300 border border-slate-700 font-medium flex items-center gap-2 group"
+                  >
+                    <span>Sign Out</span>
+                    <LogOut
+                      size={18}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </button>
                 </div>
               </div>
 
-              <h1 className="text-3xl font-bold text-white mb-2">
-                {userInfo?.name}
-              </h1>
-              <p className="text-slate-400 mb-4">{userInfo?.email}</p>
+              {/* Divider */}
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-10"></div>
 
-              <div className="flex gap-3">
-                <span
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
-                    userInfo?.type === "ADMIN"
-                      ? "bg-red-500/20 text-red-400 border border-red-500/50"
-                      : "bg-blue-500/20 text-blue-400 border border-blue-500/50"
-                  }`}
+              {/* Bento Grid Layout for Details */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <DetailCard
+                  icon={Hash}
+                  label="User ID"
+                  value={`#${userInfo?.id}`}
+                  colorClass="text-purple-400"
+                />
+                <DetailCard
+                  icon={User}
+                  label="Gender"
+                  value={userInfo?.gender}
+                  colorClass="text-pink-400"
+                />
+                <DetailCard
+                  icon={Calendar}
+                  label="Joined Date"
+                  value={
+                    userInfo?.createdAt
+                      ? new Date(userInfo.createdAt).toLocaleDateString(
+                          undefined,
+                          { year: "numeric", month: "short", day: "numeric" }
+                        )
+                      : null
+                  }
+                  colorClass="text-emerald-400"
+                />
+                <DetailCard
+                  icon={Activity}
+                  label="Last Updated"
+                  value={
+                    userInfo?.updatedAt
+                      ? new Date(userInfo.updatedAt).toLocaleDateString(
+                          undefined,
+                          { year: "numeric", month: "short", day: "numeric" }
+                        )
+                      : null
+                  }
+                  colorClass="text-orange-400"
+                />
+              </div>
+
+              {/* Account Status Banner */}
+              <div className="bg-gradient-to-r from-slate-800/50 to-slate-800/30 rounded-2xl p-6 border border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      userInfo?.status === "ACTIVE"
+                        ? "bg-emerald-500/10 text-emerald-500"
+                        : "bg-slate-500/10 text-slate-400"
+                    }`}
+                  >
+                    <CheckCircle2 size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">Account Status</h3>
+                    <p className="text-slate-400 text-sm">
+                      Your account is currently{" "}
+                      <span className="lowercase">{userInfo?.status}</span> and
+                      operating normally.
+                    </p>
+                  </div>
+                </div>
+                {userInfo?.paymentType === "FREE" && (
+                  <button className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20">
+                    Upgrade Plan
+                  </button>
+                )}
+              </div>
+
+              {/* Mobile Actions */}
+              <div className="md:hidden mt-8 grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => navigate("/")}
+                  className="flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700"
                 >
-                  {userInfo?.type}
-                </span>
-                <span
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
-                    userInfo?.status === "ACTIVE"
-                      ? "bg-green-500/20 text-green-400 border border-green-500/50"
-                      : "bg-gray-500/20 text-gray-400 border border-gray-500/50"
-                  }`}
+                  <Home size={18} /> Home
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center justify-center gap-2 py-3 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl"
                 >
-                  {userInfo?.status}
-                </span>
-                <span
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
-                    userInfo?.paymentType === "FREE"
-                      ? "bg-slate-500/20 text-slate-400 border border-slate-500/50"
-                      : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/50"
-                  }`}
-                >
-                  {userInfo?.paymentType}
-                </span>
+                  <LogOut size={18} /> Logout
+                </button>
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700/50">
-                <h3 className="text-slate-400 text-sm font-semibold mb-2">
-                  Gender
-                </h3>
-                <p className="text-white text-lg">
-                  {userInfo?.gender || "Not specified"}
-                </p>
-              </div>
-
-              <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700/50">
-                <h3 className="text-slate-400 text-sm font-semibold mb-2">
-                  User ID
-                </h3>
-                <p className="text-white text-lg">#{userInfo?.id}</p>
-              </div>
-
-              <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700/50">
-                <h3 className="text-slate-400 text-sm font-semibold mb-2">
-                  Member Since
-                </h3>
-                <p className="text-white text-lg">
-                  {userInfo?.createdAt
-                    ? new Date(userInfo.createdAt).toLocaleDateString()
-                    : "N/A"}
-                </p>
-              </div>
-
-              <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700/50">
-                <h3 className="text-slate-400 text-sm font-semibold mb-2">
-                  Last Updated
-                </h3>
-                <p className="text-white text-lg">
-                  {userInfo?.updatedAt
-                    ? new Date(userInfo.updatedAt).toLocaleDateString()
-                    : "N/A"}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => navigate("/")}
-                className="px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-xl transition-all duration-300 border border-slate-600"
-              >
-                Back to Home
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-6 py-3 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl transition-all duration-300 shadow-lg shadow-red-500/30"
-              >
-                Logout
-              </button>
             </div>
           </div>
         </main>
