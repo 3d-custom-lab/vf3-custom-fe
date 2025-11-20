@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Package, ShoppingCart, TrendingUp, AlertCircle, Users, DollarSign } from "lucide-react";
+import { Package, ShoppingCart, TrendingUp, AlertCircle, Eye, Trash2 } from "lucide-react";
 import AdminHeader from "../../components/layout/AdminHeader";
 import AdminSidebar from "../../components/layout/AdminSidebar";
-import { getAllGaras } from "../../services/garaService";
+import { getAllGaras, deleteGara } from "../../services/garaService";
 import { useToast } from "../../hooks/useToast";
 
 function ManageGaraPage() {
@@ -14,7 +14,26 @@ function ManageGaraPage() {
     totalStock: 0,
     outOfStock: 0,
   });
-  const { showError } = useToast();
+  const { showError, showSuccess } = useToast();
+
+  const handleViewGara = (gara) => {
+    console.log("View gara:", gara);
+    // TODO: Navigate to detail page or open modal
+    showSuccess(`Viewing ${gara.name}`);
+  };
+
+  const handleDeleteGara = async (gara) => {
+    if (window.confirm(`Are you sure you want to delete "${gara.name}"?`)) {
+      try {
+        await deleteGara(gara.id);
+        showSuccess(`Deleted ${gara.name} successfully`);
+        fetchGaras(); // Refresh the list
+      } catch (error) {
+        console.error("Error deleting gara:", error);
+        showError("Failed to delete gara");
+      }
+    }
+  };
 
   useEffect(() => {
     fetchGaras();
@@ -44,12 +63,12 @@ function ManageGaraPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-[#cae3ed]">
       {/* Sidebar */}
       <AdminSidebar />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col ml-64">
         {/* Header */}
         <AdminHeader />
 
@@ -113,206 +132,143 @@ function ManageGaraPage() {
             </div>
           </div>
 
-          {/* Charts Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            {/* No of users */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-              <h4 className="text-sm font-semibold text-slate-700 mb-4">No of users</h4>
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center">
-                  <Users className="text-slate-600" size={28} />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-slate-800">583 K</p>
-                  <p className="text-sm text-slate-500">Total Customers</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Inventory Values */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-              <h4 className="text-sm font-semibold text-slate-700 mb-4">Inventory Values</h4>
-              <div className="flex items-center justify-center">
-                <div className="relative w-32 h-32">
-                  <svg className="w-full h-full transform -rotate-90">
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="#e2e8f0"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="#3b82f6"
-                      strokeWidth="12"
-                      fill="none"
-                      strokeDasharray={`${2 * Math.PI * 56 * 0.68} ${2 * Math.PI * 56}`}
-                      strokeLinecap="round"
-                    />
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="#60a5fa"
-                      strokeWidth="12"
-                      fill="none"
-                      strokeDasharray={`${2 * Math.PI * 56 * 0.32} ${2 * Math.PI * 56}`}
-                      strokeDashoffset={`-${2 * Math.PI * 56 * 0.68}`}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-slate-800">68%</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-slate-400 rounded-full"></div>
-                    <span className="text-slate-600">Sold units</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <span className="text-slate-600">Total units</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Top 10 Stores */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-              <h4 className="text-sm font-semibold text-slate-700 mb-4">Top 10 Stores by sales</h4>
-              <div className="space-y-3">
-                {[
-                  { name: "Gateway Mall", value: 474 },
-                  { name: "The Ructic Fox", value: 713 },
-                  { name: "Velvet Vine", value: 509 },
-                  { name: "Blue Horizon", value: 569 },
-                  { name: "NebulaN Nexus", value: 365 },
-                  { name: "Crimson Crafters", value: 344 },
-                  { name: "Tidal Treasures", value: 274 },
-                  { name: "Whimsy Well", value: 213 },
-                  { name: "Moonstone", value: 131 },
-                  { name: "Emporium", value: 176 },
-                ].map((store, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-slate-600">{store.name}</span>
-                        <span className="text-xs font-semibold text-slate-700">{store.value}k</span>
-                      </div>
-                      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-blue-500 rounded-full"
-                          style={{ width: `${(store.value / 713) * 100}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Garas Table */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="p-6 border-b border-slate-200">
-              <h3 className="text-lg font-semibold text-slate-800">Gara Management</h3>
+          <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+            <div className="px-6 py-5 border-b border-slate-200 bg-linear-to-r from-slate-50 to-white">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-800">Gara Management</h3>
+                  <p className="text-sm text-slate-500 mt-1">Manage and view all registered garas</p>
+                </div>
+                <div className="text-sm text-slate-600">
+                  Total: <span className="font-semibold text-slate-900">{garas.length}</span> garas
+                </div>
+              </div>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-slate-50 border-b border-slate-200">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">ID</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Store ID</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Image</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Address</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Phone</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Rating</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Services</th>
+                <thead>
+                  <tr className="bg-linear-to-r from-slate-100 to-slate-50 border-b-2 border-slate-200">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      <div className="flex items-center gap-2">ID</div>
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Store ID</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Image</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Address</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Phone</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Rating</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Services</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
+                <tbody className="bg-white divide-y divide-slate-100">
                   {loading ? (
                     <tr>
-                      <td colSpan="8" className="px-6 py-12 text-center">
-                        <div className="flex items-center justify-center">
-                          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                          <span className="ml-3 text-slate-500">Loading garas...</span>
+                      <td colSpan="9" className="px-6 py-16 text-center">
+                        <div className="flex flex-col items-center justify-center">
+                          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                          <span className="text-slate-600 font-medium">Loading garas...</span>
                         </div>
                       </td>
                     </tr>
                   ) : garas.length === 0 ? (
                     <tr>
-                      <td colSpan="8" className="px-6 py-12 text-center text-slate-500">
-                        No garas found
+                      <td colSpan="9" className="px-6 py-16 text-center">
+                        <div className="flex flex-col items-center justify-center">
+                          <Package className="w-16 h-16 text-slate-300 mb-4" />
+                          <span className="text-slate-500 font-medium">No garas found</span>
+                        </div>
                       </td>
                     </tr>
                   ) : (
-                    garas.map((gara) => (
-                      <tr key={gara.id} className="hover:bg-slate-50 transition-colors">
+                    garas.map((gara, index) => (
+                      <tr 
+                        key={gara.id} 
+                        className="hover:bg-blue-50/50 transition-all duration-200 group"
+                      >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-medium text-slate-900">{gara.id}</span>
+                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-sm font-bold text-slate-700 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
+                            {gara.id}
+                          </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-slate-600">{gara.storeId}</span>
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
+                            {gara.storeId}
+                          </span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="text-sm font-medium text-slate-900">{gara.name}</span>
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <div className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
+                                {gara.name}
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td className="px-6 py-4">
                           <img
                             src={gara.image}
                             alt={gara.name}
-                            className="w-16 h-16 object-cover rounded-lg"
+                            className="w-20 h-20 object-cover rounded-xl shadow-md border-2 border-white group-hover:border-blue-200 group-hover:shadow-lg transition-all duration-200"
                             onError={(e) => {
-                              e.target.src = "https://via.placeholder.com/64?text=No+Image";
+                              e.target.src = "https://via.placeholder.com/80?text=No+Image";
                             }}
                           />
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-slate-900">
-                            {gara.addressStreet && <div>{gara.addressStreet}</div>}
-                            <div>{gara.addressWard}, {gara.addressDistrict}</div>
-                            <div className="text-slate-500">{gara.addressCity}</div>
+                        <td className="px-6 py-4 max-w-xs">
+                          <div className="text-sm text-slate-700">
+                            {gara.addressStreet && <div className="font-medium">{gara.addressStreet}</div>}
+                            <div className="text-slate-600">{gara.addressWard}, {gara.addressDistrict}</div>
+                            <div className="text-slate-500 text-xs mt-1">{gara.addressCity}</div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-slate-600">{gara.phone}</span>
+                          <span className="text-sm font-medium text-slate-700">{gara.phone}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-1">
-                            <span className="text-sm font-semibold text-amber-500">★</span>
-                            <span className="text-sm font-medium text-slate-900">{gara.ratingAverage}</span>
-                            <span className="text-sm text-slate-500">({gara.ratingCount})</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 px-3 py-1.5 bg-linear-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-200">
+                              <span className="text-base font-bold text-amber-500">★</span>
+                              <span className="text-sm font-bold text-amber-700">{gara.ratingAverage}</span>
+                            </div>
+                            <span className="text-xs text-slate-500 font-medium">({gara.ratingCount})</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="flex flex-wrap gap-1">
+                          <div className="flex flex-wrap gap-1.5 max-w-xs">
                             {gara.services.slice(0, 2).map((service, idx) => (
                               <span
                                 key={idx}
-                                className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-700"
+                                className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-linear-to-r from-blue-100 to-cyan-100 text-blue-700 border border-blue-200"
                               >
                                 {service}
                               </span>
                             ))}
                             {gara.services.length > 2 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-600">
-                                +{gara.services.length - 2}
+                              <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                                +{gara.services.length - 2} more
                               </span>
                             )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => handleViewGara(gara)}
+                              className="group/btn p-2.5 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md"
+                              title="View Details"
+                            >
+                              <Eye className="w-4 h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteGara(gara)}
+                              className="group/btn p-2.5 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md"
+                              title="Delete Gara"
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600 group-hover/btn:text-white transition-colors" />
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -324,21 +280,21 @@ function ManageGaraPage() {
 
             {/* Pagination */}
             {garas.length > 0 && (
-              <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+              <div className="px-6 py-4 border-t-2 border-slate-200 bg-slate-50 flex items-center justify-between">
                 <div className="text-sm text-slate-600">
-                  Showing <span className="font-medium">{garas.length}</span> garas
+                  Showing <span className="font-bold text-slate-900">{garas.length}</span> of <span className="font-semibold">{garas.length}</span> garas
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="px-3 py-1 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm">
                     Previous
                   </button>
-                  <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg">
+                  <button className="px-4 py-2 text-sm font-bold bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
                     1
                   </button>
-                  <button className="px-3 py-1 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm">
                     2
                   </button>
-                  <button className="px-3 py-1 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm">
                     Next
                   </button>
                 </div>
