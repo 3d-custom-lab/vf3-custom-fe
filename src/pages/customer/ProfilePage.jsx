@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/layout/Header";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import EditProfileModal from "../../components/modal/EditProfileModal";
+import ChangePasswordModal from "../../components/modal/ChangePasswordModal";
 import { getUserInfo, updateUserProfile } from "../../services/userService";
 import useToast from "../../hooks/useToast";
 import {
@@ -11,12 +12,11 @@ import {
   Calendar,
   Shield,
   CreditCard,
-  LogOut,
-  Home,
   Activity,
   CheckCircle2,
   Hash,
   Edit3,
+  Key,
 } from "lucide-react";
 
 export default function ProfilePage() {
@@ -26,6 +26,8 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -228,11 +230,12 @@ export default function ProfilePage() {
                     <span>Edit Profile</span>
                   </button>
                   <button
-                    onClick={() => navigate("/")}
-                    className="cursor-pointer p-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700"
-                    title="Go Home"
+                    onClick={() => setIsChangePasswordModalOpen(true)}
+                    className="cursor-pointer px-6 py-3 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white rounded-xl transition-all duration-300 font-semibold flex items-center gap-2 border border-slate-700"
+                    title="Change Password"
                   >
-                    <Home size={20} />
+                    <Key size={18} />
+                    <span>Change Password</span>
                   </button>
                 </div>
               </div>
@@ -320,10 +323,11 @@ export default function ProfilePage() {
                   Edit Profile
                 </button>
                 <button
-                  onClick={() => navigate("/")}
-                  className="flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700"
+                  onClick={() => setIsChangePasswordModalOpen(true)}
+                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700"
                 >
-                  <Home size={18} /> Home
+                  <Key size={18} />
+                  Change Password
                 </button>
               </div>
             </div>
@@ -337,6 +341,13 @@ export default function ProfilePage() {
         onClose={() => setIsEditModalOpen(false)}
         userInfo={userInfo}
         onSave={handleSaveProfile}
+      />
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={isChangePasswordModalOpen}
+        onClose={() => setIsChangePasswordModalOpen(false)}
+        userId={userInfo?.id}
       />
     </>
   );

@@ -26,7 +26,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
     setSuccess(null);
 
     try {
-      // Đăng ký tài khoản (API register đã tự động gửi OTP)
+      // Đăng ký tài khoản (API register tự động gửi OTP)
       const registerResponse = await register(formData);
 
       if (registerResponse.code === 1000) {
@@ -149,9 +149,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
               disabled={loading}
             >
               {showPassword ? (
-                <FaEyeSlash className="text-lg" />
+                <FaEyeSlash className="text-lg cursor-pointer" />
               ) : (
-                <FaEye className="text-lg" />
+                <FaEye className="text-lg cursor-pointer" />
               )}
             </button>
           </div>
@@ -179,7 +179,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 mt-6 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="cursor-pointer w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 mt-6 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? "Registering..." : "Register"}
           </button>
@@ -191,7 +191,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
             Already have an account?{" "}
             <button
               onClick={onSwitchToLogin}
-              className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
+              className="cursor-pointer text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
               disabled={loading}
             >
               Login

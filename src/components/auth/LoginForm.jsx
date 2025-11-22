@@ -4,7 +4,7 @@ import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function LoginForm({ onSwitchToRegister }) {
+export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
   const navigate = useNavigate();
   const { login, loading, error, clearError, getHomeRoute } = useAuth();
 
@@ -75,14 +75,16 @@ export default function LoginForm({ onSwitchToRegister }) {
             required
             placeholder="Password"
             ref={passwordRef}
-            onChange={() => { /* intentionally uncontrolled for security */ }}
+            onChange={() => {
+              /* intentionally uncontrolled for security */
+            }}
             className="w-full pl-12 pr-12 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
             disabled={loading}
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-400 transition-colors duration-200"
+            className="cursor-pointer absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-400 transition-colors duration-200"
             disabled={loading}
           >
             {showPassword ? (
@@ -97,7 +99,8 @@ export default function LoginForm({ onSwitchToRegister }) {
         <div className="flex items-center justify-end">
           <button
             type="button"
-            className="text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200"
+            onClick={onForgotPassword}
+            className="cursor-pointer text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200"
             disabled={loading}
           >
             Forgot password?
@@ -108,7 +111,7 @@ export default function LoginForm({ onSwitchToRegister }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          className="cursor-pointer w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -143,7 +146,7 @@ export default function LoginForm({ onSwitchToRegister }) {
           Don't have an account?{" "}
           <button
             onClick={onSwitchToRegister}
-            className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
+            className="cursor-pointer text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
             disabled={loading}
           >
             Sign up
