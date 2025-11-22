@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Lock, Eye, EyeOff, Loader2, Key } from "lucide-react";
+import { X, Lock, Eye, EyeOff, Loader2, Key, Check } from "lucide-react";
 import { changePassword } from "../../services/authService";
 import useToast from "../../hooks/useToast";
 
@@ -253,45 +253,80 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                 </div>
 
                 <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                  <p className="text-xs text-slate-400 mb-1 font-medium">
+                  <p className="text-xs text-slate-400 mb-2 font-medium">
                     Password Requirements:
                   </p>
-                  <ul className="text-xs text-slate-400 space-y-1">
+                  <ul className="text-xs space-y-2">
+                    {/* At least 6 characters */}
                     <li className="flex items-center gap-2">
+                      {newPassword.length > 0 ? (
+                        newPassword.length >= 6 ? (
+                          <Check size={14} className="text-green-400 shrink-0" />
+                        ) : (
+                          <X size={14} className="text-red-400 shrink-0" />
+                        )
+                      ) : (
+                        <span className="w-3.5 h-3.5 rounded-full border-2 border-slate-600 shrink-0" />
+                      )}
                       <span
                         className={
-                          newPassword.length >= 6
-                            ? "text-green-400"
-                            : "text-slate-500"
+                          newPassword.length > 0
+                            ? newPassword.length >= 6
+                              ? "text-green-400"
+                              : "text-red-400"
+                            : "text-slate-400"
                         }
                       >
-                        •
+                        At least 6 characters long
                       </span>
-                      At least 6 characters long
                     </li>
+
+                    {/* Different from current password */}
                     <li className="flex items-center gap-2">
+                      {newPassword.length > 0 && oldPassword.length > 0 ? (
+                        newPassword !== oldPassword ? (
+                          <Check size={14} className="text-green-400 shrink-0" />
+                        ) : (
+                          <X size={14} className="text-red-400 shrink-0" />
+                        )
+                      ) : (
+                        <span className="w-3.5 h-3.5 rounded-full border-2 border-slate-600 shrink-0" />
+                      )}
                       <span
                         className={
-                          newPassword !== oldPassword && newPassword
-                            ? "text-green-400"
-                            : "text-slate-500"
+                          newPassword.length > 0 && oldPassword.length > 0
+                            ? newPassword !== oldPassword
+                              ? "text-green-400"
+                              : "text-red-400"
+                            : "text-slate-400"
                         }
                       >
-                        •
+                        Different from current password
                       </span>
-                      Different from current password
                     </li>
+
+                    {/* Passwords match */}
                     <li className="flex items-center gap-2">
+                      {confirmPassword.length > 0 ? (
+                        newPassword === confirmPassword && newPassword.length > 0 ? (
+                          <Check size={14} className="text-green-400 shrink-0" />
+                        ) : (
+                          <X size={14} className="text-red-400 shrink-0" />
+                        )
+                      ) : (
+                        <span className="w-3.5 h-3.5 rounded-full border-2 border-slate-600 shrink-0" />
+                      )}
                       <span
                         className={
-                          newPassword === confirmPassword && newPassword
-                            ? "text-green-400"
-                            : "text-slate-500"
+                          confirmPassword.length > 0
+                            ? newPassword === confirmPassword && newPassword.length > 0
+                              ? "text-green-400"
+                              : "text-red-400"
+                            : "text-slate-400"
                         }
                       >
-                        •
+                        Passwords match
                       </span>
-                      Passwords match
                     </li>
                   </ul>
                 </div>
