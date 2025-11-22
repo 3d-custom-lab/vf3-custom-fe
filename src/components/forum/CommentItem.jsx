@@ -4,9 +4,11 @@ import {
   createComment,
   getRepliesByParentId,
 } from "../../services/commentService";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 
 function CommentItem({ comment, postId, onReplyCreated }) {
+  const { user } = useAuth();
   const { showSuccess, showError } = useToast();
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [replyContent, setReplyContent] = useState("");
@@ -15,7 +17,8 @@ function CommentItem({ comment, postId, onReplyCreated }) {
   const [replies, setReplies] = useState([]);
   const [isLoadingReplies, setIsLoadingReplies] = useState(false);
 
-  const authorName = comment.author?.name || comment.author?.email || "Unknown User";
+  const authorName =
+    comment.author?.name || comment.author?.email || "Unknown User";
   const authorAvatar = comment.author?.avatar;
   const replyCount = comment.replies?.length || 0;
 
@@ -122,20 +125,33 @@ function CommentItem({ comment, postId, onReplyCreated }) {
         <div className="flex-1 min-w-0">
           <div className="bg-slate-800 rounded-lg px-4 py-3 inline-block max-w-full border border-slate-700">
             <p className="font-semibold text-white text-sm">{authorName}</p>
-            <p className="text-slate-200 text-sm mt-1 leading-relaxed">{comment.content}</p>
+            <p className="text-slate-200 text-sm mt-1 leading-relaxed">
+              {comment.content}
+            </p>
           </div>
 
           <div className="flex items-center gap-4 mt-2 ml-2 text-sm text-slate-400">
             <span>{formatDate(comment.createdAt)}</span>
-            <button onClick={() => setShowReplyInput(!showReplyInput)} className="text-slate-300 hover:text-blue-400 cursor-pointer transition">Reply</button>
+            <button
+              onClick={() => setShowReplyInput(!showReplyInput)}
+              className="text-slate-300 hover:text-blue-400 cursor-pointer transition"
+            >
+              Reply
+            </button>
             {replyCount > 0 && (
-              <button onClick={toggleReplies} disabled={isLoadingReplies} className="flex items-center gap-2 px-2 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700 cursor-pointer hover:bg-slate-700 transition">
+              <button
+                onClick={toggleReplies}
+                disabled={isLoadingReplies}
+                className="flex items-center gap-2 px-2 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700 cursor-pointer hover:bg-slate-700 transition"
+              >
                 {isLoadingReplies ? (
                   <span className="w-3 h-3 border-2 border-slate-500 border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <FaReply className="text-xs text-slate-300" />
-                    <span>{showReplies ? "Hide" : "View"} {replyCount}</span>
+                    <span>
+                      {showReplies ? "Hide" : "View"} {replyCount}
+                    </span>
                   </>
                 )}
               </button>
@@ -155,10 +171,25 @@ function CommentItem({ comment, postId, onReplyCreated }) {
                   autoFocus
                 />
               </div>
-              <button type="submit" disabled={isSubmittingReply || !replyContent.trim()} className="px-3 py-2 bg-blue-600 text-white rounded-md cursor-pointer hover:bg-blue-700 transition">
-                {isSubmittingReply ? <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" /> : <FaPaperPlane />}
+              <button
+                type="submit"
+                disabled={isSubmittingReply || !replyContent.trim()}
+                className="px-3 py-2 bg-blue-600 text-white rounded-md cursor-pointer hover:bg-blue-700 transition"
+              >
+                {isSubmittingReply ? (
+                  <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
+                ) : (
+                  <FaPaperPlane />
+                )}
               </button>
-              <button type="button" onClick={() => { setShowReplyInput(false); setReplyContent(""); }} className="px-3 py-2 bg-slate-700 text-slate-200 rounded-md cursor-pointer hover:bg-slate-700 transition">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowReplyInput(false);
+                  setReplyContent("");
+                }}
+                className="px-3 py-2 bg-slate-700 text-slate-200 rounded-md cursor-pointer hover:bg-slate-700 transition"
+              >
                 <FaTimes />
               </button>
             </form>
@@ -170,19 +201,33 @@ function CommentItem({ comment, postId, onReplyCreated }) {
                 <div key={reply.id} className="flex gap-3">
                   <div className="shrink-0">
                     {reply.author?.avatar ? (
-                      <img src={reply.author.avatar} alt={reply.author.name} className="w-8 h-8 rounded-full object-cover border border-slate-700" />
+                      <img
+                        src={reply.author.avatar}
+                        alt={reply.author.name}
+                        className="w-8 h-8 rounded-full object-cover border border-slate-700"
+                      />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white text-xs font-semibold border border-slate-700">{reply.author?.name?.charAt(0).toUpperCase() || "U"}</div>
+                      <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white text-xs font-semibold border border-slate-700">
+                        {reply.author?.name?.charAt(0).toUpperCase() || "U"}
+                      </div>
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="bg-slate-800 rounded-md px-3 py-2 border border-slate-700">
-                      <p className="font-medium text-white text-xs">{reply.author?.name || reply.author?.email || "Unknown User"}</p>
-                      <p className="text-slate-200 text-xs mt-1">{reply.content}</p>
+                      <p className="font-medium text-white text-xs">
+                        {reply.author?.name ||
+                          reply.author?.email ||
+                          "Unknown User"}
+                      </p>
+                      <p className="text-slate-200 text-xs mt-1">
+                        {reply.content}
+                      </p>
                     </div>
                     <div className="mt-1">
-                      <span className="text-xs text-slate-400">{formatDate(reply.createdAt)}</span>
+                      <span className="text-xs text-slate-400">
+                        {formatDate(reply.createdAt)}
+                      </span>
                     </div>
                   </div>
                 </div>

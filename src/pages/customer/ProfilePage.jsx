@@ -12,8 +12,6 @@ import {
   Calendar,
   Shield,
   CreditCard,
-  LogOut,
-  Home,
   Activity,
   CheckCircle2,
   Hash,
@@ -28,7 +26,8 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -238,13 +237,6 @@ export default function ProfilePage() {
                     <Key size={18} />
                     <span>Change Password</span>
                   </button>
-                  <button
-                    onClick={() => navigate("/")}
-                    className="cursor-pointer p-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700"
-                    title="Go Home"
-                  >
-                    <Home size={20} />
-                  </button>
                 </div>
               </div>
 
@@ -336,12 +328,6 @@ export default function ProfilePage() {
                 >
                   <Key size={18} />
                   Change Password
-                </button>
-                <button
-                  onClick={() => navigate("/")}
-                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700"
-                >
-                  <Home size={18} /> Home
                 </button>
               </div>
             </div>

@@ -162,15 +162,14 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                         setOldPassword(e.target.value);
                         setError("");
                       }}
-                      placeholder="Enter current password"
+                      placeholder="Enter your current password"
                       className="w-full pl-12 pr-12 py-3 rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:border-blue-500 focus:outline-none"
                       disabled={loading}
-                      autoFocus
                     />
                     <button
                       type="button"
                       onClick={() => setShowOldPassword(!showOldPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
                       disabled={loading}
                     >
                       {showOldPassword ? (
@@ -204,7 +203,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                     <button
                       type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
                       disabled={loading}
                     >
                       {showNewPassword ? (
@@ -232,7 +231,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                         setError("");
                       }}
                       placeholder="Confirm new password"
-                      className="w-full pl-12 pr-12 py-3 rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:border-blue-500"
+                      className="w-full pl-12 pr-12 py-3 rounded-lg bg-slate-800 text-slate-100 border border-slate-700  focus:border-blue-500"
                       disabled={loading}
                     />
                     <button
@@ -240,7 +239,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
                       disabled={loading}
                     >
                       {showConfirmPassword ? (
@@ -336,14 +335,14 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                     type="button"
                     onClick={handleClose}
                     disabled={loading}
-                    className="flex-1 py-3 bg-slate-800 text-slate-300 border border-slate-700 rounded-lg hover:bg-slate-700 transition disabled:opacity-50"
+                    className="cursor-pointer flex-1 py-3 bg-slate-800 text-slate-300 border border-slate-700 rounded-lg hover:bg-slate-700 transition disabled:opacity-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="cursor-pointer flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {loading ? (
                       <>

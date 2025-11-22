@@ -246,7 +246,11 @@ export default function ResetPasswordModal({
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
                     >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      {showPassword ? (
+                        <EyeOff size={18} className="cursor-pointer" />
+                      ) : (
+                        <Eye size={18} className="cursor-pointer" />
+                      )}
                     </button>
                   </div>
                 </div>
