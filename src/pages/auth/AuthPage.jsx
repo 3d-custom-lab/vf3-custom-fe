@@ -3,13 +3,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaCar } from "react-icons/fa";
 import LoginForm from "../../components/auth/LoginForm";
 import RegisterForm from "../../components/auth/RegisterForm";
+import ForgotPasswordModal from "../../components/modal/ForgotPasswordModal";
+import ResetPasswordModal from "../../components/modal/ResetPasswordModal";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+
+  // Handle forgot password flow
+  const handleForgotPasswordSuccess = (email) => {
+    setResetEmail(email);
+    setShowForgotPasswordModal(false);
+    setShowResetPasswordModal(true);
+  };
+
+  const handleResetPasswordSuccess = () => {
+    setShowResetPasswordModal(false);
+    setResetEmail("");
+  };
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-transparent to-cyan-900/10" />
+      <div className="absolute inset-0 bg-linear-to-br from-blue-900/10 via-transparent to-cyan-900/10" />
 
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
@@ -34,10 +51,10 @@ export default function AuthPage() {
           </motion.h1>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5" />
+        <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-cyan-500/5" />
 
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent" />
 
           <div className="relative">
             <AnimatePresence mode="wait">
@@ -49,7 +66,10 @@ export default function AuthPage() {
                   exit={{ opacity: 0, x: 50 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <LoginForm onSwitchToRegister={() => setIsLogin(false)} />
+                  <LoginForm 
+                    onSwitchToRegister={() => setIsLogin(false)}
+                    onForgotPassword={() => setShowForgotPasswordModal(true)}
+                  />
                 </motion.div>
               ) : (
                 <motion.div
@@ -66,6 +86,24 @@ export default function AuthPage() {
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      <ForgotPasswordModal
+        isOpen={showForgotPasswordModal}
+        onClose={() => setShowForgotPasswordModal(false)}
+        onSuccess={handleForgotPasswordSuccess}
+      />
+
+      {/* Reset Password Modal */}
+      <ResetPasswordModal
+        isOpen={showResetPasswordModal}
+        onClose={() => {
+          setShowResetPasswordModal(false);
+          setResetEmail("");
+        }}
+        email={resetEmail}
+        onSuccess={handleResetPasswordSuccess}
+      />
     </div>
   );
 }

@@ -106,14 +106,14 @@ export default function Header() {
                           setIsUserMenuOpen(false);
                           navigate("/profile");
                         }}
-                        className="w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors flex items-center gap-3"
+                        className="cursor-pointer w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors flex items-center gap-3"
                       >
                         <User className="w-4 h-4" />
                         <span>Profile</span>
                       </button>
                       <button
                         onClick={handleLogout}
-                        className="w-full px-4 py-2.5 text-left text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-3"
+                        className="cursor-pointer w-full px-4 py-2.5 text-left text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-3"
                       >
                         <FaSignOutAlt />
                         <span>Đăng xuất</span>

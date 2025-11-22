@@ -102,7 +102,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
           />
 
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -111,7 +111,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.45 }}
-              className="bg-slate-900 rounded-2xl shadow-xl max-w-md w-full overflow-hidden border border-slate-800"
+              className="bg-slate-900 rounded-2xl shadow-xl max-w-md w-full border border-slate-800"
             >
               <div className="bg-slate-800 p-5 flex items-center justify-between border-b border-slate-700">
                 <div className="flex items-center gap-3">

@@ -28,7 +28,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
 
     try {
       const response = await forgetPassword(email);
-      
+
       if (response.code === 0 || response.code === 1000) {
         showSuccess("Password reset code has been sent to your email!");
         onSuccess(email);
@@ -37,7 +37,6 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
         setError(response.message || "Failed to send reset code");
       }
     } catch (err) {
-      console.error("Forgot password error:", err);
       const errorMessage =
         err.response?.data?.message ||
         "Failed to send reset code. Please try again.";
@@ -74,7 +73,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="bg-linear-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl shadow-2xl shadow-blue-500/20 max-w-md w-full"
+              className="bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl max-w-md w-full"
             >
               {/* Header */}
               <div className="relative p-6 border-b border-gray-700">
@@ -87,7 +86,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                 </button>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-linear-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                  <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center border border-gray-700">
                     <KeyRound className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -101,16 +100,13 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                 </div>
               </div>
 
-              {/* Form Body */}
+              {/* Form */}
               <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                <div className="space-y-2">
-                  <p className="text-gray-300 text-sm">
-                    Enter your registered email address and we'll send you a
-                    verification code to reset your password.
-                  </p>
-                </div>
+                <p className="text-gray-300 text-sm">
+                  Enter your registered email address to receive a verification
+                  code.
+                </p>
 
-                {/* Error Message */}
                 {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -121,13 +117,13 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                   </motion.div>
                 )}
 
-                {/* Email Input */}
+                {/* Email */}
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-300">
                     Email Address
                   </label>
                   <div className="relative">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
                       <Mail size={18} />
                     </div>
                     <input
@@ -138,27 +134,28 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                         setError("");
                       }}
                       placeholder="your.email@example.com"
-                      className="w-full pl-12 pr-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+                      className="w-full pl-12 pr-4 py-3.5 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all duration-200"
                       disabled={loading}
                       autoFocus
                     />
                   </div>
                 </div>
 
-                {/* Action Buttons */}
+                {/* Actions */}
                 <div className="flex gap-3 pt-2">
                   <button
                     type="button"
                     onClick={handleClose}
                     disabled={loading}
-                    className="flex-1 py-3.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-semibold transition-all duration-200 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 py-3.5 bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 rounded-xl transition-all disabled:opacity-50"
                   >
                     Cancel
                   </button>
+
                   <button
                     type="submit"
                     disabled={loading || !email.trim()}
-                    className="flex-1 py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {loading ? (
                       <>
