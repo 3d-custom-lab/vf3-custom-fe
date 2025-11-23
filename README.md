@@ -4,7 +4,7 @@ React SPA cho phép tùy chỉnh xe 3D (Three.js), chia sẻ thiết kế và th
 
 ## Quick Start
 
-**Yêu cầu:** Node.js >= 18, npm >= 9
+**Yêu cầu:** Node.js >= 20, npm >= 9
 
 ```powershell
 git clone <repo>
@@ -83,4 +83,4 @@ Commit format: `feat:`, `fix:`, `docs:`, `refactor:`
 
 ---
 
-**Last updated:** 2025-11-19
+**Last updated:** 2025-11-23
