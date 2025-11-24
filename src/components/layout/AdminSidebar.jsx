@@ -25,7 +25,7 @@ export default function AdminSidebar() {
             <img
               src={user.avatar}
               alt={user.name}
-              className="w-full h-full rounded-full object-cover"
+              className="w-full h-full object-cover rounded-full"
             />
           ) : (
             <div className="w-full h-full rounded-full bg-slate-200 flex items-center justify-center">
