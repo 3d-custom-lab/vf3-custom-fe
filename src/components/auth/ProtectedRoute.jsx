@@ -1,9 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
-/**
- * Protected Route Component
- */
 export default function ProtectedRoute({ children, allowedRoles = [] }) {
   const { isAuthenticated, user, loading, getHomeRoute } = useAuth();
   const location = useLocation();

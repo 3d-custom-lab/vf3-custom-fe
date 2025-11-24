@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { login as loginAPI, introspect } from '../services/authService';
 import { getUserInfo } from '../services/userService';
