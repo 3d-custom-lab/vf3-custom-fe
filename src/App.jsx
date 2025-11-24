@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import AuthPage from "./pages/auth/AuthPage";
+import GoogleCallbackPage from "./pages/auth/GoogleCallbackPage";
 // CUSTOMER ROUTES IMPORTS
 import HomePage from "./pages/customer/HomePage";
 import StudioPage from "./pages/customer/StudioPage";
@@ -34,6 +35,9 @@ function AppRoutes() {
           )
         }
       />
+
+      {/* Google OAuth Callback Route */}
+      <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
 
       {/* Public Home Page */}
       <Route path="/" element={<HomePage />} />

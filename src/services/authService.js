@@ -53,3 +53,9 @@ export const changePassword = async (userId, oldPassword, newPassword) => {
   );
   return res.data;
 };
+
+// Xác thực Google OAuth
+export const googleAuthenticate = async (code) => {
+  const res = await api.post(`/auth/google-authenticate?code=${code}`);
+  return res.data;
+};
