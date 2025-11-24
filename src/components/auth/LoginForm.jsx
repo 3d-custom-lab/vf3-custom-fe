@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
@@ -13,6 +14,28 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
   });
   const passwordRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Xử lý Google Login
+  const handleGoogleLogin = () => {
+    const callbackUrl = import.meta.env.VITE_GOOGLE_REDIRECT_URL || 'http://localhost:5173/auth/google/callback';
+    const authUrl = import.meta.env.VITE_GOOGLE_AUTH_URL || 'https://accounts.google.com/o/oauth2/v2/auth';
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+    if (!googleClientId) {
+      alert('Missing Google Client ID configuration.');
+      return;
+    }
+
+    const url = new URL(authUrl);
+    url.searchParams.set('client_id', googleClientId);
+    url.searchParams.set('redirect_uri', callbackUrl);
+    url.searchParams.set('response_type', 'code');
+    url.searchParams.set('scope', 'openid email profile');
+    url.searchParams.set('access_type', 'offline');
+    url.searchParams.set('prompt', 'consent');
+
+    window.location.href = url.toString();
+  };
 
   // Handle login form submission
   const handleSubmit = async (e) => {
@@ -117,7 +140,7 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
         </button>
 
         {/* Divider */}
-        {/* <div className="relative my-6">
+        <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-b border-gray-700"></div>
           </div>
@@ -129,15 +152,15 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
         </div>
 
         {/* Google Login Button */}
-        {/* <button
+        <button
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full py-3.5 bg-white/5 border border-gray-700 text-white font-medium rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
+          className="cursor-pointer w-full py-3.5 bg-white/5 border border-gray-700 text-white font-medium rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FcGoogle className="text-2xl" />
           <span>Login with Google</span>
-        </button>  */}
+        </button>
       </form>
 
       {/* Switch to Register */}
