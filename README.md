@@ -21,16 +21,27 @@ npm run dev             # http://localhost:5173
 
 ## Tech Stack
 
-React 19 • Vite 7 • Tailwind 4 • React Router 7 • Zustand • Axios • Three.js • Framer Motion
+React 19 • Vite 7 • Tailwind 4 • React Router 7 • Zustand • Axios • **Three.js** • **React Three Fiber** • **React-color** • Framer Motion
 
 ## Routes
 
 - `/` - Landing
 - `/auth` - Login/Register
-- `/studio` - 3D Studio (protected)
+- `/studio` - **3D Studio (protected)** - Tùy chỉnh màu sơn xe VF3 với model 3D thật
 - `/forum` - Forum (protected)
 - `/profile` - Profile (protected)
 - `/admin/*` - Admin (Role)
+
+## ✨ New Feature: Car Color Customization
+
+**Tính năng mới:** Custom màu sơn xe VF3 với model 3D thực (VF3.glb)
+
+**Công nghệ:**
+- Three.js + React Three Fiber cho 3D rendering
+- React-color cho color picker nâng cao
+- Real-time color preview trên model 3D
+
+**Chi tiết:** Xem [CAR_CUSTOMIZATION_DOCS.md](./CAR_CUSTOMIZATION_DOCS.md)
 
 ## Authentication
 
@@ -83,4 +94,5 @@ Commit format: `feat:`, `fix:`, `docs:`, `refactor:`
 
 ---
 
-**Last updated:** 2025-11-23
+**Last updated:** 2025-11-29  
+**Latest feature:** Car 3D customization with VF3.glb model
