@@ -77,7 +77,7 @@ export const Studio = () => {
             className="mb-8"
           >
             <h1 className="text-4xl font-bold text-slate-800 dark:text-white mb-2">
-              Studio tùy chỉnh 3D
+              Studio 3D tùy chỉnh xe
             </h1>
             <p className="text-slate-600 dark:text-slate-300">
               Thiết kế chiếc VF3 độc đáo của riêng bạn

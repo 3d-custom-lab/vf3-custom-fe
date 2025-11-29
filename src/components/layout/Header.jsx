@@ -48,7 +48,7 @@ export default function Header() {
               <Car className="w-8 h-8 text-cyan-400 group-hover:text-blue-400 transition-colors" />
             </div>
             <span className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
-              3D Custom Lab
+              3DCustomLab
             </span>
           </div>
 

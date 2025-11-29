@@ -34,7 +34,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              3D Custom Lab
+              3DCustomLab
               <span className="block bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mt-2">
                 Tự tay tạo nên phong cách
               </span>
@@ -53,6 +53,21 @@ const HeroSection = () => {
               mui xe và ngoại thất. Biến ý tưởng của bạn thành hiện thực trong
               chớp mắt.
             </motion.p>
+            {/* <motion.p
+              className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              3DCustomlab là một trang web công nghệ cao được phát triển nhằm
+              mang đến trải nghiệm tùy chỉnh xe VF3 một cách trực quan, linh
+              hoạt và chính xác ngay trên nền tảng di động. Website cho phép
+              người dùng thử nghiệm các kiểu độ xe phổ biến như thay đổi mâm xe,
+              phối màu sơn, dán decal, lắp bodykit và nhiều phụ kiện khác… trong
+              không gian mô phỏng 3D chân thực, trước khi đưa ra quyết định độ
+              xe ngoài đời thực. Nền tảng gợi ý các gara uy tín gần nhất để
+              người dùng có thế biến bản độ của mình thành hiện thực.
+            </motion.p> */}
 
             <motion.div
               className="flex flex-col sm:flex-row gap-4"
