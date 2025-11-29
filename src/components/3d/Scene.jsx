@@ -36,7 +36,7 @@ export const Scene = ({ autoRotate = false, enableControls = true }) => {
 
         {/* Bóng đổ */}
         <ContactShadows
-          position={[0, -1.2, 0]}
+          position={[0, -0.6, 0]}
           opacity={1.8}
           scale={15}
           blur={2.5}
