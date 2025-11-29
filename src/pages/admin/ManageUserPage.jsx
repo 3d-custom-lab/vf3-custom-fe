@@ -241,25 +241,25 @@ function ManageUserPage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-bold text-slate-800">
-                    Quản Lý Người Dùng
+                    User Management
                   </h3>
                   <p className="text-sm text-slate-500 mt-1">
-                    Quản lý thông tin và quyền truy cập người dùng
+                    Manage user information and access rights
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Status Filter */}
                   <div className="relative">
                     <Filter
-                      className="absolute left-3 top-2.5 text-slate-400 pointer-events-none"
-                      size={16}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
+                      size={18}
                     />
                     <select
                       value={statusFilter}
                       onChange={(e) => handleStatusFilterChange(e.target.value)}
-                      className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-white appearance-none cursor-pointer"
+                      className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 text-sm font-medium focus:outline-none focus:border-blue-500 hover:border-slate-400 transition-colors cursor-pointer"
                     >
-                      <option value="ALL">Tất cả trạng thái</option>
+                      <option value="ALL">All Statuses</option>
                       <option value="ACTIVE">Active</option>
                       <option value="PENDING">Pending</option>
                       <option value="INACTIVE">Inactive</option>
@@ -269,16 +269,16 @@ function ManageUserPage() {
 
                   {/* Search Bar */}
                   <div className="relative">
+                    <Search
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      size={18}
+                    />
                     <input
                       type="text"
                       placeholder="Tìm kiếm người dùng..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm w-64"
-                    />
-                    <Search
-                      className="absolute left-3 top-2.5 text-slate-400 pointer-events-none"
-                      size={16}
+                      className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 text-sm placeholder:text-slate-400 focus:outline-none focus:border-blue-500 hover:border-slate-400 transition-colors w-64"
                     />
                   </div>
                 </div>
@@ -293,25 +293,25 @@ function ManageUserPage() {
                       ID
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Thông Tin
+                      User
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Loại TK
+                      Role
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Gói
+                      Package
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Trạng Thái
+                      Status
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Ngày Tạo
+                      Created At
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Cập Nhật
+                      Updated At
                     </th>
                     <th className="px-6 py-4 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Thao Tác
+                      Actions
                     </th>
                   </tr>
                 </thead>
