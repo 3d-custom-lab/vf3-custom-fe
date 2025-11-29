@@ -17,7 +17,6 @@ function ManageGaraPage() {
   const { showError, showSuccess } = useToast();
 
   const handleViewGara = (gara) => {
-    console.log("View gara:", gara);
     // TODO: Navigate to detail page or open modal
     showSuccess(`Viewing ${gara.name}`);
   };
@@ -29,7 +28,6 @@ function ManageGaraPage() {
         showSuccess(`Deleted ${gara.name} successfully`);
         fetchGaras(); // Refresh the list
       } catch (error) {
-        console.error("Error deleting gara:", error);
         showError("Failed to delete gara");
       }
     }
@@ -134,7 +132,7 @@ function ManageGaraPage() {
 
           {/* Garas Table */}
           <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="px-6 py-5 border-b border-slate-200 bg-linear-to-r from-slate-50 to-white">
+            <div className="px-6 py-5 border-b border-slate-200 bg-slate-50">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-slate-800">Gara Management</h3>
@@ -149,7 +147,7 @@ function ManageGaraPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-linear-to-r from-slate-100 to-slate-50 border-b-2 border-slate-200">
+                  <tr className="bg-slate-100 border-b-2 border-slate-200">
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
                       <div className="flex items-center gap-2">ID</div>
                     </th>
@@ -229,7 +227,7 @@ function ManageGaraPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 px-3 py-1.5 bg-linear-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-200">
+                            <div className="flex items-center gap-1 px-3 py-1.5 bg-amber-50 rounded-lg border border-amber-200">
                               <span className="text-base font-bold text-amber-500">★</span>
                               <span className="text-sm font-bold text-amber-700">{gara.ratingAverage}</span>
                             </div>
@@ -241,7 +239,7 @@ function ManageGaraPage() {
                             {gara.services.slice(0, 2).map((service, idx) => (
                               <span
                                 key={idx}
-                                className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-linear-to-r from-blue-100 to-cyan-100 text-blue-700 border border-blue-200"
+                                className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200"
                               >
                                 {service}
                               </span>
@@ -257,14 +255,14 @@ function ManageGaraPage() {
                           <div className="flex items-center justify-center gap-2">
                             <button
                               onClick={() => handleViewGara(gara)}
-                              className="group/btn p-2.5 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md"
+                              className="group/btn p-2.5 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                               title="View Details"
                             >
                               <Eye className="w-4 h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
                             </button>
                             <button
                               onClick={() => handleDeleteGara(gara)}
-                              className="group/btn p-2.5 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md"
+                              className="group/btn p-2.5 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                               title="Delete Gara"
                             >
                               <Trash2 className="w-4 h-4 text-red-600 group-hover/btn:text-white transition-colors" />
@@ -285,16 +283,16 @@ function ManageGaraPage() {
                   Showing <span className="font-bold text-slate-900">{garas.length}</span> of <span className="font-semibold">{garas.length}</span> garas
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm">
+                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm cursor-pointer">
                     Previous
                   </button>
-                  <button className="px-4 py-2 text-sm font-bold bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+                  <button className="px-4 py-2 text-sm font-bold bg-blue-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer">
                     1
                   </button>
-                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm">
+                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm cursor-pointer">
                     2
                   </button>
-                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm">
+                  <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm cursor-pointer">
                     Next
                   </button>
                 </div>

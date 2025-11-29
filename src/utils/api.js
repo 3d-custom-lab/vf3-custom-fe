@@ -20,7 +20,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.warn("Unauthorized access - token may be invalid or expired");
       // Optionally redirect to login or dispatch logout action
     }
     return Promise.reject(error);

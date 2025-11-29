@@ -59,7 +59,6 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
       }
     } catch (err) {
-      console.error('Auth initialization failed:', err);
       setIsAuthenticated(false);
       setUser(null);
       setToken(null);

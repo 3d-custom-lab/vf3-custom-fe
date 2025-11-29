@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import AdminHeader from "../../components/layout/AdminHeader";
 import AdminSidebar from "../../components/layout/AdminSidebar";
+import CreateUserModal from "../../components/modal/CreateUserModal";
 import { getAllUsers, deleteUser } from "../../services/userService";
 import { useToast } from "../../hooks/useToast";
 import { formatDate } from "../../utils/dateUtils";
@@ -24,6 +25,7 @@ function ManageUserPage() {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -86,7 +88,6 @@ function ManageUserPage() {
         });
       }
     } catch (error) {
-      console.error("Error fetching users:", error);
       showError("Không thể tải danh sách người dùng");
     } finally {
       setLoading(false);
@@ -102,10 +103,13 @@ function ManageUserPage() {
         showSuccess(`Đã xóa ${user.name} thành công`);
         fetchUsers(); // Refresh lại danh sách
       } catch (error) {
-        console.error("Error deleting user:", error);
         showError("Không thể xóa người dùng");
       }
     }
+  };
+
+  const handleCreateSuccess = () => {
+    fetchUsers(); // Refresh list after creating new user
   };
 
   // Handle pagination
@@ -237,7 +241,7 @@ function ManageUserPage() {
 
           {/* Users Table */}
           <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="px-6 py-5 border-b border-slate-200 bg-linear-to-r from-slate-50 to-white">
+            <div className="px-6 py-5 border-b border-slate-200 bg-slate-50">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-bold text-slate-800">
@@ -248,6 +252,15 @@ function ManageUserPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
+                  {/* Create User Button */}
+                  <button
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 cursor-pointer"
+                  >
+                    <UserPlus size={18} />
+                    <span className="hidden sm:inline">Create User</span>
+                  </button>
+
                   {/* Status Filter */}
                   <div className="relative">
                     <Filter
@@ -288,7 +301,7 @@ function ManageUserPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-linear-to-r from-slate-100 to-slate-50 border-b-2 border-slate-200">
+                  <tr className="bg-slate-100 border-b-2 border-slate-200">
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
                       ID
                     </th>
@@ -469,14 +482,14 @@ function ManageUserPage() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center justify-center gap-2">
                               <button
-                                className="group/btn p-2 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md"
+                                className="group/btn p-2 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                                 title="View Details"
                               >
                                 <Eye className="w-4 h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
                               </button>
                               <button
                                 onClick={() => handleDeleteUser(user)}
-                                className="group/btn p-2 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md"
+                                className="group/btn p-2 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                                 title="Delete User"
                               >
                                 <Trash2 className="w-4 h-4 text-red-600 group-hover/btn:text-white transition-colors" />
@@ -510,7 +523,7 @@ function ManageUserPage() {
                     setPageSize(Number(e.target.value));
                     setCurrentPage(0);
                   }}
-                  className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
                 >
                   <option value="10">10 / trang</option>
                   <option value="15">15 / trang</option>
@@ -523,7 +536,7 @@ function ManageUserPage() {
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 0}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
                 >
                   <ChevronLeft size={16} />
                   Trước
@@ -547,7 +560,7 @@ function ManageUserPage() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                        className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all cursor-pointer ${
                           currentPage === pageNum
                             ? "bg-blue-600 text-white shadow-md"
                             : "text-slate-600 hover:bg-white border border-slate-300"
@@ -562,7 +575,7 @@ function ManageUserPage() {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage >= totalPages - 1}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
                 >
                   Sau
                   <ChevronRight size={16} />
@@ -572,6 +585,13 @@ function ManageUserPage() {
           </div>
         </main>
       </div>
+
+      {/* Create User Modal */}
+      <CreateUserModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSuccess={handleCreateSuccess}
+      />
     </div>
   );
 }

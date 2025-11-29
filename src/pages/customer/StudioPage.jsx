@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { Save, RotateCcw, Settings2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
-import { Button } from "../../components/ui/Button";
 import { ColorPicker } from "../../components/ui/ColorPicker";
 import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
@@ -102,12 +101,18 @@ export const Studio = () => {
 
               <div className="p-6 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
                 <div className="flex flex-wrap gap-3">
-                  <Button onClick={() => setShowSaveModal(true)}>
+                  <button
+                    onClick={() => setShowSaveModal(true)}
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                  >
                     <Save className="w-5 h-5" /> Lưu thiết kế
-                  </Button>
-                  <Button variant="outline" onClick={resetCustomization}>
+                  </button>
+                  <button
+                    onClick={resetCustomization}
+                    className="px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-300 rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                  >
                     <RotateCcw className="w-5 h-5" /> Đặt lại
-                  </Button>
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -268,9 +273,13 @@ export const Studio = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <Button className="w-full" onClick={handleSave} disabled={isSaving}>
+            <button
+              className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              onClick={handleSave}
+              disabled={isSaving}
+            >
               {isSaving ? "Đang lưu..." : "Lưu và chia sẻ"}
-            </Button>
+            </button>
           </div>
         </Modal>
         </div>
