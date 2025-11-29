@@ -17,7 +17,6 @@ function ManageGaraPage() {
   const { showError, showSuccess } = useToast();
 
   const handleViewGara = (gara) => {
-    // TODO: Navigate to detail page or open modal
     showSuccess(`Viewing ${gara.name}`);
   };
 
