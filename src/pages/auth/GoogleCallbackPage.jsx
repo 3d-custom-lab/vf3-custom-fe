@@ -27,7 +27,6 @@ export default function GoogleCallbackPage() {
     const handleGoogleCallback = async () => {
       // Ngăn chặn xử lý nhiều lần cùng lúc
       if (isProcessing.current) {
-        console.log('Google callback đang được xử lý, bỏ qua...');
         return;
       }
 
@@ -40,7 +39,6 @@ export default function GoogleCallbackPage() {
 
         // Xử lý trường hợp có error từ Google
         if (error) {
-          console.error('Google OAuth error:', error);
           alert('Google login thất bại. Vui lòng thử lại.');
           navigate('/auth');
           return;
@@ -48,13 +46,10 @@ export default function GoogleCallbackPage() {
 
         // Kiểm tra có authorization code hay không
         if (!code) {
-          console.error('Không nhận được authorization code từ Google');
           alert('Không nhận được mã xác thực. Vui lòng thử lại.');
           navigate('/auth');
           return;
         }
-
-        console.log('Đang xử lý Google OAuth callback với code:', code.substring(0, 20) + '...');
 
         // Gửi code lên backend để trao đổi lấy JWT token
         const result = await googleAuthenticate(code);
@@ -68,7 +63,6 @@ export default function GoogleCallbackPage() {
 
           // Decode token để lấy thông tin user
           const userInfo = getUserFromToken(jwtToken);
-          console.log('Google login thành công cho user:', userInfo?.email);
 
           // Reload auth state từ cookie
           await checkAuth();
@@ -83,12 +77,9 @@ export default function GoogleCallbackPage() {
           throw new Error('Không nhận được token từ server');
         }
       } catch (error) {
-        console.error('Lỗi xử lý Google callback:', error);
-
         // Xử lý lỗi invalid_grant (code đã được sử dụng)
         if (error.response?.data?.message?.includes('invalid_grant') || 
             error.message?.includes('invalid_grant')) {
-          console.log('Authorization code đã được sử dụng, bỏ qua...');
           // Không hiển thị lỗi, im lặng redirect về home
           navigate('/', { replace: true });
           return;
@@ -107,7 +98,7 @@ export default function GoogleCallbackPage() {
   }, [searchParams, navigate, checkAuth, getHomeRoute]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-gray-900 via-gray-800 to-gray-900">
       <div className="text-center">
         {/* Loading spinner */}
         <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500 mx-auto mb-6"></div>

@@ -46,7 +46,6 @@ export const formatDate = (dateString, format = 'short') => {
         return date.toLocaleDateString('vi-VN');
     }
   } catch (error) {
-    console.error('Error formatting date:', error);
     return 'N/A';
   }
 };
@@ -71,7 +70,6 @@ export const getRelativeTime = (dateString) => {
     if (diffDays < 365) return `${Math.floor(diffDays / 30)} tháng trước`;
     return `${Math.floor(diffDays / 365)} năm trước`;
   } catch (error) {
-    console.error('Error getting relative time:', error);
     return 'N/A';
   }
 };
