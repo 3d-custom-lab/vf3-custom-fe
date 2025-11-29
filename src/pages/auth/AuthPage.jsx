@@ -32,23 +32,20 @@ export default function AuthPage() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
 
       <div className="relative w-full max-w-md">
-        <div className="text-center mb-10">
+        <div className="text-center">
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center justify-center w-32 h-32 shadow-2xl shadow-blue-500/50 mb-6"
+            className="inline-flex items-center justify-center"
           >
-            <img src="/img/logo.png" alt="VF3 Logo" className="w-full h-full" />
+            <img 
+              src="/img/logo-auth.webp" 
+              alt="VF3 Logo" 
+              className="w-full h-full object-contain drop-shadow-2xl" 
+              style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))' }}
+            />
           </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl font-bold text-white mb-2"
-          >
-            3D <span className="text-blue-400">Custom</span> Lab
-          </motion.h1>
         </div>
 
         <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
