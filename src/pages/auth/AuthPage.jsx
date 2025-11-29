@@ -40,7 +40,7 @@ export default function AuthPage() {
             className="inline-flex items-center justify-center"
           >
             <img 
-              src="/img/logo.png" 
+              src="/img/logo-auth.webp" 
               alt="VF3 Logo" 
               className="w-full h-full object-contain drop-shadow-2xl" 
               style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))' }}

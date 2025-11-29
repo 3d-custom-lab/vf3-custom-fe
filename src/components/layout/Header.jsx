@@ -44,8 +44,12 @@ export default function Header() {
             className="flex items-center space-x-2 cursor-pointer group"
             onClick={() => navigate("/")}
           >
-            <div>
-              <Car className="w-8 h-8 text-cyan-400 group-hover:text-blue-400 transition-colors" />
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img 
+                src="/img/logo-header.webp" 
+                alt="3D Custom Lab Logo" 
+                className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+              />
             </div>
             <span className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
               3DCustomLab
