@@ -3,40 +3,40 @@ import { useRef } from "react";
 
 const showcaseItems = [
   {
-    title: "Sport Edition",
-    color: "Đỏ Racing",
+    title: "Hello Kitty",
+    color: "Khắc Trung oto",
     image:
-      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "/img/products/_Bé Hường_ HelloKitty (Khắc Trung ôtô).webp",
   },
   {
-    title: "Luxury Black",
-    color: "Đen Bóng",
+    title: "Bodykit hầm hố",
+    color: "ZKAR",
     image:
-      "https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "/img/products/Bodykit hầm hố ( ZKAR).webp",
   },
   {
-    title: "Pearl White",
-    color: "Trắng Ngọc Trai",
+    title: "Full hồng",
+    color: "MMK auto",
     image:
-      "https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "/img/products/Full hồng (MMK auto).webp",
   },
   {
-    title: "Ocean Blue",
-    color: "Xanh Đại Dương",
+    title: "Off-road",
+    color: "pazo design",
     image:
-      "https://images.pexels.com/photos/1638459/pexels-photo-1638459.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "/img/products/Off-road (pazo design).webp",
   },
   {
-    title: "Sunset Orange",
-    color: "Cam Hoàng Hôn",
+    title: "Tiểu Defender",
+    color: "Xuân Hoàn Mastercare",
     image:
-      "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "/img/products/Tiểu Defender (Xuân Hoàn Mastercare).webp",
   },
   {
-    title: "Silver Storm",
-    color: "Bạc Metallic",
+    title: "Tiểu G63",
+    color: "phamvinh auto",
     image:
-      "https://images.pexels.com/photos/3802508/pexels-photo-3802508.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "/img/products/Tiểu G63 ( phamvinh auto).webp",
   },
 ];
 
@@ -98,13 +98,6 @@ const ShowcaseSection = () => {
                 <p className="text-cyan-300 text-sm">{item.color}</p>
               </motion.div>
 
-              {/* Bottom Label */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-gray-800 p-4">
-                <h3 className="text-white text-xl font-bold mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-cyan-400 text-sm">{item.color}</p>
-              </div>
             </motion.div>
           ))}
         </div>

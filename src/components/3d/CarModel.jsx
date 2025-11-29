@@ -4,9 +4,6 @@ import { useGLTF } from "@react-three/drei";
 import { useCustomizationStore } from "../../store/customizationStore";
 import * as THREE from "three";
 
-// Set to true to see model structure in console
-const DEBUG_MODE = false;
-
 export const CarModel = ({ autoRotate = false }) => {
   const groupRef = useRef(null);
   const bodyColor = useCustomizationStore((state) => state.bodyColor);
@@ -29,11 +26,6 @@ export const CarModel = ({ autoRotate = false }) => {
     clonedScene.position.x = -center.x;
     clonedScene.position.y = -center.y;
     clonedScene.position.z = -center.z;
-    
-    if (DEBUG_MODE) {
-      console.log("📐 Model centered at:", center);
-      console.log("📦 Model size:", box.getSize(new THREE.Vector3()));
-    }
   }, [clonedScene]);
 
   useFrame((state, delta) => {
@@ -45,17 +37,6 @@ export const CarModel = ({ autoRotate = false }) => {
   // Apply color to car body meshes
   useEffect(() => {
     if (!clonedScene) return;
-
-    // Debug: Log model structure
-    if (DEBUG_MODE) {
-      console.group("🚗 VF3 Model Debug");
-      clonedScene.traverse((child) => {
-        if (child.isMesh) {
-          console.log("Mesh:", child.name, "| Material:", child.material?.name);
-        }
-      });
-      console.groupEnd();
-    }
 
     clonedScene.traverse((child) => {
       if (child.isMesh) {
@@ -157,10 +138,6 @@ export const CarModel = ({ autoRotate = false }) => {
             child.material.metalness = 0.8;
             child.material.roughness = 0.2;
             child.material.needsUpdate = true;
-
-            if (DEBUG_MODE) {
-              console.log("✅ Applied color to:", child.name);
-            }
           }
         }
         // If no specific body part name found, apply to materials without specific exclusions
