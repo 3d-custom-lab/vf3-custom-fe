@@ -1,6 +1,3 @@
-/**
- * Loading Spinner Component
- */
 export default function LoadingSpinner({ size = "md", className = "" }) {
   const sizes = {
     sm: "w-8 h-8",
@@ -14,3 +11,4 @@ export default function LoadingSpinner({ size = "md", className = "" }) {
     </div>
   );
 }
+ 
