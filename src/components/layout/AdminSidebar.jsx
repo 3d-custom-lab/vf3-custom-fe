@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, Warehouse, Car, Podcast, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, Warehouse, Car, Podcast, LogOut, X } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -17,7 +18,27 @@ export default function AdminSidebar() {
     }`;
 
   return (
-    <aside className="w-64 bg-[#265267] min-h-screen flex flex-col fixed left-0 top-0 bottom-0 z-40 shadow-lg">
+    <>
+      {/* Backdrop for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <aside className={`w-64 bg-[#265267] min-h-screen flex flex-col fixed left-0 top-0 bottom-0 z-50 shadow-lg transition-transform duration-300 lg:translate-x-0 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+      {/* Close button for mobile */}
+      <button
+        onClick={onClose}
+        className="lg:hidden absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+      >
+        <X size={24} />
+      </button>
+
       {/* User Profile Section */}
       <div className="pt-8 pb-6 px-6 flex flex-col items-center border-b border-white/10">
         <div className="w-20 h-20 rounded-full bg-white p-1 mb-3 overflow-hidden shadow-lg">
@@ -85,5 +106,6 @@ export default function AdminSidebar() {
         </button>
       </div>
     </aside>
+    </>
   );
 }

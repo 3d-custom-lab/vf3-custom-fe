@@ -26,6 +26,7 @@ function ManageUserPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -173,66 +174,66 @@ function ManageUserPage() {
 
   return (
     <div className="flex min-h-screen bg-[#cae3ed]">
-      <AdminSidebar />
-      <div className="flex-1 flex flex-col ml-64">
-        <AdminHeader />
-        <main className="flex-1 p-6">
+      <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <div className="flex-1 flex flex-col lg:ml-64">
+        <AdminHeader onMenuClick={() => setIsSidebarOpen(true)} />
+        <main className="flex-1 p-3 sm:p-4 md:p-6">
           {/* Overview Section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-slate-700 mb-4">
+          <div className="mb-4 md:mb-6">
+            <h3 className="text-base md:text-lg font-semibold text-slate-700 mb-3 md:mb-4">
               User Overview
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               {/* Cards giữ nguyên */}
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Users className="text-blue-600" size={24} />
+              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
+                    <Users className="text-blue-600" size={20} />
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">
+                  <div className="min-w-0">
+                    <p className="text-xl sm:text-2xl font-bold text-slate-800 truncate">
                       {stats.totalUsers}
                     </p>
-                    <p className="text-sm text-slate-500">Total Users</p>
+                    <p className="text-xs sm:text-sm text-slate-500">Total Users</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-                    <UserCheck className="text-emerald-600" size={24} />
+              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 rounded-lg flex items-center justify-center shrink-0">
+                    <UserCheck className="text-emerald-600" size={20} />
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">
+                  <div className="min-w-0">
+                    <p className="text-xl sm:text-2xl font-bold text-slate-800 truncate">
                       {stats.activeUsers}
                     </p>
-                    <p className="text-sm text-slate-500">Active Users</p>
+                    <p className="text-xs sm:text-sm text-slate-500">Active Users</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <UserPlus className="text-purple-600" size={24} />
+              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
+                    <UserPlus className="text-purple-600" size={20} />
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">
+                  <div className="min-w-0">
+                    <p className="text-xl sm:text-2xl font-bold text-slate-800 truncate">
                       {stats.newUsersToday}
                     </p>
-                    <p className="text-sm text-slate-500">New Today</p>
+                    <p className="text-xs sm:text-sm text-slate-500">New Today</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                    <UserX className="text-red-600" size={24} />
+              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-lg flex items-center justify-center shrink-0">
+                    <UserX className="text-red-600" size={20} />
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">
+                  <div className="min-w-0">
+                    <p className="text-xl sm:text-2xl font-bold text-slate-800 truncate">
                       {stats.bannedUsers}
                     </p>
-                    <p className="text-sm text-slate-500">Banned/Inactive</p>
+                    <p className="text-xs sm:text-sm text-slate-500">Banned/Inactive</p>
                   </div>
                 </div>
               </div>
@@ -241,28 +242,28 @@ function ManageUserPage() {
 
           {/* Users Table */}
           <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="px-6 py-5 border-b border-slate-200 bg-slate-50">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-200 bg-slate-50">
+              <div className="flex flex-col gap-4">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-800">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-800">
                     User Management
                   </h3>
-                  <p className="text-sm text-slate-500 mt-1">
+                  <p className="text-xs sm:text-sm text-slate-500 mt-1">
                     Manage user information and access rights
                   </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                   {/* Create User Button */}
                   <button
                     onClick={() => setIsCreateModalOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 cursor-pointer"
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-200 cursor-pointer text-sm"
                   >
                     <UserPlus size={18} />
-                    <span className="hidden sm:inline">Create User</span>
+                    <span>Create User</span>
                   </button>
 
                   {/* Status Filter */}
-                  <div className="relative">
+                  <div className="relative flex-1 sm:flex-initial">
                     <Filter
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
                       size={18}
@@ -270,7 +271,7 @@ function ManageUserPage() {
                     <select
                       value={statusFilter}
                       onChange={(e) => handleStatusFilterChange(e.target.value)}
-                      className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 text-sm font-medium focus:outline-none focus:border-blue-500 hover:border-slate-400 transition-colors cursor-pointer"
+                      className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 text-sm font-medium focus:outline-none focus:border-blue-500 hover:border-slate-400 transition-colors cursor-pointer"
                     >
                       <option value="ALL">All Statuses</option>
                       <option value="ACTIVE">Active</option>
@@ -281,17 +282,17 @@ function ManageUserPage() {
                   </div>
 
                   {/* Search Bar */}
-                  <div className="relative">
+                  <div className="relative flex-1">
                     <Search
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
                       size={18}
                     />
                     <input
                       type="text"
-                      placeholder="Tìm kiếm người dùng..."
+                      placeholder="Tìm kiếm..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 text-sm placeholder:text-slate-400 focus:outline-none focus:border-blue-500 hover:border-slate-400 transition-colors w-64"
+                      className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 text-sm placeholder:text-slate-400 focus:outline-none focus:border-blue-500 hover:border-slate-400 transition-colors"
                     />
                   </div>
                 </div>
@@ -299,31 +300,31 @@ function ManageUserPage() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[800px]">
                 <thead>
                   <tr className="bg-slate-100 border-b-2 border-slate-200">
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       ID
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       User
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Role
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Package
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider hidden lg:table-cell">
                       Created At
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider hidden xl:table-cell">
                       Updated At
                     </th>
-                    <th className="px-6 py-4 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-center text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -331,10 +332,10 @@ function ManageUserPage() {
                 <tbody className="bg-white divide-y divide-slate-100">
                   {loading ? (
                     <tr>
-                      <td colSpan="8" className="px-6 py-16 text-center">
+                      <td colSpan="8" className="px-4 sm:px-6 py-12 sm:py-16 text-center">
                         <div className="flex flex-col items-center justify-center">
                           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                          <span className="text-slate-600">
+                          <span className="text-sm sm:text-base text-slate-600">
                             Đang tải dữ liệu...
                           </span>
                         </div>
@@ -344,7 +345,7 @@ function ManageUserPage() {
                     <tr>
                       <td
                         colSpan="8"
-                        className="px-6 py-16 text-center text-slate-500"
+                        className="px-4 sm:px-6 py-12 sm:py-16 text-center text-sm sm:text-base text-slate-500"
                       >
                         {searchTerm
                           ? "Không tìm thấy người dùng phù hợp"
@@ -360,15 +361,15 @@ function ManageUserPage() {
                           key={user.id}
                           className="hover:bg-blue-50/50 transition-all duration-200 group"
                         >
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-sm font-bold text-slate-700 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
+                            <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-100 text-xs sm:text-sm font-bold text-slate-700 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
                               {user.id}
                             </span>
                           </td>
 
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 border border-slate-200 relative group/avatar">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4">
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 border border-slate-200 relative group/avatar">
                                 {user.avatar ? (
                                   <img
                                     src={user.avatar}
@@ -382,7 +383,7 @@ function ManageUserPage() {
                                   />
                                 ) : null}
                                 <div
-                                  className="w-full h-full flex items-center justify-center text-slate-500 font-bold text-sm bg-slate-200 absolute top-0 left-0"
+                                  className="w-full h-full flex items-center justify-center text-slate-500 font-bold text-xs sm:text-sm bg-slate-200 absolute top-0 left-0"
                                   style={{
                                     display: user.avatar ? "none" : "flex",
                                   }}
@@ -390,39 +391,40 @@ function ManageUserPage() {
                                   {safeName.charAt(0).toUpperCase()}
                                 </div>
                               </div>
-                              <div>
-                                <div className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
+                              <div className="min-w-0">
+                                <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors truncate">
                                   {safeName}
                                 </div>
-                                <div className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                                  <Mail size={10} /> {safeEmail}
+                                <div className="text-[10px] sm:text-xs text-slate-500 flex items-center gap-1 mt-0.5 truncate">
+                                  <Mail size={10} className="shrink-0" /> <span className="truncate">{safeEmail}</span>
                                 </div>
                                 {/* Hiển thị Gender ở đây */}
-                                <div className="text-[10px] text-slate-400 font-medium mt-0.5">
+                                <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-0.5">
                                   {user.gender || "N/A"}
                                 </div>
                               </div>
                             </div>
                           </td>
 
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                             {/* Cập nhật: user.type thay vì user.role */}
                             <span
-                              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTypeBadgeColor(
+                              className={`inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold border ${getTypeBadgeColor(
                                 user.type
                               )}`}
                             >
-                              <Shield size={12} />
-                              {user.type}
+                              <Shield size={10} className="sm:w-3 sm:h-3" />
+                              <span className="hidden sm:inline">{user.type}</span>
+                              <span className="sm:hidden">{user.type?.slice(0, 3)}</span>
                             </span>
                           </td>
 
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                             {/* Cập nhật: Hiển thị Payment Type thay vì Phone */}
-                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                            <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-slate-600">
                               <CreditCard
-                                size={14}
-                                className="text-slate-400"
+                                size={12}
+                                className="text-slate-400 sm:w-3.5 sm:h-3.5 shrink-0"
                               />
                               <span className="font-medium">
                                 {user.paymentType || "FREE"}
@@ -430,14 +432,14 @@ function ManageUserPage() {
                             </div>
                           </td>
 
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                             <span
-                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(
+                              className={`inline-flex items-center px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold border ${getStatusColor(
                                 user.status
                               )}`}
                             >
                               <span
-                                className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
+                                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full mr-1 sm:mr-1.5 ${
                                   normalizeStatus(user.status) === "active"
                                     ? "bg-emerald-500"
                                     : normalizeStatus(user.status) === "pending"
@@ -449,12 +451,12 @@ function ManageUserPage() {
                             </span>
                           </td>
 
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs sm:text-sm text-slate-600 hidden lg:table-cell">
                             <div className="flex flex-col">
                               <span className="font-medium">
                                 {formatDate(user.createdAt, "short")}
                               </span>
-                              <span className="text-xs text-slate-400">
+                              <span className="text-[10px] sm:text-xs text-slate-400">
                                 {
                                   formatDate(user.createdAt, "time").split(
                                     " "
@@ -464,12 +466,12 @@ function ManageUserPage() {
                             </div>
                           </td>
 
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs sm:text-sm text-slate-600 hidden xl:table-cell">
                             <div className="flex flex-col">
                               <span className="font-medium">
                                 {formatDate(user.updatedAt, "short")}
                               </span>
-                              <span className="text-xs text-slate-400">
+                              <span className="text-[10px] sm:text-xs text-slate-400">
                                 {
                                   formatDate(user.updatedAt, "time").split(
                                     " "
@@ -479,20 +481,20 @@ function ManageUserPage() {
                             </div>
                           </td>
 
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center justify-center gap-2">
+                          <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
+                            <div className="flex items-center justify-center gap-1 sm:gap-2">
                               <button
-                                className="group/btn p-2 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md cursor-pointer"
+                                className="group/btn p-1.5 sm:p-2 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                                 title="View Details"
                               >
-                                <Eye className="w-4 h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
+                                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
                               </button>
                               <button
                                 onClick={() => handleDeleteUser(user)}
-                                className="group/btn p-2 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md cursor-pointer"
+                                className="group/btn p-1.5 sm:p-2 rounded-lg bg-red-50 hover:bg-red-500 border border-red-200 hover:border-red-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                                 title="Delete User"
                               >
-                                <Trash2 className="w-4 h-4 text-red-600 group-hover/btn:text-white transition-colors" />
+                                <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 group-hover/btn:text-white transition-colors" />
                               </button>
                             </div>
                           </td>
@@ -504,9 +506,9 @@ function ManageUserPage() {
               </table>
             </div>
             {/* Pagination - Cập nhật với dữ liệu thực từ API */}
-            <div className="px-6 py-4 border-t-2 border-slate-200 bg-slate-50 flex items-center justify-between rounded-b-xl">
-              <div className="flex items-center gap-4">
-                <div className="text-sm text-slate-600">
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-t-2 border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 rounded-b-xl">
+              <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                <div className="text-xs sm:text-sm text-slate-600 text-center sm:text-left">
                   Hiển thị{" "}
                   <span className="font-bold text-slate-900">
                     {filteredUsers.length}
@@ -523,7 +525,7 @@ function ManageUserPage() {
                     setPageSize(Number(e.target.value));
                     setCurrentPage(0);
                   }}
-                  className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                  className="text-xs sm:text-sm border border-slate-300 rounded-lg px-2 sm:px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer w-full sm:w-auto"
                 >
                   <option value="10">10 / trang</option>
                   <option value="15">15 / trang</option>
@@ -532,14 +534,14 @@ function ManageUserPage() {
                 </select>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center">
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 0}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
+                  className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
                 >
-                  <ChevronLeft size={16} />
-                  Trước
+                  <ChevronLeft size={14} className="sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Trước</span>
                 </button>
 
                 {/* Page numbers */}
@@ -560,7 +562,7 @@ function ManageUserPage() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all cursor-pointer ${
+                        className={`px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all cursor-pointer ${
                           currentPage === pageNum
                             ? "bg-blue-600 text-white shadow-md"
                             : "text-slate-600 hover:bg-white border border-slate-300"
@@ -575,10 +577,10 @@ function ManageUserPage() {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage >= totalPages - 1}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
+                  className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-600 hover:bg-white border border-slate-300 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
                 >
-                  Sau
-                  <ChevronRight size={16} />
+                  <span className="hidden sm:inline">Sau</span>
+                  <ChevronRight size={14} className="sm:w-4 sm:h-4" />
                 </button>
               </div>
             </div>
