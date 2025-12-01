@@ -144,38 +144,38 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
       />
 
       {/* Modal Container */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto pointer-events-none">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto pointer-events-none">
         <div
-          className={`pointer-events-auto bg-white rounded-2xl shadow-xl w-full max-w-2xl border border-slate-100 transform transition-all duration-300 ${
+          className={`pointer-events-auto bg-white rounded-xl sm:rounded-2xl shadow-xl w-full max-w-2xl border border-slate-100 transform transition-all duration-300 my-4 sm:my-8 ${
             isOpen ? "animate-modal-enter" : "opacity-0 scale-95 translate-y-4"
           }`}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-100">
-                <UserPlus className="w-6 h-6 text-indigo-600" />
+          <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 border-b border-slate-100">
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-100 shrink-0">
+                <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-slate-800">
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg sm:text-xl font-bold text-slate-800 truncate">
                   New Customer
                 </h2>
-                <p className="text-slate-500 text-sm">
+                <p className="text-slate-500 text-xs sm:text-sm truncate">
                   Enter the details to register a new account.
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0 ml-2"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Form Body */}
-          <form onSubmit={handleSubmit} className="p-8 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 max-h-[70vh] sm:max-h-[calc(100vh-200px)] overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Name Field */}
               <div className="space-y-2 col-span-2 md:col-span-1">
                 <label className="text-sm font-semibold text-slate-700">
@@ -345,29 +345,29 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
             </div>
 
             {/* Footer Actions */}
-            <div className="pt-2 flex gap-3">
+            <div className="pt-2 flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="flex-1 py-3 px-4 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 disabled:opacity-50 cursor-pointer"
+                className="flex-1 py-2.5 sm:py-3 px-4 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 disabled:opacity-50 cursor-pointer text-sm sm:text-base"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md shadow-indigo-200 hover:shadow-lg hover:shadow-indigo-200 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer transform active:scale-[0.98]"
+                className="flex-1 py-2.5 sm:py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md shadow-indigo-200 hover:shadow-lg hover:shadow-indigo-200 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer transform active:scale-[0.98] text-sm sm:text-base"
               >
                 {loading ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Processing...
+                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                    <span>Processing...</span>
                   </>
                 ) : (
                   <>
-                    <UserPlus className="w-5 h-5" />
-                    Create Account
+                    <UserPlus className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span>Create Account</span>
                   </>
                 )}
               </button>

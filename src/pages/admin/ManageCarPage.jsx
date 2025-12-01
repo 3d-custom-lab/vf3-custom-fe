@@ -11,15 +11,17 @@ import AdminSidebar from "../../components/layout/AdminSidebar";
 import { useToast } from "../../hooks/useToast";
 
 function ManageCarPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen bg-slate-50">
       {/* Sidebar */}
-      <AdminSidebar />
+      <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col ml-64">
+      <div className="flex-1 flex flex-col lg:ml-64">
         {/* Header */}
-        <AdminHeader />
+        <AdminHeader onMenuClick={() => setIsSidebarOpen(true)} />
       </div>
     </div>
   );
