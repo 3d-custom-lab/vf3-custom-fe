@@ -237,12 +237,6 @@ export default function ProfilePage() {
                     <Key size={18} />
                     <span>Change Password</span>
                   </button>
-                  <a
-                    href="https://vt.tiktok.com/ZSHTVoa7GyHK9-1COnD/"
-                    className="col-span-2 flex items-center justify-center gap-2 py-3 bg-amber-500 hover:bg-amber-400 text-white rounded-xl font-semibold shadow-lg shadow-amber-500/20"
-                  >
-                    Test affiliate link
-                  </a>
                 </div>
               </div>
 
@@ -335,12 +329,6 @@ export default function ProfilePage() {
                   <Key size={18} />
                   Change Password
                 </button>
-                <a
-                  href="https://vt.tiktok.com/ZSHTVoa7GyHK9-1COnD/"
-                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-amber-500 hover:bg-amber-400 text-white rounded-xl font-semibold shadow-lg shadow-amber-500/20"
-                >
-                  Test affiliate link
-                </a>
               </div>
             </div>
           </div>

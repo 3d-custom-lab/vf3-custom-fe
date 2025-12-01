@@ -1,41 +1,43 @@
 import { create } from "zustand";
 
 const initialState = {
-  bodyColor: "#1E40AF",
-  wheels: "sport",
-  mirrors: "standard",
-  headlights: "led",
-  accessories: [],
+  bodyColor: "#1E40AF", // Màu thân xe
+  selectedWheel: "wheel-1", // ID của vành được chọn
+  selectedGrille: "grille-1", // ID của ca-lăng được chọn
+  selectedRoof: "roof-standard", // ID của nóc được chọn
+  selectedChassis: "chassis-standard", // ID của bệ chân được chọn
 };
 
 export const useCustomizationStore = create((set, get) => ({
   ...initialState,
 
+  // Thay đổi màu thân xe
   setBodyColor: (color) => set({ bodyColor: color }),
 
-  setWheels: (wheels) => set({ wheels }),
+  // Chọn vành xe
+  setSelectedWheel: (wheelId) => set({ selectedWheel: wheelId }),
 
-  setMirrors: (mirrors) => set({ mirrors }),
+  // Chọn ca-lăng
+  setSelectedGrille: (grilleId) => set({ selectedGrille: grilleId }),
 
-  setHeadlights: (headlights) => set({ headlights }),
+  // Chọn nóc xe
+  setSelectedRoof: (roofId) => set({ selectedRoof: roofId }),
 
-  toggleAccessory: (accessory) =>
-    set((state) => ({
-      accessories: state.accessories.includes(accessory)
-        ? state.accessories.filter((a) => a !== accessory)
-        : [...state.accessories, accessory],
-    })),
+  // Chọn bệ chân
+  setSelectedChassis: (chassisId) => set({ selectedChassis: chassisId }),
 
+  // Đặt lại tất cả về mặc định
   resetCustomization: () => set(initialState),
 
+  // Lấy tất cả thông tin customization hiện tại
   getAllCustomization: () => {
     const state = get();
     return {
       bodyColor: state.bodyColor,
-      wheels: state.wheels,
-      mirrors: state.mirrors,
-      headlights: state.headlights,
-      accessories: state.accessories,
+      selectedWheel: state.selectedWheel,
+      selectedGrille: state.selectedGrille,
+      selectedRoof: state.selectedRoof,
+      selectedChassis: state.selectedChassis,
     };
   },
 }));
