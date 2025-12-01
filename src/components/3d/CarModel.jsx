@@ -2,13 +2,21 @@ import { useRef, useEffect, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { useCustomizationStore } from "../../store/customizationStore";
+import { CAR_PARTS } from "../../utils/constants";
+import { ModelPart } from "./ModelPart";
 import * as THREE from "three";
 
 export const CarModel = ({ autoRotate = false }) => {
   const groupRef = useRef(null);
+  
+  // Lấy customization state từ store
   const bodyColor = useCustomizationStore((state) => state.bodyColor);
+  const selectedWheel = useCustomizationStore((state) => state.selectedWheel);
+  const selectedGrille = useCustomizationStore((state) => state.selectedGrille);
+  const selectedRoof = useCustomizationStore((state) => state.selectedRoof);
+  const selectedChassis = useCustomizationStore((state) => state.selectedChassis);
 
-  // Load VF3.glb model
+  // Load model xe chính VF3.glb
   const { scene } = useGLTF("/model/VF3.glb");
 
   // Clone scene để tránh conflicts khi re-render
@@ -28,6 +36,7 @@ export const CarModel = ({ autoRotate = false }) => {
     clonedScene.position.z = -center.z;
   }, [clonedScene]);
 
+  // Auto rotate animation
   useFrame((state, delta) => {
     if (groupRef.current && autoRotate) {
       groupRef.current.rotation.y += delta * 0.3;
@@ -44,149 +53,108 @@ export const CarModel = ({ autoRotate = false }) => {
         child.castShadow = true;
         child.receiveShadow = true;
 
-        // Apply color to car body parts (excluding wheels, lights, windows, etc.)
-        // Common naming conventions for car body parts in 3D models
-        const bodyPartNames = [
-          "body",
-          "Body",
-          "BODY",
-          "paint",
-          "Paint",
-          "PAINT",
-          "shell",
-          "Shell",
-          "SHELL",
-          "exterior",
-          "Exterior",
-          "EXTERIOR",
-          "hood",
-          "Hood",
-          "HOOD",
-          "door",
-          "Door",
-          "DOOR",
-          "roof",
-          "Roof",
-          "ROOF",
-          "fender",
-          "Fender",
-          "FENDER",
-          "bumper",
-          "Bumper",
-          "BUMPER",
-          "panel",
-          "Panel",
-          "PANEL",
-          "chassis",
-          "Chassis",
-          "CHASSIS",
-          "trunk",
-          "Trunk",
-          "TRUNK",
-          "quarter",
-          "Quarter",
-          "QUARTER",
-        ];
-
-        // Exclude these parts from color application
-        const excludePartNames = [
-          "wheel",
-          "Wheel",
-          "WHEEL",
-          "tire",
-          "Tire",
-          "TIRE",
-          "glass",
-          "Glass",
-          "GLASS",
-          "window",
-          "Window",
-          "WINDOW",
-          "light",
-          "Light",
-          "LIGHT",
-          "lamp",
-          "Lamp",
-          "LAMP",
-          "chrome",
-          "Chrome",
-          "CHROME",
-          "grill",
-          "Grill",
-          "GRILL",
-          "mirror",
-          "Mirror",
-          "MIRROR",
-        ];
-
-        // Check if mesh name contains any body part keywords
-        const isBodyPart = bodyPartNames.some((name) =>
-          child.name?.toLowerCase().includes(name.toLowerCase())
-        );
-
-        // Check if mesh should be excluded
-        const isExcluded = excludePartNames.some((name) =>
-          child.name?.toLowerCase().includes(name.toLowerCase())
-        );
-
-        // Apply color to body parts that are not excluded
-        if (isBodyPart && !isExcluded) {
-          if (child.material) {
-            // Clone material để không ảnh hưởng đến các instance khác
-            child.material = child.material.clone();
-            child.material.color = new THREE.Color(bodyColor);
-            child.material.metalness = 0.8;
-            child.material.roughness = 0.2;
-            child.material.needsUpdate = true;
-          }
-        }
-        // If no specific body part name found, apply to materials without specific exclusions
-        else if (!isExcluded && child.material) {
+        if (child.material) {
+          // Clone material để không ảnh hưởng đến các instance khác
           child.material = child.material.clone();
 
           // Check if it's a window/glass material
           if (
             child.name?.toLowerCase().includes("glass") ||
-            child.name?.toLowerCase().includes("window")
+            child.name?.toLowerCase().includes("window") ||
+            child.name?.toLowerCase().includes("kinh")
           ) {
             child.material.transparent = true;
             child.material.opacity = 0.3;
             child.material.metalness = 0.1;
             child.material.roughness = 0.05;
-          } else if (
+          } 
+          // Wheel materials - dark with high metalness
+          else if (
             child.name?.toLowerCase().includes("wheel") ||
-            child.name?.toLowerCase().includes("tire")
+            child.name?.toLowerCase().includes("tire") ||
+            child.name?.toLowerCase().includes("banh") ||
+            child.name?.toLowerCase().includes("lop")
           ) {
-            // Wheel materials - dark with high metalness
             child.material.color = new THREE.Color("#1a1a1a");
             child.material.metalness = 0.9;
             child.material.roughness = 0.1;
-          } else if (
+          } 
+          // Light materials - emissive
+          else if (
             child.name?.toLowerCase().includes("light") ||
-            child.name?.toLowerCase().includes("lamp")
+            child.name?.toLowerCase().includes("lamp") ||
+            child.name?.toLowerCase().includes("den")
           ) {
-            // Light materials - emissive
             child.material.emissive = new THREE.Color(0xffffaa);
             child.material.emissiveIntensity = 0.5;
           }
-          // Apply body color to meshes without specific names (main body)
-          else if (!child.name || child.name === "") {
+          // Apply body color to car body parts
+          else {
             child.material.color = new THREE.Color(bodyColor);
             child.material.metalness = 0.8;
             child.material.roughness = 0.2;
-            child.material.needsUpdate = true;
           }
+          
+          child.material.needsUpdate = true;
         }
       }
     });
   }, [clonedScene, bodyColor]);
 
+  // Tìm thông tin bộ phận được chọn
+  const selectedWheelData = CAR_PARTS.WHEELS.find(w => w.id === selectedWheel);
+  const selectedGrilleData = CAR_PARTS.GRILLES.find(g => g.id === selectedGrille);
+  const selectedRoofData = CAR_PARTS.ROOFS.find(r => r.id === selectedRoof);
+  const selectedChassisData = CAR_PARTS.CHASSIS.find(c => c.id === selectedChassis);
+
   return (
     <group ref={groupRef} position={[0, -0.6, 0]} dispose={null}>
+      {/* Model xe chính */}
       <primitive object={clonedScene} scale={2.5} position={[0, 0, 0]} />
+      
+      {/* Vành xe */}
+      {selectedWheelData?.modelPath && (
+        <ModelPart
+          modelPath={selectedWheelData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
+
+      {/* Ca-lăng */}
+      {selectedGrilleData?.modelPath && (
+        <ModelPart
+          modelPath={selectedGrilleData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
+
+      {/* Nóc xe */}
+      {selectedRoofData?.modelPath && (
+        <ModelPart
+          modelPath={selectedRoofData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
+
+      {/* Bệ chân */}
+      {selectedChassisData?.modelPath && (
+        <ModelPart
+          modelPath={selectedChassisData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
     </group>
   );
 };
 
-// Preload model for better performance
+// Preload model cho performance tốt hơn
 useGLTF.preload("/model/VF3.glb");
+

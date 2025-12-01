@@ -3,17 +3,13 @@ import { Save, RotateCcw, Settings2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
 import { ColorPicker } from "../../components/ui/ColorPicker";
+import { PartSelector } from "../../components/ui/PartSelector";
 import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
 import { Textarea } from "../../components/ui/Textarea";
 import Header from "../../components/layout/Header";
 import { useCustomizationStore } from "../../store/customizationStore";
-import {
-  WHEEL_OPTIONS,
-  MIRROR_OPTIONS,
-  HEADLIGHT_OPTIONS,
-  ACCESSORY_OPTIONS,
-} from "../../utils/constants";
+import { CAR_PARTS } from "../../utils/constants";
 
 export const Studio = () => {
   const [isSaving, setIsSaving] = useState(false);
@@ -25,15 +21,15 @@ export const Studio = () => {
 
   const {
     bodyColor,
-    wheels,
-    mirrors,
-    headlights,
-    accessories,
+    selectedWheel,
+    selectedGrille,
+    selectedRoof,
+    selectedChassis,
     setBodyColor,
-    setWheels,
-    setMirrors,
-    setHeadlights,
-    toggleAccessory,
+    setSelectedWheel,
+    setSelectedGrille,
+    setSelectedRoof,
+    setSelectedChassis,
     resetCustomization,
   } = useCustomizationStore();
 
@@ -60,10 +56,10 @@ export const Studio = () => {
 
   const tabs = [
     { id: "color", label: "Màu sắc", icon: "🎨" },
-    { id: "wheels", label: "Bánh xe", icon: "⚙️" },
-    { id: "mirrors", label: "Gương", icon: "🪞" },
-    { id: "lights", label: "Đèn", icon: "💡" },
-    { id: "accessories", label: "Phụ kiện", icon: "✨" },
+    { id: "wheels", label: "Vành xe", icon: "⚙️" },
+    { id: "grilles", label: "Ca-lăng", icon: "🔲" },
+    { id: "roofs", label: "Nóc xe", icon: "🏔️" },
+    { id: "chassis", label: "Bệ chân", icon: "🛡️" },
   ];
 
   return (
@@ -80,208 +76,173 @@ export const Studio = () => {
               Studio 3D tùy chỉnh xe
             </h1>
             <p className="text-slate-600 dark:text-slate-300">
-              Thiết kế chiếc VF3 độc đáo của riêng bạn
+              Thiết kế chiếc VF3 độc đáo của riêng bạn với các bộ phận thực tế
             </p>
           </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* 3D Canvas */}
-          <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden"
-            >
-              <div
-                ref={canvasRef}
-                className="w-full h-[600px] bg-linear-to-b from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800"
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* 3D Canvas */}
+            <div className="lg:col-span-2">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden"
               >
-                <Scene autoRotate={false} enableControls={true} />
-              </div>
-
-              <div className="p-6 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
-                <div className="flex flex-wrap gap-3">
-                  <button
-                    onClick={() => setShowSaveModal(true)}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
-                  >
-                    <Save className="w-5 h-5" /> Lưu thiết kế
-                  </button>
-                  <button
-                    onClick={resetCustomization}
-                    className="px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-300 rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
-                  >
-                    <RotateCcw className="w-5 h-5" /> Đặt lại
-                  </button>
+                <div
+                  ref={canvasRef}
+                  className="w-full h-[600px] bg-linear-to-b from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800"
+                >
+                  <Scene autoRotate={false} enableControls={true} />
                 </div>
-              </div>
-            </motion.div>
-          </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden sticky top-24"
-            >
-              {/* Header */}
-              <div className="p-6 border-b border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-2 text-slate-800 dark:text-white">
-                  <Settings2 className="w-6 h-6" />
-                  <h2 className="text-xl font-bold">Tùy chỉnh</h2>
+                <div className="p-6 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      onClick={() => setShowSaveModal(true)}
+                      className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                    >
+                      <Save className="w-5 h-5" /> Lưu thiết kế
+                    </button>
+                    <button
+                      onClick={resetCustomization}
+                      className="px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-300 rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                    >
+                      <RotateCcw className="w-5 h-5" /> Đặt lại
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
+            </div>
 
-              {/* Tabs */}
-              <div className="flex overflow-x-auto border-b border-slate-200 dark:border-slate-700">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 min-w-20 px-4 py-3 text-sm font-medium transition-colors ${
-                      activeTab === tab.id
-                        ? "bg-blue-600 text-white"
-                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
-                    }`}
-                  >
-                    <div className="text-xl mb-1">{tab.icon}</div>
-                    <div className="text-xs">{tab.label}</div>
-                  </button>
-                ))}
-              </div>
-
-              {/* Tab Content */}
-              <div className="p-6 max-h-[600px] overflow-y-auto">
-                {activeTab === "color" && (
-                  <ColorPicker value={bodyColor} onChange={setBodyColor} />
-                )}
-
-                {activeTab === "wheels" && (
-                  <div className="space-y-3">
-                    {WHEEL_OPTIONS.map((option) => (
-                      <motion.button
-                        key={option.id}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setWheels(option.id)}
-                        className={`w-full p-4 rounded-xl text-left transition-all ${
-                          wheels === option.id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600"
-                        }`}
-                      >
-                        <div className="font-semibold mb-1">{option.name}</div>
-                        <div className="text-sm opacity-80">
-                          {option.description}
-                        </div>
-                      </motion.button>
-                    ))}
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden sticky top-24"
+              >
+                {/* Header */}
+                <div className="p-6 border-b border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-2 text-slate-800 dark:text-white">
+                    <Settings2 className="w-6 h-6" />
+                    <h2 className="text-xl font-bold">Tùy chỉnh bộ phận</h2>
                   </div>
-                )}
+                </div>
 
-                {activeTab === "mirrors" && (
-                  <div className="space-y-3">
-                    {MIRROR_OPTIONS.map((option) => (
-                      <motion.button
-                        key={option.id}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setMirrors(option.id)}
-                        className={`w-full p-4 rounded-xl text-left transition-all ${
-                          mirrors === option.id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600"
-                        }`}
-                      >
-                        <div className="font-semibold mb-1">{option.name}</div>
-                        <div className="text-sm opacity-80">
-                          {option.description}
-                        </div>
-                      </motion.button>
-                    ))}
-                  </div>
-                )}
+                {/* Tabs */}
+                <div className="flex overflow-x-auto border-b border-slate-200 dark:border-slate-700">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex-1 min-w-20 px-4 py-3 text-sm font-medium transition-colors ${
+                        activeTab === tab.id
+                          ? "bg-blue-600 text-white"
+                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
+                      }`}
+                    >
+                      <div className="text-xl mb-1">{tab.icon}</div>
+                      <div className="text-xs">{tab.label}</div>
+                    </button>
+                  ))}
+                </div>
 
-                {activeTab === "lights" && (
-                  <div className="space-y-3">
-                    {HEADLIGHT_OPTIONS.map((option) => (
-                      <motion.button
-                        key={option.id}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setHeadlights(option.id)}
-                        className={`w-full p-4 rounded-xl text-left transition-all ${
-                          headlights === option.id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600"
-                        }`}
-                      >
-                        <div className="font-semibold mb-1">{option.name}</div>
-                        <div className="text-sm opacity-80">
-                          {option.description}
-                        </div>
-                      </motion.button>
-                    ))}
-                  </div>
-                )}
+                {/* Tab Content */}
+                <div className="p-6 max-h-[600px] overflow-y-auto">
+                  {activeTab === "color" && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                        Chọn màu thân xe
+                      </h3>
+                      <ColorPicker value={bodyColor} onChange={setBodyColor} />
+                    </div>
+                  )}
 
-                {activeTab === "accessories" && (
-                  <div className="space-y-3">
-                    {ACCESSORY_OPTIONS.map((option) => (
-                      <motion.button
-                        key={option.id}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => toggleAccessory(option.id)}
-                        className={`w-full p-4 rounded-xl text-left transition-all ${
-                          accessories.includes(option.id)
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600"
-                        }`}
-                      >
-                        <div className="font-semibold mb-1">{option.name}</div>
-                        <div className="text-sm opacity-80">
-                          {option.description}
-                        </div>
-                      </motion.button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </motion.div>
+                  {activeTab === "wheels" && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                        Chọn vành xe
+                      </h3>
+                      <PartSelector
+                        parts={CAR_PARTS.WHEELS}
+                        selectedId={selectedWheel}
+                        onSelect={setSelectedWheel}
+                      />
+                    </div>
+                  )}
+
+                  {activeTab === "grilles" && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                        Chọn ca-lăng
+                      </h3>
+                      <PartSelector
+                        parts={CAR_PARTS.GRILLES}
+                        selectedId={selectedGrille}
+                        onSelect={setSelectedGrille}
+                      />
+                    </div>
+                  )}
+
+                  {activeTab === "roofs" && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                        Chọn phụ kiện nóc
+                      </h3>
+                      <PartSelector
+                        parts={CAR_PARTS.ROOFS}
+                        selectedId={selectedRoof}
+                        onSelect={setSelectedRoof}
+                      />
+                    </div>
+                  )}
+
+                  {activeTab === "chassis" && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                        Chọn bệ chân
+                      </h3>
+                      <PartSelector
+                        parts={CAR_PARTS.CHASSIS}
+                        selectedId={selectedChassis}
+                        onSelect={setSelectedChassis}
+                      />
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </div>
           </div>
-        </div>
 
-        {/* Save Modal */}
-        <Modal
-          isOpen={showSaveModal}
-          onClose={() => setShowSaveModal(false)}
-          title="Lưu thiết kế"
-        >
-          <div className="space-y-4">
-            <Input
-              label="Tên thiết kế *"
-              placeholder="VD: VF3 Blue Dream"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <Textarea
-              label="Mô tả"
-              placeholder="Chia sẻ về thiết kế của bạn..."
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <button
-              className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-              onClick={handleSave}
-              disabled={isSaving}
-            >
-              {isSaving ? "Đang lưu..." : "Lưu và chia sẻ"}
-            </button>
-          </div>
-        </Modal>
+          {/* Save Modal */}
+          <Modal
+            isOpen={showSaveModal}
+            onClose={() => setShowSaveModal(false)}
+            title="Lưu thiết kế"
+          >
+            <div className="space-y-4">
+              <Input
+                label="Tên thiết kế *"
+                placeholder="VD: VF3 Blue Dream"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <Textarea
+                label="Mô tả"
+                placeholder="Chia sẻ về thiết kế của bạn..."
+                rows={4}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <button
+                className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                onClick={handleSave}
+                disabled={isSaving}
+              >
+                {isSaving ? "Đang lưu..." : "Lưu và chia sẻ"}
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
     </>
