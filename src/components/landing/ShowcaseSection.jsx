@@ -3,41 +3,41 @@ import { useRef } from "react";
 
 const showcaseItems = [
   {
-    title: "Hello Kitty",
-    color: "Khắc Trung oto",
-    image:
-      "/img/products/_Bé Hường_ HelloKitty (Khắc Trung ôtô).webp",
-  },
-  {
-    title: "Bodykit hầm hố",
-    color: "ZKAR",
-    image:
-      "/img/products/Bodykit hầm hố ( ZKAR).webp",
-  },
-  {
-    title: "Full hồng",
-    color: "MMK auto",
-    image:
-      "/img/products/Full hồng (MMK auto).webp",
-  },
-  {
     title: "Off-road",
     color: "pazo design",
     image:
-      "/img/products/Off-road (pazo design).webp",
+    "/img/products/Off-road (pazo design).webp",
   },
   {
     title: "Tiểu Defender",
     color: "Xuân Hoàn Mastercare",
     image:
-      "/img/products/Tiểu Defender (Xuân Hoàn Mastercare).webp",
+    "/img/products/Tiểu Defender (Xuân Hoàn Mastercare).webp",
   },
   {
     title: "Tiểu G63",
     color: "phamvinh auto",
     image:
-      "/img/products/Tiểu G63 ( phamvinh auto).webp",
+    "/img/products/Tiểu G63 ( phamvinh auto).webp",
   },
+  {
+    title: "Bodykit hầm hố",
+    color: "ZKAR",
+    image:
+    "/img/products/Bodykit hầm hố ( ZKAR).webp",
+  },
+  {
+    title: "Full hồng",
+    color: "MMK auto",
+    image:
+    "/img/products/Full hồng (MMK auto).webp",
+  },
+  {
+    title: "Hello Kitty",
+    color: "Khắc Trung oto",
+    image:
+      "/img/products/Bé Hường Hello Kitty (Khắc Trung o tô).webp",
+  }
 ];
 
 const ShowcaseSection = () => {

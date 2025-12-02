@@ -10,10 +10,63 @@ export const PRESET_COLORS = [
   { name: "Royal Purple", value: "#7C3AED" },
 ];
 
-// Cấu hình các bộ phận xe VF3
+// Các bộ phận cơ bản của xe (không thể thay đổi)
+export const BASE_CAR_PARTS = [
+  {
+    id: "body",
+    name: "Thân xe",
+    modelPath: "/model/base_car/Thân xe.glb",
+    applyBodyColor: true, // Cho phép thay đổi màu
+  },
+  {
+    id: "front-lights",
+    name: "Cụm đèn trước",
+    modelPath: "/model/base_car/Cụm đèn trước gốc.glb",
+    applyBodyColor: false,
+  },
+  {
+    id: "rear-lights",
+    name: "Cụm đèn sau",
+    modelPath: "/model/base_car/Cụm đèn sau gốc.glb",
+    applyBodyColor: false,
+  },
+  {
+    id: "front-chrome",
+    name: "Crom trước",
+    modelPath: "/model/base_car/Crom trước gốc.glb",
+    applyBodyColor: false,
+  },
+  {
+    id: "rear-chrome",
+    name: "Crom sau",
+    modelPath: "/model/base_car/Crom sau gốc.glb",
+    applyBodyColor: false,
+  },
+  {
+    id: "mirrors",
+    name: "Gương",
+    modelPath: "/model/base_car/Gương gốc.glb",
+    applyBodyColor: false,
+  },
+  {
+    id: "default-wheels",
+    name: "Bánh gốc",
+    modelPath: "/model/base_car/Bánh gốc.glb",
+    applyBodyColor: false,
+  },
+];
+
+// Cấu hình các bộ phận xe VF3 có thể tùy chỉnh
 export const CAR_PARTS = {
   // Vành xe
   WHEELS: [
+    {
+      id: "wheel-default",
+      name: "Bánh gốc",
+      description: "Bánh xe tiêu chuẩn",
+      modelPath: null, // Sử dụng bánh gốc từ base_car
+      thumbnail: "/model/base_car/Bánh gốc.glb",
+    },
     {
       id: "wheel-1",
       name: "Vành 1",
