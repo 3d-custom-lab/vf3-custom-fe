@@ -14,6 +14,8 @@ import { CAR_PARTS } from "../../utils/constants";
 
 const PART_LABELS = {
   body: "thân xe",
+  roof: "nóc xe",
+  "body-plastic": "nhựa thân",
   mirrors: "gương",
   "front-chrome": "crom trước",
   "rear-chrome": "crom sau",

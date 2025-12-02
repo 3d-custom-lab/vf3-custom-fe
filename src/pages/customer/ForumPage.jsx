@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Sparkles, Rocket } from "lucide-react";
 import CreatePost from "../../components/forum/CreatePost";
 import PostList from "../../components/forum/PostList";
 import Header from "../../components/layout/Header";
@@ -124,8 +125,8 @@ function ForumPage() {
                       Welcome to Car Forum!
                     </span>
                   </h1>
-                  <p className="text-slate-300 text-lg font-medium">
-                    Share your thoughts and connect with the community ✨
+                  <p className="text-slate-300 text-lg font-medium inline-flex items-center gap-2">
+                    Share your thoughts and connect with the community <Sparkles className="w-5 h-5" />
                   </p>
                 </div>
               </div>
@@ -217,7 +218,7 @@ function ForumPage() {
                 >
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                   <span className="relative flex items-center gap-2">
-                    🚀 Login Now
+                    <Rocket className="w-5 h-5" /> Login Now
                   </span>
                 </a>
               </div>

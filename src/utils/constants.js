@@ -12,14 +12,36 @@ export const PRESET_COLORS = [
 ];
 
 // Các bộ phận xe có thể đổi màu
-export const COLORABLE_PARTS = ["body", "mirrors", "front-chrome", "rear-chrome"];
+export const COLORABLE_PARTS = ["body", "roof", "body-plastic", "mirrors", "front-chrome", "rear-chrome"];
 
 // Các bộ phận cơ bản của xe (không thể thay đổi)
 export const BASE_CAR_PARTS = [
+  // Thân xe - Phần 1: Thân chính (có thể đổi màu)
   {
     id: "body",
-    name: "Thân xe",
-    modelPath: "/model/base_car/Thân xe.glb",
+    name: "Thân xe chính",
+    modelPath: "/model/base_car/Thân xe/Thân.glb",
+    applyBodyColor: true,
+  },
+  // Thân xe - Phần 2: Thân cố định (không đổi màu)
+  {
+    id: "body-fixed",
+    name: "Thân xe cố định",
+    modelPath: "/model/base_car/Thân xe/Thân ko đổi màu.glb",
+    applyBodyColor: false,
+  },
+  // Thân xe - Phần 3: Nóc xe (có thể đổi màu)
+  {
+    id: "body-roof",
+    name: "Nóc thân xe",
+    modelPath: "/model/base_car/Thân xe/Nóc.glb",
+    applyBodyColor: true,
+  },
+  // Thân xe - Phần 4: Nhựa thân nhám (có thể đổi màu)
+  {
+    id: "body-plastic",
+    name: "Nhựa thân nhám",
+    modelPath: "/model/base_car/Thân xe/Nhựa thân nhám.glb",
     applyBodyColor: true,
   },
   {

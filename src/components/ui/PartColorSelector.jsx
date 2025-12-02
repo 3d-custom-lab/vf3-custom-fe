@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { useCustomizationStore } from "../../store/customizationStore";
 import { COLORABLE_PARTS } from "../../utils/constants";
-import { Car, Eye, Chrome } from "lucide-react";
+import { Car, Eye, Chrome, Sparkles, CarFront, Box } from "lucide-react";
 
 const PART_ICONS = {
   body: Car,
+  roof: CarFront,
+  "body-plastic": Box,
   mirrors: Eye,
   "front-chrome": Chrome,
   "rear-chrome": Chrome,
@@ -12,6 +14,8 @@ const PART_ICONS = {
 
 const PART_LABELS = {
   body: "Thân xe",
+  roof: "Nóc xe",
+  "body-plastic": "Nhựa thân",
   mirrors: "Gương",
   "front-chrome": "Crom trước",
   "rear-chrome": "Crom sau",
@@ -87,8 +91,8 @@ export const PartColorSelector = () => {
 
       {selectedColorPart && (
         <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-          <p className="text-xs text-blue-700 dark:text-blue-300">
-            ✨ Đang chọn: <span className="font-semibold">{PART_LABELS[selectedColorPart]}</span>
+          <p className="text-xs text-blue-700 dark:text-blue-300 flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> Đang chọn: <span className="font-semibold">{PART_LABELS[selectedColorPart]}</span>
           </p>
         </div>
       )}

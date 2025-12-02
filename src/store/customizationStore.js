@@ -4,6 +4,8 @@ const initialState = {
   // Màu sắc cho từng bộ phận
   partColors: {
     body: null, // Không có màu
+    roof: null, // Không có màu
+    "body-plastic": null, // Không có màu
     mirrors: null, // Không có màu
     "front-chrome": null, // Không có màu
     "rear-chrome": null, // Không có màu

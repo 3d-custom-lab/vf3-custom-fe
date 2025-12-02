@@ -228,7 +228,7 @@ function ManageGaraPage() {
                         <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                           <div className="flex items-center gap-1 sm:gap-2">
                             <div className="flex items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1 sm:py-1.5 bg-amber-50 rounded-lg border border-amber-200">
-                              <span className="text-sm sm:text-base font-bold text-amber-500">★</span>
+                              <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
                               <span className="text-xs sm:text-sm font-bold text-amber-700">{gara.ratingAverage}</span>
                             </div>
                             <span className="text-[10px] sm:text-xs text-slate-500 font-medium">({gara.ratingCount})</span>
