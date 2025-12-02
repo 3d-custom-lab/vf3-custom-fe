@@ -65,23 +65,35 @@ function CreatePost({ onPostCreated }) {
 
       const response = await createPost(postData);
 
-      if (imageFile && response.result?.id) {
+      // Kiểm tra response structure: { code: 1000, result: {...} }
+      const postId = response?.result?.id || response?.data?.result?.id || response?.id;
+      
+      if (!postId) {
+        console.error("No post ID in response:", response);
+        throw new Error("Post created but no ID returned");
+      }
+
+      // Upload image nếu có
+      if (imageFile && postId) {
         const formData = new FormData();
         formData.append("image", imageFile);
 
         try {
-          await uploadPostImage(response.result.id, formData);
+          await uploadPostImage(postId, formData);
         } catch (imageError) {
           console.error("Error uploading image:", imageError);
+          showError("Post created but image upload failed");
         }
       }
 
+      // Reset form
       setTitle("");
       setContent("");
       setImageFile(null);
       setImagePreview("");
       setShowImageInput(false);
 
+      // Gọi callback để refresh danh sách posts
       if (onPostCreated) {
         onPostCreated();
       }
@@ -89,8 +101,10 @@ function CreatePost({ onPostCreated }) {
       showSuccess("Post created successfully!");
     } catch (error) {
       console.error("Error creating post:", error);
+      console.error("Error response:", error.response);
       const errorMessage =
         error.response?.data?.message ||
+        error.message ||
         "Failed to create post. Please try again.";
       showError(errorMessage);
     } finally {

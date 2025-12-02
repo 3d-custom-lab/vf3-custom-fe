@@ -14,8 +14,14 @@ export const getPostById = async (id) => {
 };
 
 // Create a new post
+// API nhận title và content qua query params, không phải body
 export const createPost = async (data) => {
-  const res = await api.post("/posts/create", data);
+  const res = await api.post("/posts/create", null, {
+    params: {
+      title: data.title,
+      content: data.content,
+    },
+  });
   return res.data;
 };
 
