@@ -15,7 +15,7 @@ export const getPostById = async (id) => {
 
 // Create a new post
 export const createPost = async (data) => {
-  const res = await api.post("/posts", data);
+  const res = await api.post("/posts/create", data);
   return res.data;
 };
 

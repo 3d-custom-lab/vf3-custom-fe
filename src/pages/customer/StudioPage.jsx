@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Save, RotateCcw, Settings2, Palette } from "lucide-react";
+import { Save, RotateCcw, Settings2, Palette, Disc3, Boxes, CarFront, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
 import { ColorPicker } from "../../components/ui/ColorPicker";
@@ -73,11 +73,11 @@ export const Studio = () => {
   const currentPartLabel = selectedColorPart ? PART_LABELS[selectedColorPart] : "bộ phận";
 
   const tabs = [
-    { id: "color", label: "Màu sắc", icon: "🎨" },
-    { id: "wheels", label: "Vành xe", icon: "⚙️" },
-    { id: "grilles", label: "Ca-lăng", icon: "🔲" },
-    { id: "roofs", label: "Nóc xe", icon: "🏔️" },
-    { id: "chassis", label: "Bệ chân", icon: "🛡️" },
+    { id: "color", label: "Màu sắc", icon: Palette },
+    { id: "wheels", label: "Vành xe", icon: Disc3 },
+    { id: "grilles", label: "Ca-lăng", icon: Boxes },
+    { id: "roofs", label: "Nóc xe", icon: CarFront },
+    { id: "chassis", label: "Bệ chân", icon: Shield },
   ];
 
   return (
@@ -149,20 +149,23 @@ export const Studio = () => {
 
                 {/* Tabs */}
                 <div className="flex overflow-x-auto border-b border-slate-200 dark:border-slate-700">
-                  {tabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex-1 min-w-20 px-4 py-3 text-sm font-medium transition-colors ${
-                        activeTab === tab.id
-                          ? "bg-blue-600 text-white"
-                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
-                      }`}
-                    >
-                      <div className="text-xl mb-1">{tab.icon}</div>
-                      <div className="text-xs">{tab.label}</div>
-                    </button>
-                  ))}
+                  {tabs.map((tab) => {
+                    const Icon = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`flex-1 min-w-20 px-4 py-3 text-sm font-medium transition-colors ${
+                          activeTab === tab.id
+                            ? "bg-blue-600 text-white"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 mx-auto mb-1" />
+                        <div className="text-xs">{tab.label}</div>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {/* Tab Content */}

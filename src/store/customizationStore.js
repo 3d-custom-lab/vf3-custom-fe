@@ -3,10 +3,10 @@ import { create } from "zustand";
 const initialState = {
   // Màu sắc cho từng bộ phận
   partColors: {
-    body: "", // Thân xe - Trắng
-    mirrors: "#718096", // Gương - Xám
-    "front-chrome": "#718096", // Crom trước - Xám
-    "rear-chrome": "#718096", // Crom sau - Xám
+    body: null, // Không có màu
+    mirrors: null, // Không có màu
+    "front-chrome": null, // Không có màu
+    "rear-chrome": null, // Không có màu
   },
   // Bộ phận đang được chọn để đổi màu
   selectedColorPart: "body",
@@ -54,7 +54,7 @@ export const useCustomizationStore = create((set, get) => ({
   setSelectedChassis: (chassisId) => set({ selectedChassis: chassisId }),
 
   // Đặt lại tất cả về mặc định
-  resetCustomization: () => set(initialState),
+  resetCustomization: () => set({ ...initialState }),
 
   // Lấy tất cả thông tin customization hiện tại
   getAllCustomization: () => {
