@@ -1,10 +1,19 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useCustomizationStore } from "../../store/customizationStore";
-import { CAR_PARTS } from "../../utils/constants";
+import { CUSTOM_CAR_PARTS } from "../../utils/constants";
 import { ModelPart } from "./ModelPart";
 import { BaseCar } from "./BaseCar";
 
+/**
+ * CarModel Component - Lắp ráp toàn bộ xe VF3 với customization
+ * Sử dụng cấu trúc từ folder custom_car với 5 nhóm chính:
+ * 1. Mặt xe (Front) - Ca-lăng, Cản
+ * 2. Nóc xe (Roof) - Giá nóc, Tai, Capo
+ * 3. Thân xe (Body) - Bệ chân, Phụ kiện thân
+ * 4. Đuôi xe (Rear) - Cốp sau
+ * 5. Vành (Wheels)
+ */
 export const CarModel = ({ autoRotate = false }) => {
   const groupRef = useRef(null);
   
@@ -12,8 +21,11 @@ export const CarModel = ({ autoRotate = false }) => {
   const partColors = useCustomizationStore((state) => state.partColors);
   const selectedWheel = useCustomizationStore((state) => state.selectedWheel);
   const selectedGrille = useCustomizationStore((state) => state.selectedGrille);
-  const selectedRoof = useCustomizationStore((state) => state.selectedRoof);
+  const selectedBumper = useCustomizationStore((state) => state.selectedBumper);
+  const selectedRoofAccessory = useCustomizationStore((state) => state.selectedRoofAccessory);
   const selectedChassis = useCustomizationStore((state) => state.selectedChassis);
+  const selectedBodyAccessory = useCustomizationStore((state) => state.selectedBodyAccessory);
+  const selectedRearAccessory = useCustomizationStore((state) => state.selectedRearAccessory);
 
   // Auto rotate animation
   useFrame((state, delta) => {
@@ -22,15 +34,18 @@ export const CarModel = ({ autoRotate = false }) => {
     }
   });
 
-  // Tìm thông tin bộ phận được chọn
-  const selectedWheelData = CAR_PARTS.WHEELS.find(w => w.id === selectedWheel);
-  const selectedGrilleData = CAR_PARTS.GRILLES.find(g => g.id === selectedGrille);
-  const selectedRoofData = CAR_PARTS.ROOFS.find(r => r.id === selectedRoof);
-  const selectedChassisData = CAR_PARTS.CHASSIS.find(c => c.id === selectedChassis);
+  // Tìm thông tin bộ phận được chọn từ CUSTOM_CAR_PARTS
+  const selectedWheelData = CUSTOM_CAR_PARTS.WHEELS.find(w => w.id === selectedWheel);
+  const selectedGrilleData = CUSTOM_CAR_PARTS.FRONT.GRILLES.find(g => g.id === selectedGrille);
+  const selectedBumperData = CUSTOM_CAR_PARTS.FRONT.BUMPERS.find(b => b.id === selectedBumper);
+  const selectedRoofData = CUSTOM_CAR_PARTS.ROOF.ACCESSORIES.find(r => r.id === selectedRoofAccessory);
+  const selectedChassisData = CUSTOM_CAR_PARTS.BODY.CHASSIS.find(c => c.id === selectedChassis);
+  const selectedBodyAccData = CUSTOM_CAR_PARTS.BODY.ACCESSORIES.find(a => a.id === selectedBodyAccessory);
+  const selectedRearData = CUSTOM_CAR_PARTS.REAR.ACCESSORIES.find(r => r.id === selectedRearAccessory);
 
   return (
     <group ref={groupRef} position={[0, -0.6, 0]} dispose={null}>
-      {/* Các bộ phận cơ bản của xe được lắp ráp từ base_car */}
+      {/* Base Car - Các bộ phận cơ bản từ base_car */}
       <BaseCar 
         partColors={partColors}
         scale={2.5}
@@ -39,9 +54,10 @@ export const CarModel = ({ autoRotate = false }) => {
         hideDefaultGrille={!!selectedGrilleData?.modelPath}
       />
       
-      {/* Vành xe tùy chỉnh - thay thế bánh gốc */}
+      {/* === VÀNH XE === */}
       {selectedWheelData?.modelPath && (
         <ModelPart
+          key={`wheel-${selectedWheel}`}
           modelPath={selectedWheelData.modelPath}
           position={[0, 0, 0]}
           scale={2.5}
@@ -49,19 +65,32 @@ export const CarModel = ({ autoRotate = false }) => {
         />
       )}
 
-      {/* Ca-lăng tùy chỉnh */}
+      {/* === MẶT XE === */}
+      {/* Ca-lăng */}
       {selectedGrilleData?.modelPath && (
         <ModelPart
+          key={`grille-${selectedGrille}`}
           modelPath={selectedGrilleData.modelPath}
           position={[0, 0, 0]}
           scale={2.5}
           applyBodyColor={false}
         />
       )}
+      {/* Cản trước + sau */}
+      {selectedBumperData?.modelPath && (
+        <ModelPart
+          key={`bumper-${selectedBumper}`}
+          modelPath={selectedBumperData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
 
-      {/* Phụ kiện nóc xe */}
+      {/* === NÓC XE === */}
       {selectedRoofData?.modelPath && (
         <ModelPart
+          key={`roof-${selectedRoofAccessory}`}
           modelPath={selectedRoofData.modelPath}
           position={[0, 0, 0]}
           scale={2.5}
@@ -69,10 +98,33 @@ export const CarModel = ({ autoRotate = false }) => {
         />
       )}
 
+      {/* === THÂN XE === */}
       {/* Bệ chân */}
       {selectedChassisData?.modelPath && (
         <ModelPart
+          key={`chassis-${selectedChassis}`}
           modelPath={selectedChassisData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
+      {/* Phụ kiện thân */}
+      {selectedBodyAccData?.modelPath && (
+        <ModelPart
+          key={`body-acc-${selectedBodyAccessory}`}
+          modelPath={selectedBodyAccData.modelPath}
+          position={[0, 0, 0]}
+          scale={2.5}
+          applyBodyColor={false}
+        />
+      )}
+
+      {/* === ĐUÔI XE === */}
+      {selectedRearData?.modelPath && (
+        <ModelPart
+          key={`rear-${selectedRearAccessory}`}
+          modelPath={selectedRearData.modelPath}
           position={[0, 0, 0]}
           scale={2.5}
           applyBodyColor={false}
