@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const initialState = {
   bodyColor: "#1E40AF", // Màu thân xe
-  selectedWheel: "wheel-1", // ID của vành được chọn
+  selectedWheel: "wheel-default", // ID của vành được chọn - mặc định dùng bánh gốc
   selectedGrille: "grille-1", // ID của ca-lăng được chọn
   selectedRoof: "roof-standard", // ID của nóc được chọn
   selectedChassis: "chassis-standard", // ID của bệ chân được chọn
