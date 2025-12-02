@@ -3,20 +3,32 @@ import { create } from "zustand";
 const initialState = {
   // Màu sắc cho từng bộ phận
   partColors: {
-    body: null, // Không có màu
-    roof: null, // Không có màu
-    "body-plastic": null, // Không có màu
-    mirrors: null, // Không có màu
-    "front-chrome": null, // Không có màu
-    "rear-chrome": null, // Không có màu
+    body: null,
+    roof: null,
+    "body-plastic": null,
+    mirrors: null,
+    "front-chrome": null,
+    "rear-chrome": null,
   },
   // Bộ phận đang được chọn để đổi màu
   selectedColorPart: "body",
-  // Các bộ phận xe được chọn
-  selectedWheel: "wheel-default",
-  selectedGrille: "grille-1",
-  selectedRoof: "roof-standard",
+  
+  // CUSTOM CAR PARTS - Các bộ phận tùy chỉnh
+  // Mặt xe
+  selectedGrille: "grille-default",
+  selectedBumper: "bumper-default",
+  // Nóc xe  
+  selectedRoofAccessory: "roof-standard",
+  // Thân xe
   selectedChassis: "chassis-standard",
+  selectedBodyAccessory: "body-acc-none",
+  // Đuôi xe
+  selectedRearAccessory: "rear-none",
+  // Vành xe
+  selectedWheel: "wheel-default",
+  
+  // Loading state - chỉ dùng cho lần đầu load trang
+  isInitialLoading: true,
 };
 
 export const useCustomizationStore = create((set, get) => ({
@@ -43,20 +55,29 @@ export const useCustomizationStore = create((set, get) => ({
       },
     })),
 
-  // Chọn vành xe
-  setSelectedWheel: (wheelId) => set({ selectedWheel: wheelId }),
-
-  // Chọn ca-lăng
+  // === CUSTOM CAR PARTS SETTERS ===
+  // Mặt xe
   setSelectedGrille: (grilleId) => set({ selectedGrille: grilleId }),
-
-  // Chọn nóc xe
-  setSelectedRoof: (roofId) => set({ selectedRoof: roofId }),
-
-  // Chọn bệ chân
+  setSelectedBumper: (bumperId) => set({ selectedBumper: bumperId }),
+  
+  // Nóc xe
+  setSelectedRoofAccessory: (roofId) => set({ selectedRoofAccessory: roofId }),
+  
+  // Thân xe
   setSelectedChassis: (chassisId) => set({ selectedChassis: chassisId }),
+  setSelectedBodyAccessory: (bodyAccId) => set({ selectedBodyAccessory: bodyAccId }),
+  
+  // Đuôi xe
+  setSelectedRearAccessory: (rearAccId) => set({ selectedRearAccessory: rearAccId }),
+  
+  // Vành xe
+  setSelectedWheel: (wheelId) => set({ selectedWheel: wheelId }),
 
   // Đặt lại tất cả về mặc định
   resetCustomization: () => set({ ...initialState }),
+
+  // Loading state setter - chỉ dùng cho lần đầu
+  setInitialLoading: (isLoading) => set({ isInitialLoading: isLoading }),
 
   // Lấy tất cả thông tin customization hiện tại
   getAllCustomization: () => {
@@ -64,10 +85,13 @@ export const useCustomizationStore = create((set, get) => ({
     return {
       partColors: state.partColors,
       selectedColorPart: state.selectedColorPart,
-      selectedWheel: state.selectedWheel,
       selectedGrille: state.selectedGrille,
-      selectedRoof: state.selectedRoof,
+      selectedBumper: state.selectedBumper,
+      selectedRoofAccessory: state.selectedRoofAccessory,
       selectedChassis: state.selectedChassis,
+      selectedBodyAccessory: state.selectedBodyAccessory,
+      selectedRearAccessory: state.selectedRearAccessory,
+      selectedWheel: state.selectedWheel,
     };
   },
 }));
