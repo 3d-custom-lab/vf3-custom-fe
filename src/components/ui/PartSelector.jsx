@@ -46,8 +46,14 @@ export const PartSelector = ({ parts, selectedId, onSelect }) => {
 
             {/* Preview thumbnail indicator - có thể mở rộng sau */}
             {part.thumbnail && (
-              <div className="mt-2 text-xs opacity-60">
-                {isSelected ? "✓ Đã chọn" : "Nhấn để xem"}
+              <div className="mt-2 text-xs opacity-60 flex items-center gap-1">
+                {isSelected ? (
+                  <>
+                    <Check className="w-3 h-3" /> Đã chọn
+                  </>
+                ) : (
+                  "Nhấn để xem"
+                )}
               </div>
             )}
           </motion.button>

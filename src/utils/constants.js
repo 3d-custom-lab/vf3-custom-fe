@@ -1,22 +1,48 @@
-// Danh sách các màu preset
+// Danh sách các màu cơ bản VF3 (theo hình mẫu)
 export const PRESET_COLORS = [
-  { name: "Electric Blue", value: "#1E40AF" },
-  { name: "Pearl White", value: "#F8FAFC" },
-  { name: "Midnight Black", value: "#0F172A" },
-  { name: "Racing Red", value: "#DC2626" },
-  { name: "Silver Metallic", value: "#94A3B8" },
-  { name: "Forest Green", value: "#059669" },
-  { name: "Sunset Orange", value: "#EA580C" },
-  { name: "Royal Purple", value: "#7C3AED" },
+  { name: "Trắng", value: "#FFFFFF" },
+  { name: "Đỏ", value: "#E53E3E" },
+  { name: "Xanh Dương Đậm", value: "#2B6CB0" },
+  { name: "Xám", value: "#718096" },
+  { name: "Vàng", value: "#ECC94B" },
+  { name: "Hồng Tím", value: "#B794F4" },
+  { name: "Xanh Lá Nhạt", value: "#9AE6B4" },
+  { name: "Xanh Dương Nhạt", value: "#63B3ED" },
+  { name: "Hồng Phấn", value: "#FBB6CE" },
 ];
+
+// Các bộ phận xe có thể đổi màu
+export const COLORABLE_PARTS = ["body", "roof", "body-plastic", "mirrors", "front-chrome", "rear-chrome"];
 
 // Các bộ phận cơ bản của xe (không thể thay đổi)
 export const BASE_CAR_PARTS = [
+  // Thân xe - Phần 1: Thân chính (có thể đổi màu)
   {
     id: "body",
-    name: "Thân xe",
-    modelPath: "/model/base_car/Thân xe.glb",
-    applyBodyColor: true, // Cho phép thay đổi màu
+    name: "Thân xe chính",
+    modelPath: "/model/base_car/Thân xe/Thân.glb",
+    applyBodyColor: true,
+  },
+  // Thân xe - Phần 2: Thân cố định (không đổi màu)
+  {
+    id: "body-fixed",
+    name: "Thân xe cố định",
+    modelPath: "/model/base_car/Thân xe/Thân ko đổi màu.glb",
+    applyBodyColor: false,
+  },
+  // Thân xe - Phần 3: Nóc xe (có thể đổi màu)
+  {
+    id: "body-roof",
+    name: "Nóc thân xe",
+    modelPath: "/model/base_car/Thân xe/Nóc.glb",
+    applyBodyColor: true,
+  },
+  // Thân xe - Phần 4: Nhựa thân nhám (có thể đổi màu)
+  {
+    id: "body-plastic",
+    name: "Nhựa thân nhám",
+    modelPath: "/model/base_car/Thân xe/Nhựa thân nhám.glb",
+    applyBodyColor: true,
   },
   {
     id: "front-lights",
@@ -34,19 +60,20 @@ export const BASE_CAR_PARTS = [
     id: "front-chrome",
     name: "Crom trước",
     modelPath: "/model/base_car/Crom trước gốc.glb",
-    applyBodyColor: false,
+    applyBodyColor: true,
+    isGrillePart: true, // Ẩn khi có ca-lăng tùy chỉnh
   },
   {
     id: "rear-chrome",
     name: "Crom sau",
     modelPath: "/model/base_car/Crom sau gốc.glb",
-    applyBodyColor: false,
+    applyBodyColor: true,
   },
   {
     id: "mirrors",
     name: "Gương",
     modelPath: "/model/base_car/Gương gốc.glb",
-    applyBodyColor: false,
+    applyBodyColor: true,
   },
   {
     id: "default-wheels",
