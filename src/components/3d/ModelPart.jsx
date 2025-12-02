@@ -2,14 +2,6 @@ import { useMemo, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-/**
- * Component để load và hiển thị một bộ phận của xe từ file .glb
- * @param {string} modelPath - Đường dẫn đến file .glb
- * @param {string} bodyColor - Màu sắc áp dụng cho bộ phận (nếu có)
- * @param {array} position - Vị trí của bộ phận [x, y, z]
- * @param {number} scale - Tỷ lệ scale của bộ phận
- * @param {boolean} applyBodyColor - Có áp dụng màu thân xe không
- */
 export const ModelPart = ({
   modelPath,
   bodyColor = "#1E40AF",
@@ -41,14 +33,18 @@ export const ModelPart = ({
           child.material = child.material.clone();
 
           // Áp dụng màu body nếu được yêu cầu
-          if (applyBodyColor) {
+          if (applyBodyColor && bodyColor) {
             child.material.color = new THREE.Color(bodyColor);
-            child.material.metalness = 0.8;
-            child.material.roughness = 0.2;
+            // Giảm metalness và tăng roughness để màu trông tự nhiên, không bóng lóa
+            child.material.metalness = 0.1;
+            child.material.roughness = 0.8;
+            // Đảm bảo màu được áp dụng chính xác
+            child.material.emissive = new THREE.Color(0x000000);
+            child.material.emissiveIntensity = 0;
           } else {
-            // Giữ màu gốc nhưng cải thiện material properties
-            child.material.metalness = child.material.metalness || 0.5;
-            child.material.roughness = child.material.roughness || 0.5;
+            // Giữ màu gốc với độ bóng tự nhiên
+            child.material.metalness = child.material.metalness || 0.3;
+            child.material.roughness = child.material.roughness || 0.7;
           }
 
           child.material.needsUpdate = true;

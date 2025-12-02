@@ -2,19 +2,12 @@ import { useMemo } from "react";
 import { BASE_CAR_PARTS } from "../../utils/constants";
 import { ModelPart } from "./ModelPart";
 
-/**
- * Component render các bộ phận cơ bản của xe VF3
- * Các bộ phận này luôn hiển thị và được lắp ráp từ các file .glb riêng lẻ
- * @param {string} bodyColor - Màu sắc thân xe
- * @param {number} scale - Tỷ lệ scale của xe
- * @param {array} position - Vị trí của group xe
- * @param {boolean} hideDefaultWheels - Ẩn bánh mặc định khi user chọn vành tùy chỉnh
- */
 export const BaseCar = ({ 
-  bodyColor = "#1E40AF", 
+  partColors = { body: "#FFFFFF", mirrors: "#718096", "front-chrome": "#718096", "rear-chrome": "#718096" },
   scale = 2.5, 
   position = [0, 0, 0],
-  hideDefaultWheels = false 
+  hideDefaultWheels = false,
+  hideDefaultGrille = false 
 }) => {
   // Memoize để tránh re-render không cần thiết
   const basePartsToRender = useMemo(() => {
@@ -23,9 +16,24 @@ export const BaseCar = ({
       if (hideDefaultWheels && part.id === "default-wheels") {
         return false;
       }
+      // Ẩn crom trước gốc khi user chọn ca-lăng tùy chỉnh
+      if (hideDefaultGrille && part.isGrillePart) {
+        return false;
+      }
       return true;
     });
-  }, [hideDefaultWheels]);
+  }, [hideDefaultWheels, hideDefaultGrille]);
+
+  // Hàm lấy màu cho từng part
+  const getPartColor = (partId) => {
+    // Ánh xạ part id từ BASE_CAR_PARTS sang partColors keys
+    if (partId === "body") return partColors.body;
+    if (partId === "mirrors") return partColors.mirrors;
+    if (partId === "front-chrome") return partColors["front-chrome"];
+    if (partId === "rear-chrome") return partColors["rear-chrome"];
+    
+    return partColors.body; // Default fallback
+  };
 
   return (
     <group position={position}>
@@ -33,7 +41,7 @@ export const BaseCar = ({
         <ModelPart
           key={part.id}
           modelPath={part.modelPath}
-          bodyColor={bodyColor}
+          bodyColor={part.applyBodyColor ? getPartColor(part.id) : null}
           position={[0, 0, 0]}
           scale={scale}
           applyBodyColor={part.applyBodyColor}

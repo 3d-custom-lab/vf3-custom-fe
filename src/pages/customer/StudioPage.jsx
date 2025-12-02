@@ -1,8 +1,9 @@
 import { useState, useRef } from "react";
-import { Save, RotateCcw, Settings2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { Save, RotateCcw, Settings2, Palette } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
 import { ColorPicker } from "../../components/ui/ColorPicker";
+import { PartColorSelector } from "../../components/ui/PartColorSelector";
 import { PartSelector } from "../../components/ui/PartSelector";
 import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
@@ -10,6 +11,13 @@ import { Textarea } from "../../components/ui/Textarea";
 import Header from "../../components/layout/Header";
 import { useCustomizationStore } from "../../store/customizationStore";
 import { CAR_PARTS } from "../../utils/constants";
+
+const PART_LABELS = {
+  body: "thân xe",
+  mirrors: "gương",
+  "front-chrome": "crom trước",
+  "rear-chrome": "crom sau",
+};
 
 export const Studio = () => {
   const [isSaving, setIsSaving] = useState(false);
@@ -20,12 +28,13 @@ export const Studio = () => {
   const canvasRef = useRef(null);
 
   const {
-    bodyColor,
+    partColors,
+    selectedColorPart,
     selectedWheel,
     selectedGrille,
     selectedRoof,
     selectedChassis,
-    setBodyColor,
+    setCurrentPartColor,
     setSelectedWheel,
     setSelectedGrille,
     setSelectedRoof,
@@ -53,6 +62,15 @@ export const Studio = () => {
       setIsSaving(false);
     }
   };
+
+  const handleColorChange = (color) => {
+    if (selectedColorPart) {
+      setCurrentPartColor(color);
+    }
+  };
+
+  const currentColor = selectedColorPart ? partColors[selectedColorPart] : "#FFFFFF";
+  const currentPartLabel = selectedColorPart ? PART_LABELS[selectedColorPart] : "bộ phận";
 
   const tabs = [
     { id: "color", label: "Màu sắc", icon: "🎨" },
@@ -149,66 +167,109 @@ export const Studio = () => {
 
                 {/* Tab Content */}
                 <div className="p-6 max-h-[600px] overflow-y-auto">
-                  {activeTab === "color" && (
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
-                        Chọn màu thân xe
-                      </h3>
-                      <ColorPicker value={bodyColor} onChange={setBodyColor} />
-                    </div>
-                  )}
+                  <AnimatePresence mode="wait">
+                    {activeTab === "color" && (
+                      <motion.div
+                        key="color"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="space-y-6"
+                      >
+                        {/* Part selector */}
+                        <PartColorSelector />
+                        
+                        {/* Divider */}
+                        <div className="border-t border-slate-200 dark:border-slate-700" />
+                        
+                        {/* Color picker */}
+                        {selectedColorPart ? (
+                          <ColorPicker
+                            value={currentColor}
+                            onChange={handleColorChange}
+                            partName={currentPartLabel}
+                          />
+                        ) : (
+                          <div className="text-center py-8 text-slate-500 dark:text-slate-400">
+                            <Palette className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                            <p className="text-sm">Vui lòng chọn bộ phận để bắt đầu tô màu</p>
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
 
-                  {activeTab === "wheels" && (
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
-                        Chọn vành xe
-                      </h3>
-                      <PartSelector
-                        parts={CAR_PARTS.WHEELS}
-                        selectedId={selectedWheel}
-                        onSelect={setSelectedWheel}
-                      />
-                    </div>
-                  )}
+                    {activeTab === "wheels" && (
+                      <motion.div
+                        key="wheels"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                      >
+                        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                          Chọn vành xe
+                        </h3>
+                        <PartSelector
+                          parts={CAR_PARTS.WHEELS}
+                          selectedId={selectedWheel}
+                          onSelect={setSelectedWheel}
+                        />
+                      </motion.div>
+                    )}
 
-                  {activeTab === "grilles" && (
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
-                        Chọn ca-lăng
-                      </h3>
-                      <PartSelector
-                        parts={CAR_PARTS.GRILLES}
-                        selectedId={selectedGrille}
-                        onSelect={setSelectedGrille}
-                      />
-                    </div>
-                  )}
+                    {activeTab === "grilles" && (
+                      <motion.div
+                        key="grilles"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                      >
+                        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                          Chọn ca-lăng
+                        </h3>
+                        <PartSelector
+                          parts={CAR_PARTS.GRILLES}
+                          selectedId={selectedGrille}
+                          onSelect={setSelectedGrille}
+                        />
+                      </motion.div>
+                    )}
 
-                  {activeTab === "roofs" && (
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
-                        Chọn phụ kiện nóc
-                      </h3>
-                      <PartSelector
-                        parts={CAR_PARTS.ROOFS}
-                        selectedId={selectedRoof}
-                        onSelect={setSelectedRoof}
-                      />
-                    </div>
-                  )}
+                    {activeTab === "roofs" && (
+                      <motion.div
+                        key="roofs"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                      >
+                        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                          Chọn phụ kiện nóc
+                        </h3>
+                        <PartSelector
+                          parts={CAR_PARTS.ROOFS}
+                          selectedId={selectedRoof}
+                          onSelect={setSelectedRoof}
+                        />
+                      </motion.div>
+                    )}
 
-                  {activeTab === "chassis" && (
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
-                        Chọn bệ chân
-                      </h3>
-                      <PartSelector
-                        parts={CAR_PARTS.CHASSIS}
-                        selectedId={selectedChassis}
-                        onSelect={setSelectedChassis}
-                      />
-                    </div>
-                  )}
+                    {activeTab === "chassis" && (
+                      <motion.div
+                        key="chassis"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                      >
+                        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
+                          Chọn bệ chân
+                        </h3>
+                        <PartSelector
+                          parts={CAR_PARTS.CHASSIS}
+                          selectedId={selectedChassis}
+                          onSelect={setSelectedChassis}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </motion.div>
             </div>

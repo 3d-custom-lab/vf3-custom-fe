@@ -1,18 +1,45 @@
 import { create } from "zustand";
 
 const initialState = {
-  bodyColor: "#1E40AF", // Màu thân xe
-  selectedWheel: "wheel-default", // ID của vành được chọn - mặc định dùng bánh gốc
-  selectedGrille: "grille-1", // ID của ca-lăng được chọn
-  selectedRoof: "roof-standard", // ID của nóc được chọn
-  selectedChassis: "chassis-standard", // ID của bệ chân được chọn
+  // Màu sắc cho từng bộ phận
+  partColors: {
+    body: "", // Thân xe - Trắng
+    mirrors: "#718096", // Gương - Xám
+    "front-chrome": "#718096", // Crom trước - Xám
+    "rear-chrome": "#718096", // Crom sau - Xám
+  },
+  // Bộ phận đang được chọn để đổi màu
+  selectedColorPart: "body",
+  // Các bộ phận xe được chọn
+  selectedWheel: "wheel-default",
+  selectedGrille: "grille-1",
+  selectedRoof: "roof-standard",
+  selectedChassis: "chassis-standard",
 };
 
 export const useCustomizationStore = create((set, get) => ({
   ...initialState,
 
-  // Thay đổi màu thân xe
-  setBodyColor: (color) => set({ bodyColor: color }),
+  // Chọn bộ phận để đổi màu
+  setSelectedColorPart: (partId) => set({ selectedColorPart: partId }),
+
+  // Thay đổi màu của bộ phận đang chọn
+  setPartColor: (partId, color) =>
+    set((state) => ({
+      partColors: {
+        ...state.partColors,
+        [partId]: color,
+      },
+    })),
+
+  // Thay đổi màu của bộ phận hiện tại đang chọn
+  setCurrentPartColor: (color) =>
+    set((state) => ({
+      partColors: {
+        ...state.partColors,
+        [state.selectedColorPart]: color,
+      },
+    })),
 
   // Chọn vành xe
   setSelectedWheel: (wheelId) => set({ selectedWheel: wheelId }),
@@ -33,7 +60,8 @@ export const useCustomizationStore = create((set, get) => ({
   getAllCustomization: () => {
     const state = get();
     return {
-      bodyColor: state.bodyColor,
+      partColors: state.partColors,
+      selectedColorPart: state.selectedColorPart,
       selectedWheel: state.selectedWheel,
       selectedGrille: state.selectedGrille,
       selectedRoof: state.selectedRoof,

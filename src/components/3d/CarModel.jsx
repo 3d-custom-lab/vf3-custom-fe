@@ -9,7 +9,7 @@ export const CarModel = ({ autoRotate = false }) => {
   const groupRef = useRef(null);
   
   // Lấy customization state từ store
-  const bodyColor = useCustomizationStore((state) => state.bodyColor);
+  const partColors = useCustomizationStore((state) => state.partColors);
   const selectedWheel = useCustomizationStore((state) => state.selectedWheel);
   const selectedGrille = useCustomizationStore((state) => state.selectedGrille);
   const selectedRoof = useCustomizationStore((state) => state.selectedRoof);
@@ -32,10 +32,11 @@ export const CarModel = ({ autoRotate = false }) => {
     <group ref={groupRef} position={[0, -0.6, 0]} dispose={null}>
       {/* Các bộ phận cơ bản của xe được lắp ráp từ base_car */}
       <BaseCar 
-        bodyColor={bodyColor}
+        partColors={partColors}
         scale={2.5}
         position={[0, 0, 0]}
         hideDefaultWheels={!!selectedWheelData?.modelPath}
+        hideDefaultGrille={!!selectedGrilleData?.modelPath}
       />
       
       {/* Vành xe tùy chỉnh - thay thế bánh gốc */}
