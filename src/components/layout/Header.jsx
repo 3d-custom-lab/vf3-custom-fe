@@ -45,9 +45,9 @@ export default function Header() {
             onClick={() => navigate("/")}
           >
             <div className="w-10 h-10 flex items-center justify-center">
-              <img 
-                src="/img/logo-header.webp" 
-                alt="3D Custom Lab Logo" 
+              <img
+                src="/img/logo-header.webp"
+                alt="3D Custom Lab Logo"
                 className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
               />
             </div>
@@ -91,14 +91,13 @@ export default function Header() {
 
                 {/* Dropdown Menu */}
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-gray-900 border border-cyan-500/30 rounded-xl shadow-2xl shadow-cyan-500/20 overflow-hidden">
+                  <div className="absolute right-0 mt-3 w-60 bg-gray-950 border border-cyan-500/40 rounded-2xl shadow-xl shadow-cyan-500/30 overflow-hidden backdrop-blur-md">
                     {/* User Info */}
-                    <div className="px-4 py-3 bg-linear-to-r from-cyan-500/10 to-blue-600/10 border-b border-cyan-500/20">
-                      <p className="text-sm text-gray-400">Đăng nhập với</p>
-                      <p className="text-white font-semibold truncate text-sm">
+                    <div className="px-4 py-4 bg-gradient-to-r from-cyan-600/20 to-blue-700/20 border-b border-cyan-500/30">
+                      <p className="text-white font-semibold truncate text-sm mt-1">
                         {user.email}
                       </p>
-                      <p className="text-xs text-cyan-400 mt-1">
+                      <p className="text-xs text-cyan-400 mt-1 tracking-wide">
                         Role: {user.role}
                       </p>
                     </div>
@@ -110,17 +109,18 @@ export default function Header() {
                           setIsUserMenuOpen(false);
                           navigate("/profile");
                         }}
-                        className="cursor-pointer w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors flex items-center gap-3"
+                        className=" cursor-pointer w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-all duration-200 flex items-center gap-3 rounded-lg"
                       >
                         <User className="w-4 h-4" />
-                        <span>Profile</span>
+                        <span className="text-sm">Profile</span>
                       </button>
+
                       <button
                         onClick={handleLogout}
-                        className="cursor-pointer w-full px-4 py-2.5 text-left text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-3"
+                        className="cursor-pointer w-full px-4 py-2.5 text-left text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-200 flex items-center gap-3 rounded-lg"
                       >
-                        <FaSignOutAlt />
-                        <span>Đăng xuất</span>
+                        <FaSignOutAlt className="w-4 h-4" />
+                        <span className="text-sm">Đăng xuất</span>
                       </button>
                     </div>
                   </div>
@@ -157,70 +157,70 @@ export default function Header() {
       {isMenuOpen && (
         <div className="md:hidden bg-gray-900 border-t border-cyan-500/20">
           <div className="px-4 py-4 space-y-3">
-              {/* User Info Mobile */}
-              {isAuthenticated && user && (
-                <div className="pb-3 mb-3 border-b border-gray-800">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white">
-                      <User className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm">
-                        {user.email}
-                      </p>
-                      <p className="text-xs text-cyan-400">Role: {user.role}</p>
-                    </div>
+            {/* User Info Mobile */}
+            {isAuthenticated && user && (
+              <div className="pb-3 mb-3 border-b border-gray-800">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white">
+                    <User className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-sm">
+                      {user.email}
+                    </p>
+                    <p className="text-xs text-cyan-400">Role: {user.role}</p>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Menu Items */}
-              {menuItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block text-gray-300 hover:text-cyan-400 py-2 font-medium transition-colors"
-                >
-                  {item.name}
-                </a>
-              ))}
+            {/* Menu Items */}
+            {menuItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="block text-gray-300 hover:text-cyan-400 py-2 font-medium transition-colors"
+              >
+                {item.name}
+              </a>
+            ))}
 
-              {/* Auth Buttons Mobile */}
-              {isAuthenticated && user ? (
-                <div className="pt-3 border-t border-gray-800 space-y-2">
-                  <button
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      navigate("/profile");
-                    }}
-                    className="w-full text-left px-4 py-2 text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-lg transition-colors flex items-center gap-2"
-                  >
-                    <User className="w-4 h-4" />
-                    Profile
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      handleLogout();
-                    }}
-                    className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
-                  >
-                    <FaSignOutAlt />
-                    Đăng xuất
-                  </button>
-                </div>
-              ) : (
+            {/* Auth Buttons Mobile */}
+            {isAuthenticated && user ? (
+              <div className="pt-3 border-t border-gray-800 space-y-2">
                 <button
                   onClick={() => {
                     setIsMenuOpen(false);
-                    navigate("/auth");
+                    navigate("/profile");
                   }}
-                  className="w-full bg-linear-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
+                  className="w-full text-left px-4 py-2 text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-lg transition-colors flex items-center gap-2"
                 >
-                  Đăng nhập
+                  <User className="w-4 h-4" />
+                  Profile
                 </button>
-              )}
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <FaSignOutAlt />
+                  Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate("/auth");
+                }}
+                className="w-full bg-linear-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
+              >
+                Đăng nhập
+              </button>
+            )}
           </div>
         </div>
       )}

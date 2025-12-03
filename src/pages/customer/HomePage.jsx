@@ -3,6 +3,7 @@ import HeroSection from "../../components/landing/HeroSection";
 import FeaturesSection from "../../components/landing/FeaturesSection";
 import ShowcaseSection from "../../components/landing/ShowcaseSection";
 import TestimonialsSection from "../../components/landing/TestimonialsSection";
+import VisionMissionSection from "../../components/landing/VisionMissionSection";
 import Footer from "../../components/layout/Footer";
 
 function HomePage() {
@@ -11,6 +12,7 @@ function HomePage() {
       <Header />
       <HeroSection />
       <FeaturesSection />
+      <VisionMissionSection />
       <ShowcaseSection />
       <TestimonialsSection />
       <Footer />

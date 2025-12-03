@@ -174,7 +174,7 @@ export const Studio = () => {
                       onClick={() => setShowSaveModal(true)}
                       className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
                     >
-                      <Save className="w-5 h-5" /> Lưu thiết kế
+                      <Save className="w-5 h-5" /> Tải xuống
                     </button>
                     <button
                       onClick={resetCustomization}

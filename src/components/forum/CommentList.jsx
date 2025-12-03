@@ -20,14 +20,10 @@ function CommentList({ postId, onCommentChange }) {
     try {
       setIsLoading(true);
       const response = await getCommentsByPostId(postId);
-      const commentsData = response.result || [];
-      setComments(commentsData);
-
-      if (onCommentChange) {
-        onCommentChange();
-      }
+      setComments(response.result || []);
+      if (onCommentChange) onCommentChange();
     } catch (error) {
-      console.error("Error loading comments:", error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -35,90 +31,68 @@ function CommentList({ postId, onCommentChange }) {
 
   useEffect(() => {
     loadComments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-
-    if (!newCommentContent.trim()) {
-      showError("Please enter a comment");
-      return;
-    }
+    if (!newCommentContent.trim()) return showError("Please enter a comment");
 
     setIsSubmitting(true);
-
     try {
-      const commentData = {
-        postId: postId,
+      const response = await createComment({
+        postId,
         content: newCommentContent.trim(),
         parentId: null,
-      };
-
-      const response = await createComment(commentData);
-
+      });
       if (response.code === 1000 || response.result) {
         setNewCommentContent("");
-        showSuccess("Comment added successfully!");
-
+        showSuccess("Comment added");
         await loadComments();
       }
     } catch (error) {
-      console.error("Error creating comment:", error);
-      const errorMessage =
-        error.response?.data?.message ||
-        "Failed to create comment. Please try again.";
-      showError(errorMessage);
+      showError(error.response?.data?.message || "Failed to comment");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleReplyCreated = () => {
-    loadComments();
-
-    if (onCommentChange) {
-      onCommentChange();
-    }
-  };
-
   return (
-    <div className="space-y-6 mt-8 pt-8 border-t border-slate-700/50">
-      <div className="flex items-center gap-3 mb-4">
-        <FaComments className="text-slate-300 text-xl" />
-        <h3 className="text-white font-semibold text-lg">Comments</h3>
-        {comments.length > 0 && (
-          <span className="ml-2 px-2 py-0.5 bg-slate-800 text-slate-200 text-sm rounded-full border border-slate-700">
-            {comments.length}
-          </span>
-        )}
+    <div className="space-y-6">
+      <div className="flex items-center gap-3 pb-2">
+        <h3 className="text-slate-200 font-bold text-sm uppercase tracking-wider">
+          Discussion
+        </h3>
+        <div className="h-px flex-1 bg-slate-800"></div>
       </div>
 
-      {/* New Comment Input with enhanced design */}
-      <form onSubmit={handleCommentSubmit} className="flex gap-4 items-start">
-        <div className="shrink-0">
-          <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold cursor-default">
-            {user?.email?.charAt(0).toUpperCase() || "U"}
-          </div>
+      <form
+        onSubmit={handleCommentSubmit}
+        className="relative flex gap-4 items-start group"
+      >
+        <div className="shrink-0 w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 font-bold text-sm">
+          {user?.email?.charAt(0).toUpperCase() || "ME"}
         </div>
-        <div className="flex-1 flex gap-3">
-          <div className="flex-1">
-            <input
-              type="text"
-              placeholder="Write a comment..."
-              value={newCommentContent}
-              onChange={(e) => setNewCommentContent(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 text-white rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-400"
-              disabled={isSubmitting}
-            />
-          </div>
+        <div className="flex-1 relative">
+          <textarea
+            placeholder="Add to the discussion..."
+            value={newCommentContent}
+            onChange={(e) => setNewCommentContent(e.target.value)}
+            rows="1"
+            style={{ minHeight: "44px" }}
+            className="w-full px-4 py-2.5 bg-slate-900 text-slate-200 rounded-xl border border-slate-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-slate-500 text-sm resize-none overflow-hidden transition-all"
+            onInput={(e) => {
+              e.target.style.height = "auto";
+              e.target.style.height = e.target.scrollHeight + "px";
+            }}
+            disabled={isSubmitting}
+          />
           <button
             type="submit"
             disabled={isSubmitting || !newCommentContent.trim()}
-            className="px-4 py-3 bg-blue-600 text-white rounded-md disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer hover:bg-blue-700 transition"
+            className="absolute right-2 bottom-1.5 p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg disabled:opacity-0 transition-all"
           >
             {isSubmitting ? (
-              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block"></span>
+              <span className="block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
             ) : (
               <FaPaperPlane />
             )}
@@ -126,32 +100,27 @@ function CommentList({ postId, onCommentChange }) {
         </div>
       </form>
 
-      {/* Comments List */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-10 h-10 border-4 border-slate-700 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-slate-300 text-sm font-medium">
-              Loading comments...
-            </p>
-          </div>
+        <div className="flex justify-center py-8">
+          <div className="w-6 h-6 border-2 border-slate-600 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
       ) : comments.length === 0 ? (
-        <div className="text-center py-10 bg-slate-900 rounded-md border border-slate-700">
-          <FaComments className="text-slate-500 text-4xl mx-auto mb-3" />
-          <p className="text-slate-300 text-base font-semibold mb-1">
-            No comments yet
+        <div className="text-center py-8 opacity-60">
+          <p className="text-slate-500 text-sm">
+            No comments yet. Start the conversation!
           </p>
-          <p className="text-slate-400 text-sm">Be the first to comment!</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-5">
           {comments.map((comment) => (
             <CommentItem
               key={comment.id}
               comment={comment}
               postId={postId}
-              onReplyCreated={handleReplyCreated}
+              onReplyCreated={() => {
+                loadComments();
+                if (onCommentChange) onCommentChange();
+              }}
             />
           ))}
         </div>
