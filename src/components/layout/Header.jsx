@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
-import { Car, User } from "lucide-react";
+import { Car, User, Wrench } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
+import { useToast } from "../../hooks/useToast";
+import Toast from "../ui/Toast";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
+  const { toast, showInfo, hideToast } = useToast();
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -27,6 +30,11 @@ export default function Header() {
     logout();
     setIsUserMenuOpen(false);
     navigate("/auth");
+  };
+
+  const handleGaraRegister = () => {
+    setIsUserMenuOpen(false);
+    showInfo("Chức năng này sẽ sớm được ra mắt trong thời gian sớm nhất", 4000);
   };
 
   const menuItems = [
@@ -93,7 +101,7 @@ export default function Header() {
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-3 w-60 bg-gray-950 border border-cyan-500/40 rounded-2xl shadow-xl shadow-cyan-500/30 overflow-hidden backdrop-blur-md">
                     {/* User Info */}
-                    <div className="px-4 py-4 bg-gradient-to-r from-cyan-600/20 to-blue-700/20 border-b border-cyan-500/30">
+                    <div className="px-4 py-4 bg-linear-to-r from-cyan-600/20 to-blue-700/20 border-b border-cyan-500/30">
                       <p className="text-white font-semibold truncate text-sm mt-1">
                         {user.email}
                       </p>
@@ -113,6 +121,14 @@ export default function Header() {
                       >
                         <User className="w-4 h-4" />
                         <span className="text-sm">Profile</span>
+                      </button>
+
+                      <button
+                        onClick={handleGaraRegister}
+                        className="cursor-pointer w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-all duration-200 flex items-center gap-3 rounded-lg"
+                      >
+                        <Wrench className="w-4 h-4" />
+                        <span className="text-sm">Đăng kí trở thành Gara</span>
                       </button>
 
                       <button
@@ -202,6 +218,16 @@ export default function Header() {
                 <button
                   onClick={() => {
                     setIsMenuOpen(false);
+                    handleGaraRegister();
+                  }}
+                  className="w-full text-left px-4 py-2 text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <Wrench className="w-4 h-4" />
+                  Đăng kí trở thành Gara
+                </button>
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
                     handleLogout();
                   }}
                   className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
@@ -223,6 +249,16 @@ export default function Header() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+          duration={toast.duration}
+        />
       )}
     </nav>
   );
