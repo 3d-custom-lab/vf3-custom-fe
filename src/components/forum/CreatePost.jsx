@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaTimes, FaImage, FaPaperPlane } from "react-icons/fa";
+import { FaTimes, FaImage, FaPaperPlane, FaPen } from "react-icons/fa";
 import { createPost, uploadPostImage } from "../../services/postService";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
@@ -11,6 +11,7 @@ function CreatePost({ onPostCreated }) {
   const [imagePreview, setImagePreview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const { toast, showSuccess, showError, hideToast } = useToast();
 
   const handleImageChange = (e) => {
@@ -59,6 +60,7 @@ function CreatePost({ onPostCreated }) {
       setImageFile(null);
       setImagePreview("");
       setShowImageInput(false);
+      setIsExpanded(false);
       if (onPostCreated) onPostCreated();
       showSuccess("Post published successfully!");
     } catch (error) {
@@ -70,6 +72,15 @@ function CreatePost({ onPostCreated }) {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleCancel = () => {
+    setIsExpanded(false);
+    setTitle("");
+    setContent("");
+    setImageFile(null);
+    setImagePreview("");
+    setShowImageInput(false);
   };
 
   return (
@@ -84,31 +95,70 @@ function CreatePost({ onPostCreated }) {
       )}
 
       <div className="group relative bg-slate-900/80 backdrop-blur-xl rounded-2xl p-1 border border-slate-700/50 shadow-xl transition-all hover:border-blue-500/30">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="relative bg-slate-900 rounded-xl p-5 space-y-4"
-        >
-          <input
-            type="text"
-            placeholder="Give your topic a catchy title..."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-transparent text-lg font-bold text-white placeholder-slate-500 border-none focus:ring-0 px-0 py-1"
-            disabled={isSubmitting}
-          />
+        {!isExpanded ? (
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="relative w-full bg-slate-900 rounded-xl p-6 text-left hover:bg-slate-800/80 transition-all group/button"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover/button:shadow-blue-500/40 transition-all group-hover/button:scale-110">
+                <FaPen className="text-white text-lg" />
+              </div>
+              <div className="flex-1">
+                <p className="text-slate-400 group-hover/button:text-slate-300 transition-colors text-base font-medium">
+                  Chia sẻ suy nghĩ của bạn...
+                </p>
+                <p className="text-slate-600 text-sm mt-1">
+                  Tạo bài viết mới để thảo luận
+                </p>
+              </div>
+              <div className="text-slate-500 group-hover/button:text-blue-400 transition-colors">
+                <FaPaperPlane className="text-xl" />
+              </div>
+            </div>
+          </button>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="relative bg-slate-900 rounded-xl p-5 space-y-4"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <FaPen className="text-blue-400" />
+                Tạo bài viết mới
+              </h3>
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white"
+                disabled={isSubmitting}
+              >
+                <FaTimes />
+              </button>
+            </div>
 
-          <div className="w-full h-px bg-slate-800"></div>
+            <input
+              type="text"
+              placeholder="Give your topic a catchy title..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full bg-transparent text-lg font-bold text-white placeholder-slate-500 border-none focus:ring-0 px-0 py-1"
+              disabled={isSubmitting}
+              autoFocus
+            />
 
-          <textarea
-            placeholder="What's happening? Share your thoughts..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows="3"
-            className="w-full bg-transparent text-slate-300 placeholder-slate-500 border-none focus:ring-0 px-0 py-2 resize-none leading-relaxed text-base min-h-[100px]"
-            disabled={isSubmitting}
-          />
+            <div className="w-full h-px bg-slate-800"></div>
+
+            <textarea
+              placeholder="What's happening? Share your thoughts..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows="3"
+              className="w-full bg-transparent text-slate-300 placeholder-slate-500 border-none focus:ring-0 px-0 py-2 resize-none leading-relaxed text-base min-h-[100px]"
+              disabled={isSubmitting}
+            />
 
           {showImageInput && (
             <div className="relative mt-4 animate-fadeIn">
@@ -166,7 +216,7 @@ function CreatePost({ onPostCreated }) {
             <button
               type="submit"
               disabled={isSubmitting || !title.trim() || !content.trim()}
-              className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:translate-y-[-1px] active:translate-y-[1px]"
+              className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:-translate-y-px active:translate-y-px"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -179,6 +229,7 @@ function CreatePost({ onPostCreated }) {
             </button>
           </div>
         </form>
+        )}
       </div>
     </>
   );
