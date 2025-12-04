@@ -16,6 +16,7 @@ import ManageUserPage from "./pages/admin/ManageUserPage";
 import ManageGaraPage from "./pages/admin/ManageGaraPage";
 import ManageCarPage from "./pages/admin/ManageCarPage";
 import ManageForumPage from "./pages/admin/ManageForumPage";
+import ManageModelPage from "./pages/admin/ManageModelPage";
 
 function AppRoutes() {
   const { isAuthenticated, checkAuth, getHomeRoute } = useAuth();
@@ -90,6 +91,12 @@ function AppRoutes() {
       <Route path="/admin/forum" element={
           <ProtectedRoute allowedRoles={["ADMIN"]}>
             <ManageForumPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/admin/models" element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <ManageModelPage />
           </ProtectedRoute>
         }
       />

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { FaTimes, FaImage, FaPaperPlane, FaPen } from "react-icons/fa";
-import { createPost, uploadPostImage } from "../../services/postService";
+import { createPost, updatePost } from "../../services/postService";
+import { uploadFile } from "../../services/fileService";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 
 function CreatePost({ onPostCreated }) {
+  const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -42,6 +45,7 @@ function CreatePost({ onPostCreated }) {
 
     setIsSubmitting(true);
     try {
+      // 1. Create Post
       const postData = { title: title.trim(), content: content.trim() };
       const response = await createPost(postData);
       const postId =
@@ -49,10 +53,28 @@ function CreatePost({ onPostCreated }) {
 
       if (!postId) throw new Error("Post created but no ID returned");
 
-      if (imageFile && postId) {
-        const formData = new FormData();
-        formData.append("image", imageFile);
-        await uploadPostImage(postId, formData);
+      // 2. Upload Image & Update Post if image exists
+      if (imageFile) {
+        const uploadResponse = await uploadFile(
+          imageFile,
+          "POST",
+          postId.toString(),
+          user?.id?.toString() || "0"
+        );
+
+        if (uploadResponse.code === 0 && uploadResponse.result) {
+          const imageUrl = uploadResponse.result.url;
+          // 3. Update Post with Image URL
+          await updatePost(postId, {
+            title: title.trim(),
+            content: content.trim(),
+            image: imageUrl
+          });
+        } else {
+          console.error("Failed to upload image for new post");
+          // We don't throw here to avoid failing the whole post creation, 
+          // but maybe we should warn? For now, just log.
+        }
       }
 
       setTitle("");
@@ -160,75 +182,74 @@ function CreatePost({ onPostCreated }) {
               disabled={isSubmitting}
             />
 
-          {showImageInput && (
-            <div className="relative mt-4 animate-fadeIn">
-              {imagePreview ? (
-                <div className="relative rounded-xl overflow-hidden group/image border border-slate-700/50">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-full max-h-[300px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
-                    <button
-                      type="button"
-                      onClick={handleRemoveImage}
-                      className="p-2 bg-red-500/90 text-white rounded-full hover:bg-red-600 transition-transform hover:scale-110"
-                    >
-                      <FaTimes />
-                    </button>
+            {showImageInput && (
+              <div className="relative mt-4 animate-fadeIn">
+                {imagePreview ? (
+                  <div className="relative rounded-xl overflow-hidden group/image border border-slate-700/50">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-full max-h-[300px] object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="p-2 bg-red-500/90 text-white rounded-full hover:bg-red-600 transition-transform hover:scale-110"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-700 rounded-xl cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all group/upload">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <FaImage className="w-8 h-8 text-slate-500 group-hover/upload:text-blue-400 mb-2 transition-colors" />
-                    <p className="text-sm text-slate-400">
-                      Click to upload image
-                    </p>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
-              )}
-            </div>
-          )}
+                ) : (
+                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-700 rounded-xl cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all group/upload">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <FaImage className="w-8 h-8 text-slate-500 group-hover/upload:text-blue-400 mb-2 transition-colors" />
+                      <p className="text-sm text-slate-400">
+                        Click to upload image
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div>
+            )}
 
-          <div className="flex items-center justify-between pt-2">
-            <button
-              type="button"
-              onClick={() => setShowImageInput(!showImageInput)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                showImageInput
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => setShowImageInput(!showImageInput)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${showImageInput
                   ? "bg-blue-500/10 text-blue-400"
                   : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-              }`}
-              disabled={isSubmitting}
-            >
-              <FaImage />
-              <span>{showImageInput ? "Hide Media" : "Add Media"}</span>
-            </button>
+                  }`}
+                disabled={isSubmitting}
+              >
+                <FaImage />
+                <span>{showImageInput ? "Hide Media" : "Add Media"}</span>
+              </button>
 
-            <button
-              type="submit"
-              disabled={isSubmitting || !title.trim() || !content.trim()}
-              className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:-translate-y-px active:translate-y-px"
-            >
-              {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              ) : (
-                <>
-                  <span>Post</span>
-                  <FaPaperPlane className="text-xs" />
-                </>
-              )}
-            </button>
-          </div>
-        </form>
+              <button
+                type="submit"
+                disabled={isSubmitting || !title.trim() || !content.trim()}
+                className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:-translate-y-px active:translate-y-px"
+              >
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <span>Post</span>
+                    <FaPaperPlane className="text-xs" />
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </>

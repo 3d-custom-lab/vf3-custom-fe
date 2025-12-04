@@ -43,15 +43,7 @@ export const likePost = async (id) => {
   return res.data;
 };
 
-// Upload an image for a post
-export const uploadPostImage = async (id, formData) => {
-  const res = await api.post(`/posts/${id}/images`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return res.data;
-};
+
 
 // Get user's own posts
 export const getMyPosts = async () => {
