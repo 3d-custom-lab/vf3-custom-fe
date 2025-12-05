@@ -104,8 +104,8 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
     } catch (error) {
       showError(
         error.response?.data?.message ||
-          error.message ||
-          "Failed to create user"
+        error.message ||
+        "Failed to create user"
       );
     } finally {
       setLoading(false);
@@ -138,17 +138,15 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 transition-opacity duration-300 ${
-          isOpen ? "animate-backdrop-enter" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 transition-opacity duration-300 ${isOpen ? "animate-backdrop-enter" : "opacity-0 pointer-events-none"
+          }`}
       />
 
       {/* Modal Container */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto pointer-events-none">
         <div
-          className={`pointer-events-auto bg-white rounded-xl sm:rounded-2xl shadow-xl w-full max-w-2xl border border-slate-100 transform transition-all duration-300 my-4 sm:my-8 ${
-            isOpen ? "animate-modal-enter" : "opacity-0 scale-95 translate-y-4"
-          }`}
+          className={`pointer-events-auto bg-white rounded-xl sm:rounded-2xl shadow-xl w-full max-w-2xl border border-slate-100 transform transition-all duration-300 my-4 sm:my-8 ${isOpen ? "animate-modal-enter" : "opacity-0 scale-95 translate-y-4"
+            }`}
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 border-b border-slate-100">
@@ -167,7 +165,7 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0 ml-2"
+              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0 ml-2 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -191,10 +189,9 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
                     onChange={(e) => handleChange("name", e.target.value)}
                     placeholder="John Doe"
                     className={`w-full pl-10 pr-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-all duration-200
-                      ${
-                        errors.name
-                          ? "border-red-300 focus:border-red-500"
-                          : "border-slate-200 focus:border-indigo-500"
+                      ${errors.name
+                        ? "border-red-300 focus:border-red-500"
+                        : "border-slate-200 focus:border-indigo-500"
                       }`}
                   />
                 </div>
@@ -220,10 +217,9 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
                     onChange={(e) => handleChange("email", e.target.value)}
                     placeholder="name@company.com"
                     className={`w-full pl-10 pr-4 py-2.5 rounded-xl border bg-slate-50 text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-all duration-200
-                      ${
-                        errors.email
-                          ? "border-red-300 focus:border-red-500"
-                          : "border-slate-200 focus:border-indigo-500"
+                      ${errors.email
+                        ? "border-red-300 focus:border-red-500"
+                        : "border-slate-200 focus:border-indigo-500"
                       }`}
                   />
                 </div>
@@ -249,10 +245,9 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
                     onChange={(e) => handleChange("password", e.target.value)}
                     placeholder="••••••••"
                     className={`w-full pl-10 pr-12 py-2.5 rounded-xl border bg-slate-50 text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-all duration-200
-                      ${
-                        errors.password
-                          ? "border-red-300 focus:border-red-500"
-                          : "border-slate-200 focus:border-indigo-500"
+                      ${errors.password
+                        ? "border-red-300 focus:border-red-500"
+                        : "border-slate-200 focus:border-indigo-500"
                       }`}
                   />
                   <button
@@ -282,10 +277,9 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }) {
                       type="button"
                       onClick={() => handleChange("gender", gender)}
                       className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer flex items-center justify-center gap-2
-                        ${
-                          formData.gender === gender
-                            ? "bg-white text-indigo-600 shadow-sm border border-slate-100 ring-1 ring-black/5"
-                            : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                        ${formData.gender === gender
+                          ? "bg-white text-indigo-600 shadow-sm border border-slate-100 ring-1 ring-black/5"
+                          : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                         }`}
                     >
                       {formData.gender === gender && (

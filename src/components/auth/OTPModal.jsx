@@ -149,7 +149,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
             disabled={loading}
           >
             <MdClose className="text-2xl" />
@@ -219,7 +219,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
           <button
             onClick={handleVerify}
             disabled={otp.some((digit) => !digit) || loading}
-            className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
           >
             {loading ? "Verifying..." : "Verify"}
           </button>
@@ -229,7 +229,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
             <button
               onClick={handleResend}
               disabled={resendLoading}
-              className="text-sm text-gray-400 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm text-gray-400 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               Didn't receive code?{" "}
               <span className="font-semibold">

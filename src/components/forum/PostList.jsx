@@ -33,7 +33,7 @@ function PostList({
         <p className="text-red-300/80 mb-6 max-w-md mx-auto">{error}</p>
         <button
           onClick={onRetry}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl transition-colors shadow-lg shadow-red-600/20 font-medium"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl transition-colors shadow-lg shadow-red-600/20 font-medium cursor-pointer"
         >
           <RefreshCw className="w-4 h-4" /> Try Again
         </button>

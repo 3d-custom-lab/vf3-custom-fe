@@ -43,7 +43,7 @@ export const Modal = ({ isOpen, onClose, title, children }) => {
                   </h2>
                   <button
                     onClick={onClose}
-                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors"
+                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors cursor-pointer"
                   >
                     <X className="w-6 h-6" />
                   </button>

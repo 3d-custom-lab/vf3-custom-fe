@@ -48,7 +48,7 @@ export default function AdminSidebar({ isOpen, onClose }) {
         {/* Close button for mobile */}
         <button
           onClick={onClose}
-          className="lg:hidden absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+          className="lg:hidden absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
         >
           <X size={24} />
         </button>

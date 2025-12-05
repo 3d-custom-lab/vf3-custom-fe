@@ -148,7 +148,7 @@ export default function ResetPasswordModal({
                 <button
                   onClick={handleClose}
                   disabled={loading}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-white transition disabled:opacity-50"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-white transition disabled:opacity-50 cursor-pointer"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -212,7 +212,7 @@ export default function ResetPasswordModal({
                     type="button"
                     onClick={handleResend}
                     disabled={resendLoading}
-                    className="text-sm text-gray-400 hover:text-blue-400 transition disabled:opacity-50"
+                    className="text-sm text-gray-400 hover:text-blue-400 transition disabled:opacity-50 cursor-pointer"
                   >
                     {resendLoading
                       ? "Sending..."
@@ -244,7 +244,7 @@ export default function ResetPasswordModal({
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition cursor-pointer"
                     >
                       {showPassword ? (
                         <EyeOff size={18} className="cursor-pointer" />
@@ -281,7 +281,7 @@ export default function ResetPasswordModal({
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition cursor-pointer"
                     >
                       {showConfirmPassword ? (
                         <EyeOff size={18} />
@@ -298,7 +298,7 @@ export default function ResetPasswordModal({
                     type="button"
                     onClick={handleClose}
                     disabled={loading}
-                    className="flex-1 py-3.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-300 rounded-xl font-semibold transition disabled:opacity-50"
+                    className="flex-1 py-3.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-300 rounded-xl font-semibold transition disabled:opacity-50 cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -306,7 +306,7 @@ export default function ResetPasswordModal({
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-semibold transition transform hover:scale-[1.02] hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-semibold transition transform hover:scale-[1.02] hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {loading ? (
                       <>

@@ -80,7 +80,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                 <button
                   onClick={handleClose}
                   disabled={loading}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -147,7 +147,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                     type="button"
                     onClick={handleClose}
                     disabled={loading}
-                    className="flex-1 py-3.5 bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 rounded-xl transition-all disabled:opacity-50"
+                    className="flex-1 py-3.5 bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 rounded-xl transition-all disabled:opacity-50 cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -155,7 +155,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccess }) {
                   <button
                     type="submit"
                     disabled={loading || !email.trim()}
-                    className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   >
                     {loading ? (
                       <>

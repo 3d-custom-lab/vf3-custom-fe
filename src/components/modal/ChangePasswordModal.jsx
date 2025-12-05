@@ -130,7 +130,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                 <button
                   onClick={handleClose}
                   disabled={loading}
-                  className="p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition"
+                  className="p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -169,7 +169,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                     <button
                       type="button"
                       onClick={() => setShowOldPassword(!showOldPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition cursor-pointer"
                       disabled={loading}
                     >
                       {showOldPassword ? (
@@ -203,7 +203,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                     <button
                       type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition cursor-pointer"
                       disabled={loading}
                     >
                       {showNewPassword ? (
@@ -239,7 +239,7 @@ export default function ChangePasswordModal({ isOpen, onClose, userId }) {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-400 transition cursor-pointer"
                       disabled={loading}
                     >
                       {showConfirmPassword ? (

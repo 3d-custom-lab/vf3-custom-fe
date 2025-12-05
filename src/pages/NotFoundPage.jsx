@@ -58,14 +58,14 @@ export default function NotFoundPage() {
         >
           <button
             onClick={() => navigate(-1)}
-            className="px-8 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl hover:bg-gray-700/50 transition-all duration-300 flex items-center gap-2 group"
+            className="px-8 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl hover:bg-gray-700/50 transition-all duration-300 flex items-center gap-2 group cursor-pointer"
           >
             <span>Quay lại</span>
           </button>
 
           <button
             onClick={() => navigate("/")}
-            className="px-8 py-3 bg-linear-to-r from-cyan-500 to-blue-600 text-white rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2 group"
+            className="px-8 py-3 bg-linear-to-r from-cyan-500 to-blue-600 text-white rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2 group cursor-pointer"
           >
             <FaHome className="group-hover:scale-110 transition-transform" />
             <span>Về trang chủ</span>

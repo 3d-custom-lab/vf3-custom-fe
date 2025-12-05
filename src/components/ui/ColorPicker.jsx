@@ -42,7 +42,7 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onChange(color.value)}
-              className="relative aspect-square rounded-xl shadow-md hover:shadow-lg transition-all"
+              className="relative aspect-square rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer"
               style={{ backgroundColor: color.value }}
               title={color.name}
             >
@@ -50,7 +50,7 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
               {color.value === "#FFFFFF" && (
                 <div className="absolute inset-0 rounded-xl border-2 border-slate-200 dark:border-slate-700" />
               )}
-              
+
               {/* Checkmark khi được chọn */}
               <AnimatePresence>
                 {value === color.value && (
@@ -82,7 +82,7 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
       <div className="space-y-2">
         <button
           onClick={() => setShowSketchPicker(!showSketchPicker)}
-          className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl font-medium transition-all duration-200 inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+          className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl font-medium transition-all duration-200 inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
         >
           <Palette className="w-5 h-5" />
           {showSketchPicker ? "Đóng bảng màu nâng cao" : "Mở bảng màu nâng cao"}
@@ -112,7 +112,7 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
         {/* Input màu hex */}
         <button
           onClick={() => setShowHexInput(!showHexInput)}
-          className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+          className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium cursor-pointer"
         >
           {showHexInput ? "Ẩn" : "Hoặc nhập mã màu hex"}
         </button>

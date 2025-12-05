@@ -94,39 +94,39 @@ export const Studio = () => {
 
   // Tabs mới với 8 categories
   const tabs = [
-    { 
-      id: "color", 
-      label: "Màu sắc", 
+    {
+      id: "color",
+      label: "Màu sắc",
       icon: Palette,
       description: "Tùy chỉnh màu sắc xe"
     },
-    { 
-      id: "wheels", 
-      label: "Vành xe", 
+    {
+      id: "wheels",
+      label: "Vành xe",
       icon: Disc3,
       description: "Chọn kiểu vành"
     },
-    { 
-      id: "front", 
-      label: "Mặt xe", 
+    {
+      id: "front",
+      label: "Mặt xe",
       icon: Car,
       description: "Ca-lăng & Cản"
     },
-    { 
-      id: "roof", 
-      label: "Nóc xe", 
+    {
+      id: "roof",
+      label: "Nóc xe",
       icon: Wind,
       description: "Phụ kiện nóc"
     },
-    { 
-      id: "body", 
-      label: "Thân xe", 
+    {
+      id: "body",
+      label: "Thân xe",
       icon: Box,
       description: "Bệ chân & Phụ kiện"
     },
-    { 
-      id: "rear", 
-      label: "Đuôi xe", 
+    {
+      id: "rear",
+      label: "Đuôi xe",
       icon: Package,
       description: "Phụ kiện đuôi"
     },
@@ -163,7 +163,7 @@ export const Studio = () => {
                   className="w-full h-[600px] bg-linear-to-b from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 relative"
                 >
                   <Scene autoRotate={false} enableControls={true} />
-                  
+
                   {/* Loading Overlay - chỉ hiển thị lần đầu */}
                   <LoadingOverlay isLoading={isInitialLoading} />
                 </div>
@@ -211,11 +211,10 @@ export const Studio = () => {
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         title={tab.description}
-                        className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 ${
-                          activeTab === tab.id
+                        className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${activeTab === tab.id
                             ? "bg-linear-to-br from-blue-600 to-purple-600 text-white shadow-lg scale-105"
                             : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
-                        }`}
+                          }`}
                       >
                         <Icon className="w-5 h-5" />
                         <span className="text-xs">{tab.label}</span>
@@ -293,7 +292,7 @@ export const Studio = () => {
                             onSelect={setSelectedGrille}
                           />
                         </div>
-                        
+
                         <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
                           <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                             <Zap className="w-5 h-5" />
@@ -348,7 +347,7 @@ export const Studio = () => {
                             onSelect={setSelectedChassis}
                           />
                         </div>
-                        
+
                         <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
                           <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                             <Package className="w-5 h-5" />

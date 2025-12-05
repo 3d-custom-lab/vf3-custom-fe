@@ -175,7 +175,7 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                   <button
                     onClick={onClose}
                     disabled={loading}
-                    className="p-2 hover:bg-white/10 rounded-xl transition-all duration-200 text-white disabled:opacity-50"
+                    className="p-2 hover:bg-white/10 rounded-xl transition-all duration-200 text-white disabled:opacity-50 cursor-pointer"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -236,7 +236,7 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                             ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-500/20"
                             : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300"
                           }
-                          disabled:opacity-50 disabled:cursor-not-allowed`}
+                          disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
                       >
                         {gender.charAt(0) + gender.slice(1).toLowerCase()}
                       </button>
@@ -317,14 +317,14 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                     type="button"
                     onClick={onClose}
                     disabled={loading}
-                    className="flex-1 py-3.5 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-semibold transition-all duration-200 border-2 border-slate-700 hover:border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 py-3.5 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-semibold transition-all duration-200 border-2 border-slate-700 hover:border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3.5 px-6 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 px-6 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {loading ? (
                       <>

@@ -204,7 +204,7 @@ function ManageModelPage() {
               <h3 className="text-lg font-bold text-slate-800">Model Details</h3>
               <button
                 onClick={() => setIsViewModalOpen(false)}
-                className="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors"
+                className="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors cursor-pointer"
               >
                 <X size={20} />
               </button>
