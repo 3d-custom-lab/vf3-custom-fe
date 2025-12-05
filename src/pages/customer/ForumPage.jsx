@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Sparkles, Rocket, Search, Filter, Layers } from "lucide-react";
+import { Sparkles, Rocket, Search, Filter, Layers, ChevronLeft, ChevronRight } from "lucide-react";
 import CreatePost from "../../components/forum/CreatePost";
 import PostList from "../../components/forum/PostList";
 import Header from "../../components/layout/Header";
@@ -85,7 +85,7 @@ function ForumPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-[#0f172a] relative overflow-x-hidden font-sans text-slate-200 selection:bg-blue-500/30">
+      <div className="min-h-screen bg-[#030814] relative overflow-x-hidden font-sans text-slate-200 selection:bg-blue-500/30">
         {/* Ambient Background Lights */}
         <div className="fixed inset-0 pointer-events-none">
           <div className="absolute -top-20 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] animate-pulse"></div>
@@ -93,7 +93,7 @@ function ForumPage() {
           <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[80px] animate-pulse delay-2000"></div>
 
           {/* Subtle Grid */}
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+          <div className="absolute inset-0 opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
         </div>
 
         <main className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20 space-y-10">
@@ -134,15 +134,16 @@ function ForumPage() {
                   </div>
 
                   <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                      <Filter className="w-4 h-4 text-slate-400" />
+                    {/* Size Selector */}
+                    <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:border-blue-500/30 transition-colors group/size">
+                      <Filter className="w-4 h-4 text-slate-400 group-hover/size:text-blue-400 transition-colors" />
                       <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">
                         Size
                       </span>
                       <select
                         value={size}
                         onChange={(e) => setSize(Number(e.target.value))}
-                        className="bg-transparent text-sm text-white font-medium focus:outline-none cursor-pointer"
+                        className="bg-transparent text-sm text-white font-medium focus:outline-none cursor-pointer [&>option]:bg-slate-900 [&>option]:text-slate-200"
                       >
                         <option value={10}>10</option>
                         <option value={20}>20</option>
@@ -150,20 +151,36 @@ function ForumPage() {
                       </select>
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                      <Layers className="w-4 h-4 text-slate-400" />
-                      <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">
-                        Page
-                      </span>
-                      <input
-                        type="number"
-                        min={0}
-                        value={page}
-                        onChange={(e) =>
-                          setPage(Math.max(0, Number(e.target.value)))
-                        }
-                        className="w-12 bg-transparent text-sm text-white font-medium focus:outline-none text-right"
-                      />
+                    {/* Page Selector */}
+                    <div className="flex items-center gap-1 px-2 py-1.5 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:border-blue-500/30 transition-colors">
+                      <button
+                        onClick={() => setPage(Math.max(0, page - 1))}
+                        disabled={page === 0}
+                        className="p-1 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+
+                      <div className="flex items-center gap-2 px-1 border-x border-slate-700/50 mx-1">
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider hidden sm:inline-block">Page</span>
+                        <input
+                          type="number"
+                          min={1}
+                          value={page + 1}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            if (!isNaN(val) && val > 0) setPage(val - 1);
+                          }}
+                          className="w-8 bg-transparent text-center text-sm font-bold text-white focus:outline-none appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        />
+                      </div>
+
+                      <button
+                        onClick={() => setPage(page + 1)}
+                        className="p-1 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                 </div>

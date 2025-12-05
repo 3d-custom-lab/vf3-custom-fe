@@ -130,7 +130,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-400 transition-colors duration-200"
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
               disabled={loading}
             >
               {showPassword ? (

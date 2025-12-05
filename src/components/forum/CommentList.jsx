@@ -89,7 +89,7 @@ function CommentList({ postId, onCommentChange }) {
           <button
             type="submit"
             disabled={isSubmitting || !newCommentContent.trim()}
-            className="absolute right-2 bottom-1.5 p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg disabled:opacity-0 transition-all"
+            className="absolute right-2 bottom-1.5 p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg disabled:opacity-0 transition-all cursor-pointer"
           >
             {isSubmitting ? (
               <span className="block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>

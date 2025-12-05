@@ -14,12 +14,23 @@ export const getPostById = async (id) => {
 };
 
 // Create a new post
-// API nhận title và content qua query params, không phải body
-export const createPost = async (data) => {
-  const res = await api.post("/posts/create", null, {
+// Create a new post
+// API nhận title và content qua query params, images qua body (multipart/form-data)
+export const createPost = async (title, content, imageFiles = []) => {
+  const formData = new FormData();
+  if (imageFiles && imageFiles.length > 0) {
+    Array.from(imageFiles).forEach((file) => {
+      formData.append("images", file);
+    });
+  }
+
+  const res = await api.post("/posts/create", formData, {
     params: {
-      title: data.title,
-      content: data.content,
+      title,
+      content,
+    },
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
   });
   return res.data;
@@ -54,5 +65,24 @@ export const getMyPosts = async () => {
 // Delete all of user's own posts
 export const deleteMyPosts = async () => {
   const res = await api.delete("/posts/my-posts");
+  return res.data;
+};
+
+// Add image to post
+export const addPostImage = async (postId, imageFile) => {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+
+  const res = await api.post(`/posts/${postId}/images`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
+
+// Delete image from post
+export const deletePostImage = async (postId, imageId) => {
+  const res = await api.delete(`/posts/${postId}/images/${imageId}`);
   return res.data;
 };

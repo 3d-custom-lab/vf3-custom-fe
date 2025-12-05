@@ -123,7 +123,7 @@ export default function ProfilePage() {
             <p className="text-slate-400 mb-6">{error}</p>
             <button
               onClick={() => navigate("/")}
-              className="w-full py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors font-medium"
+              className="w-full py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors font-medium cursor-pointer"
             >
               Return Home
             </button>
@@ -305,7 +305,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 {userInfo?.paymentType === "FREE" && (
-                  <button className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20">
+                  <button className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20 cursor-pointer">
                     Upgrade Plan
                   </button>
                 )}
@@ -315,14 +315,14 @@ export default function ProfilePage() {
               <div className="md:hidden mt-8 grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setIsEditModalOpen(true)}
-                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20"
+                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20 cursor-pointer"
                 >
                   <Edit3 size={18} />
                   Edit Profile
                 </button>
                 <button
                   onClick={() => setIsChangePasswordModalOpen(true)}
-                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700"
+                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 text-slate-200 rounded-xl border border-slate-700 cursor-pointer"
                 >
                   <Key size={18} />
                   Change Password

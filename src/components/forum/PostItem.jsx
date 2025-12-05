@@ -7,29 +7,56 @@ import {
   FaTrashAlt,
   FaTimes,
   FaCamera,
+  FaImage,
 } from "react-icons/fa";
 import CommentList from "./CommentList";
 import {
   updatePost,
   deletePost,
   likePost,
+  addPostImage,
+  deletePostImage,
 } from "../../services/postService";
-import { uploadFile } from "../../services/fileService";
+import { getUserInfo } from "../../services/userService";
 import { getCommentsByPostId } from "../../services/commentService";
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../ui/Toast";
 import { Modal } from "../ui/Modal";
 import { getRelativeTime, formatDate } from "../../utils/dateUtils";
+import ImageLightbox from "./ImageLightbox";
 
 function PostItem({ post, onPostUpdated, onPostDeleted }) {
   const { user } = useAuth();
   const { toast, showSuccess, showError, hideToast } = useToast();
 
+  const [userInfo, setUserInfo] = useState(null);
+
   const authorEmail = post.author?.email || "";
-  const authorName = post.author?.name || authorEmail;
+  const isAuthor = user?.email === authorEmail;
+
+  // Prioritize fetched userInfo if it's the current user, otherwise use post.author
+  const displayAuthor = isAuthor && userInfo ? userInfo : post.author;
+  const authorName = displayAuthor?.name || displayAuthor?.email || "Unknown User";
+  const authorAvatar = displayAuthor?.avatar;
+
+  useEffect(() => {
+    if (isAuthor) {
+      const fetchUserInfo = async () => {
+        try {
+          const res = await getUserInfo();
+          if (res.code === 1000) {
+            setUserInfo(res.result);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user info for post:", error);
+        }
+      };
+      fetchUserInfo();
+    }
+  }, [isAuthor]);
+
   const postImages = post.images || [];
-  const firstImageUrl = postImages.length > 0 ? postImages[0].url : "";
   const likedUserIds = post.likedUserIds || [];
   const currentUserId = user?.id;
 
@@ -37,21 +64,40 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
   const [likeCount, setLikeCount] = useState(likedUserIds.length);
   const [showComments, setShowComments] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
+
+  // Edit State
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(post.title || "");
   const [editContent, setEditContent] = useState(post.content);
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(firstImageUrl);
+
+  // Image Management State for Edit
+  const [existingImages, setExistingImages] = useState([]);
+  const [deletedImageIds, setDeletedImageIds] = useState([]);
+  const [newImageFiles, setNewImageFiles] = useState([]);
+  const [newImagePreviews, setNewImagePreviews] = useState([]);
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isLikeAnimating, setIsLikeAnimating] = useState(false);
-
-  const isAuthor = user?.email === authorEmail;
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   useEffect(() => {
     setIsLiked(likedUserIds.includes(currentUserId));
     setLikeCount(likedUserIds.length);
   }, [post.likedUserIds, currentUserId]);
+
+  // Reset edit state when entering edit mode
+  useEffect(() => {
+    if (isEditing) {
+      setEditTitle(post.title || "");
+      setEditContent(post.content || "");
+      setExistingImages(post.images || []);
+      setDeletedImageIds([]);
+      setNewImageFiles([]);
+      setNewImagePreviews([]);
+    }
+  }, [isEditing, post]);
 
   const loadCommentCount = async () => {
     try {
@@ -89,54 +135,85 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith("image/"))
-        return showError("Please select an image file");
-      if (file.size > 5 * 1024 * 1024)
-        return showError("Image size should not exceed 5MB");
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+  // Handle adding new images
+  const handleNewImageChange = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    const validFiles = [];
+    const newPreviews = [];
+
+    files.forEach((file) => {
+      if (!file.type.startsWith("image/")) {
+        showError(`File ${file.name} is not an image`);
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showError(`File ${file.name} exceeds 5MB`);
+        return;
+      }
+      validFiles.push(file);
+      newPreviews.push(URL.createObjectURL(file));
+    });
+
+    setNewImageFiles((prev) => [...prev, ...validFiles]);
+    setNewImagePreviews((prev) => [...prev, ...newPreviews]);
+  };
+
+  // Remove a new image from the list (before upload)
+  const removeNewImage = (index) => {
+    setNewImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setNewImagePreviews((prev) => {
+      const newPreviews = prev.filter((_, i) => i !== index);
+      URL.revokeObjectURL(prev[index]);
+      return newPreviews;
+    });
+  };
+
+  // Mark an existing image for deletion
+  const markImageForDeletion = (imageId) => {
+    setDeletedImageIds((prev) => [...prev, imageId]);
+  };
+
+  // Undo deletion of an existing image
+  const undoImageDeletion = (imageId) => {
+    setDeletedImageIds((prev) => prev.filter((id) => id !== imageId));
   };
 
   const handleSaveEdit = async () => {
     if (!editTitle.trim() || !editContent.trim())
       return showError("Title and content required");
+
     setIsUpdating(true);
     try {
-      let imageUrl = firstImageUrl;
+      // 1. Update Text Content
+      await updatePost(post.id, {
+        title: editTitle.trim(),
+        content: editContent.trim(),
+      });
 
-      if (imageFile) {
-        const uploadResponse = await uploadFile(
-          imageFile,
-          "POST",
-          post.id.toString(),
-          user.id.toString()
+      // 2. Delete marked images
+      if (deletedImageIds.length > 0) {
+        await Promise.all(
+          deletedImageIds.map((imageId) => deletePostImage(post.id, imageId))
         );
-        if (uploadResponse.code === 0 && uploadResponse.result) {
-          imageUrl = uploadResponse.result.url;
-        } else {
-          throw new Error("Failed to upload image");
+      }
+
+      // 3. Upload new images
+      if (newImageFiles.length > 0) {
+        // Upload sequentially to ensure order or avoid overwhelming server
+        for (const file of newImageFiles) {
+          await addPostImage(post.id, file);
         }
       }
 
-      const response = await updatePost(post.id, {
-        title: editTitle.trim(),
-        content: editContent.trim(),
-        image: imageUrl
-      });
+      // Success
+      setIsEditing(false);
+      if (onPostUpdated) onPostUpdated();
+      showSuccess("Post updated successfully!");
 
-      if (response.code === 1000) {
-        setIsEditing(false);
-        setImageFile(null);
-        if (onPostUpdated) onPostUpdated();
-        showSuccess("Post updated successfully!");
-      }
     } catch (error) {
+      console.error("Update failed:", error);
       showError(error.response?.data?.message || "Failed to update post");
     } finally {
       setIsUpdating(false);
@@ -150,7 +227,6 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       const response = await deletePost(post.id);
       if (response.code === 1000) {
         if (onPostDeleted) onPostDeleted(post.id);
-        // showSuccess("Post deleted"); // Handled by parent
       }
     } catch (error) {
       showError("Failed to delete post");
@@ -159,26 +235,23 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
     }
   };
 
-  // Hàm hiển thị thời gian: relative nếu < 24h, ngược lại hiển thị ngày tháng cụ thể
   const formatPostTime = (dateString) => {
     if (!dateString) return "N/A";
-
     try {
       const date = new Date(dateString);
       const now = new Date();
       const diffMs = now - date;
       const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-
-      // Nếu < 24 giờ → hiển thị relative time
-      if (diffHours < 24) {
-        return getRelativeTime(dateString);
-      }
-
-      // Nếu >= 24 giờ → hiển thị ngày tháng cụ thể
-      return formatDate(dateString, 'time'); // Format: 24/11/2025 15:58
+      if (diffHours < 24) return getRelativeTime(dateString);
+      return formatDate(dateString, 'time');
     } catch (error) {
       return "N/A";
     }
+  };
+
+  const openLightbox = (index) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
   };
 
   return (
@@ -198,8 +271,12 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
           <div className="flex items-start justify-between mb-5">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-12 h-12 rounded-full bg-linear-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg ring-2 ring-slate-800">
-                  {authorName?.charAt(0).toUpperCase() || "U"}
+                <div className="w-12 h-12 rounded-full bg-linear-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg ring-2 ring-slate-800 overflow-hidden">
+                  {authorAvatar ? (
+                    <img src={authorAvatar} alt={authorName} className="w-full h-full object-cover" />
+                  ) : (
+                    <span>{authorName?.charAt(0).toUpperCase() || "U"}</span>
+                  )}
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-slate-900 rounded-full"></div>
               </div>
@@ -217,14 +294,14 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
               <div className="flex gap-1">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-800 rounded-lg transition-all"
+                  className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
                   title="Edit"
                 >
                   <FaPen className="text-sm" />
                 </button>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-all"
+                  className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
                   title="Delete"
                 >
                   <FaTrashAlt className="text-sm" />
@@ -236,62 +313,118 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
           {/* Content */}
           {isEditing ? (
             <div className="space-y-4 animate-fadeIn">
+              {/* Title Input */}
               <input
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
                 className="w-full bg-slate-800/50 text-white rounded-xl px-4 py-3 border border-slate-700 focus:ring-2 focus:ring-blue-500/50 outline-none font-bold"
                 placeholder="Title"
+                disabled={isUpdating}
               />
+
+              {/* Content Input */}
               <textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
                 rows="4"
                 className="w-full bg-slate-800/50 text-white rounded-xl px-4 py-3 border border-slate-700 focus:ring-2 focus:ring-blue-500/50 outline-none resize-none"
                 placeholder="Content"
+                disabled={isUpdating}
               />
-              <div className="relative group">
-                {imagePreview ? (
-                  <div className="relative rounded-xl overflow-hidden max-h-60">
-                    <img
-                      src={imagePreview}
-                      className="w-full object-cover"
-                      alt="Preview"
-                    />
-                    <button
-                      onClick={() => {
-                        setImageFile(null);
-                        setImagePreview("");
-                      }}
-                      className="absolute top-2 right-2 p-1.5 bg-red-600 text-white rounded-full shadow-lg"
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="flex items-center gap-2 text-sm text-blue-400 cursor-pointer hover:underline p-2">
-                    <FaCamera /> Upload Image{" "}
+
+              {/* Image Management Section */}
+              <div className="space-y-3">
+                <p className="text-sm text-slate-400 font-medium">Images</p>
+
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {/* Existing Images */}
+                  {existingImages.map((img) => {
+                    const isDeleted = deletedImageIds.includes(img.id);
+                    return (
+                      <div
+                        key={img.id}
+                        className={`relative aspect-square rounded-lg overflow-hidden border border-slate-700 group ${isDeleted ? 'opacity-40 grayscale' : ''}`}
+                      >
+                        <img src={img.path} alt="Existing" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          {isDeleted ? (
+                            <button
+                              type="button"
+                              onClick={() => undoImageDeletion(img.id)}
+                              className="px-2 py-1 bg-green-600 text-white text-xs rounded-full hover:bg-green-500 cursor-pointer"
+                            >
+                              Undo
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => markImageForDeletion(img.id)}
+                              className="p-1.5 bg-red-600 text-white rounded-full hover:bg-red-500 cursor-pointer"
+                            >
+                              <FaTrashAlt size={12} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* New Images Previews */}
+                  {newImagePreviews.map((preview, idx) => (
+                    <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-blue-500/50 group">
+                      <img src={preview} alt="New" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button
+                          type="button"
+                          onClick={() => removeNewImage(idx)}
+                          className="p-1.5 bg-red-600 text-white rounded-full hover:bg-red-500 cursor-pointer"
+                        >
+                          <FaTimes size={12} />
+                        </button>
+                      </div>
+                      <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-blue-600 text-white text-[10px] rounded-sm font-bold">
+                        NEW
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Add Image Button */}
+                  <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-slate-700 rounded-lg cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all">
+                    <FaCamera className="text-slate-500 mb-1" />
+                    <span className="text-[10px] text-slate-400">Add</span>
                     <input
                       type="file"
-                      hidden
                       accept="image/*"
-                      onChange={handleImageChange}
+                      multiple
+                      onChange={handleNewImageChange}
+                      className="hidden"
+                      disabled={isUpdating}
                     />
                   </label>
-                )}
+                </div>
               </div>
-              <div className="flex justify-end gap-3 pt-2">
+
+              <div className="flex justify-end gap-3 pt-2 border-t border-slate-800">
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition"
+                  className="px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition cursor-pointer"
+                  disabled={isUpdating}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveEdit}
                   disabled={isUpdating}
-                  className="px-5 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium shadow-lg shadow-blue-600/20 transition"
+                  className="px-5 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium shadow-lg shadow-blue-600/20 transition flex items-center gap-2 cursor-pointer"
                 >
-                  {isUpdating ? "Saving..." : "Save Changes"}
+                  {isUpdating ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
                 </button>
               </div>
             </div>
@@ -304,14 +437,88 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                 {post.content}
               </p>
 
-              {firstImageUrl && (
-                <div className="rounded-xl overflow-hidden border border-slate-700/50 shadow-md">
-                  <img
-                    src={firstImageUrl}
-                    alt="Post Attachment"
-                    className="w-full max-h-[500px] object-cover hover:scale-105 transition-transform duration-500"
-                    onError={(e) => (e.target.style.display = "none")}
-                  />
+              {/* Image Grid */}
+              {postImages.length > 0 && (
+                <div className="mt-3 rounded-xl overflow-hidden border border-slate-700/50 shadow-md">
+                  {postImages.length === 1 && (
+                    <img
+                      src={postImages[0].path}
+                      alt="Post"
+                      className="w-full max-h-[500px] object-cover cursor-pointer hover:scale-[1.02] transition-transform duration-500"
+                      onClick={() => openLightbox(0)}
+                    />
+                  )}
+
+                  {postImages.length === 2 && (
+                    <div className="grid grid-cols-2 gap-1">
+                      {postImages.map((img, idx) => (
+                        <div
+                          key={img.id}
+                          className="aspect-square overflow-hidden cursor-pointer"
+                          onClick={() => openLightbox(idx)}
+                        >
+                          <img
+                            src={img.path}
+                            alt={`Post ${idx}`}
+                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {postImages.length === 3 && (
+                    <div className="grid grid-cols-2 gap-1">
+                      <div
+                        className="col-span-2 aspect-[2/1] overflow-hidden cursor-pointer"
+                        onClick={() => openLightbox(0)}
+                      >
+                        <img
+                          src={postImages[0].path}
+                          alt="Post 0"
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      {postImages.slice(1).map((img, idx) => (
+                        <div
+                          key={img.id}
+                          className="aspect-square overflow-hidden cursor-pointer"
+                          onClick={() => openLightbox(idx + 1)}
+                        >
+                          <img
+                            src={img.path}
+                            alt={`Post ${idx + 1}`}
+                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {postImages.length >= 4 && (
+                    <div className="grid grid-cols-2 gap-1">
+                      {postImages.slice(0, 4).map((img, idx) => (
+                        <div
+                          key={img.id}
+                          className="relative aspect-square overflow-hidden cursor-pointer group"
+                          onClick={() => openLightbox(idx)}
+                        >
+                          <img
+                            src={img.path}
+                            alt={`Post ${idx}`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          {idx === 3 && postImages.length > 4 && (
+                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm group-hover:bg-black/50 transition-colors">
+                              <span className="text-white text-2xl font-bold">
+                                +{postImages.length - 4}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -322,7 +529,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
             <button
               onClick={handleLike}
               disabled={isUpdating}
-              className={`group flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked
+              className={`group flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer ${isLiked
                 ? "bg-red-500/10 text-red-500"
                 : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-red-400"
                 }`}
@@ -341,7 +548,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                 setShowComments(!showComments);
                 if (!showComments) loadCommentCount();
               }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${showComments
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all cursor-pointer ${showComments
                 ? "bg-blue-500/10 text-blue-400"
                 : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-blue-400"
                 }`}
@@ -360,6 +567,15 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
         )}
       </div>
 
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <ImageLightbox
+          images={postImages}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+
       <Modal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
@@ -372,13 +588,13 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
           <div className="flex justify-end gap-3">
             <button
               onClick={() => setShowDeleteModal(false)}
-              className="px-4 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-600 transition"
+              className="px-4 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-600 transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={confirmDelete}
-              className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 transition"
+              className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 transition cursor-pointer"
             >
               Delete
             </button>

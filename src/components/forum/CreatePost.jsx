@@ -10,32 +10,45 @@ function CreatePost({ onPostCreated }) {
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const { toast, showSuccess, showError, hideToast } = useToast();
 
   const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith("image/"))
-        return showError("Please select an image file");
-      if (file.size > 5 * 1024 * 1024)
-        return showError("Image size should not exceed 5MB");
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+    const validFiles = [];
+    const newPreviews = [];
+
+    files.forEach((file) => {
+      if (!file.type.startsWith("image/")) {
+        showError(`File ${file.name} is not an image`);
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showError(`File ${file.name} exceeds 5MB`);
+        return;
+      }
+      validFiles.push(file);
+      newPreviews.push(URL.createObjectURL(file));
+    });
+
+    setImageFiles((prev) => [...prev, ...validFiles]);
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
   };
 
-  const handleRemoveImage = () => {
-    setImageFile(null);
-    setImagePreview("");
-    setShowImageInput(false);
+  const handleRemoveImage = (index) => {
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => {
+      const newPreviews = prev.filter((_, i) => i !== index);
+      // Revoke the URL to avoid memory leaks
+      URL.revokeObjectURL(prev[index]);
+      return newPreviews;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -45,46 +58,20 @@ function CreatePost({ onPostCreated }) {
 
     setIsSubmitting(true);
     try {
-      // 1. Create Post
-      const postData = { title: title.trim(), content: content.trim() };
-      const response = await createPost(postData);
-      const postId =
-        response?.result?.id || response?.data?.result?.id || response?.id;
+      const response = await createPost(title.trim(), content.trim(), imageFiles);
 
-      if (!postId) throw new Error("Post created but no ID returned");
-
-      // 2. Upload Image & Update Post if image exists
-      if (imageFile) {
-        const uploadResponse = await uploadFile(
-          imageFile,
-          "POST",
-          postId.toString(),
-          user?.id?.toString() || "0"
-        );
-
-        if (uploadResponse.code === 0 && uploadResponse.result) {
-          const imageUrl = uploadResponse.result.url;
-          // 3. Update Post with Image URL
-          await updatePost(postId, {
-            title: title.trim(),
-            content: content.trim(),
-            image: imageUrl
-          });
-        } else {
-          console.error("Failed to upload image for new post");
-          // We don't throw here to avoid failing the whole post creation, 
-          // but maybe we should warn? For now, just log.
-        }
+      if (response.code === 1000) {
+        setTitle("");
+        setContent("");
+        setImageFiles([]);
+        setImagePreviews([]);
+        setShowImageInput(false);
+        setIsExpanded(false);
+        if (onPostCreated) onPostCreated();
+        showSuccess("Post published successfully!");
+      } else {
+        throw new Error(response.message || "Failed to create post");
       }
-
-      setTitle("");
-      setContent("");
-      setImageFile(null);
-      setImagePreview("");
-      setShowImageInput(false);
-      setIsExpanded(false);
-      if (onPostCreated) onPostCreated();
-      showSuccess("Post published successfully!");
     } catch (error) {
       const msg =
         error.response?.data?.message ||
@@ -100,8 +87,8 @@ function CreatePost({ onPostCreated }) {
     setIsExpanded(false);
     setTitle("");
     setContent("");
-    setImageFile(null);
-    setImagePreview("");
+    setImageFiles([]);
+    setImagePreviews([]);
     setShowImageInput(false);
   };
 
@@ -122,7 +109,7 @@ function CreatePost({ onPostCreated }) {
         {!isExpanded ? (
           <button
             onClick={() => setIsExpanded(true)}
-            className="relative w-full bg-slate-900 rounded-xl p-6 text-left hover:bg-slate-800/80 transition-all group/button"
+            className="relative w-full bg-slate-900 rounded-xl p-6 text-left hover:bg-slate-800/80 transition-all group/button cursor-pointer"
           >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover/button:shadow-blue-500/40 transition-all group-hover/button:scale-110">
@@ -154,7 +141,7 @@ function CreatePost({ onPostCreated }) {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white"
+                className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white cursor-pointer"
                 disabled={isSubmitting}
               >
                 <FaTimes />
@@ -184,34 +171,53 @@ function CreatePost({ onPostCreated }) {
 
             {showImageInput && (
               <div className="relative mt-4 animate-fadeIn">
-                {imagePreview ? (
-                  <div className="relative rounded-xl overflow-hidden group/image border border-slate-700/50">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-full max-h-[300px] object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
-                      <button
-                        type="button"
-                        onClick={handleRemoveImage}
-                        className="p-2 bg-red-500/90 text-white rounded-full hover:bg-red-600 transition-transform hover:scale-110"
+                {imagePreviews.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {imagePreviews.map((preview, index) => (
+                      <div
+                        key={index}
+                        className="relative rounded-xl overflow-hidden group/image border border-slate-700/50 aspect-square"
                       >
-                        <FaTimes />
-                      </button>
-                    </div>
+                        <img
+                          src={preview}
+                          alt={`Preview ${index}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(index)}
+                            className="p-2 bg-red-500/90 text-white rounded-full hover:bg-red-600 transition-transform hover:scale-110 cursor-pointer"
+                          >
+                            <FaTimes />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-slate-700 rounded-xl cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all group/upload">
+                      <FaImage className="w-6 h-6 text-slate-500 group-hover/upload:text-blue-400 mb-2 transition-colors" />
+                      <span className="text-xs text-slate-400">Add more</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </label>
                   </div>
                 ) : (
                   <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-700 rounded-xl cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all group/upload">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <FaImage className="w-8 h-8 text-slate-500 group-hover/upload:text-blue-400 mb-2 transition-colors" />
                       <p className="text-sm text-slate-400">
-                        Click to upload image
+                        Click to upload images
                       </p>
                     </div>
                     <input
                       type="file"
                       accept="image/*"
+                      multiple
                       onChange={handleImageChange}
                       className="hidden"
                     />
@@ -224,7 +230,7 @@ function CreatePost({ onPostCreated }) {
               <button
                 type="button"
                 onClick={() => setShowImageInput(!showImageInput)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${showImageInput
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${showImageInput
                   ? "bg-blue-500/10 text-blue-400"
                   : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                   }`}
@@ -237,7 +243,7 @@ function CreatePost({ onPostCreated }) {
               <button
                 type="submit"
                 disabled={isSubmitting || !title.trim() || !content.trim()}
-                className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:-translate-y-px active:translate-y-px"
+                className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:-translate-y-px active:translate-y-px cursor-pointer"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
