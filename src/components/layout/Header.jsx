@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
-import { Car, User, Wrench } from "lucide-react";
+import { User, Wrench } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
+import { getUserInfo } from "../../services/userService";
 import Toast from "../ui/Toast";
 
 export default function Header() {
@@ -11,17 +12,26 @@ export default function Header() {
   const { user, logout, isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const userMenuRef = useRef(null);
   const { toast, showInfo, hideToast } = useToast();
 
-  // Close user menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setIsUserMenuOpen(false);
-      }
+    const fetchUserInfo = async () => {
+      if (isAuthenticated) {
+        try {
+          const response = await getUserInfo();
+          if (response.code === 1000 && response.result) setUserInfo(response.result);
+        } catch { }
+      } else setUserInfo(null);
     };
+    fetchUserInfo();
+  }, [isAuthenticated]);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setIsUserMenuOpen(false);
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -29,6 +39,7 @@ export default function Header() {
   const handleLogout = () => {
     logout();
     setIsUserMenuOpen(false);
+    setUserInfo(null);
     navigate("/auth");
   };
 
@@ -43,101 +54,73 @@ export default function Header() {
     { name: "Discussion", navigate: "/forum" },
   ];
 
+  const displayUser = userInfo || user;
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-cyan-500/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0F1F]/90 backdrop-blur-xl border-b border-cyan-500/30 shadow-lg">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
+
           <div
-            className="flex items-center space-x-2 cursor-pointer group"
             onClick={() => navigate("/")}
+            className="flex items-center gap-3 cursor-pointer select-none group"
           >
-            <div className="w-10 h-10 flex items-center justify-center">
-              <img
-                src="/img/logo-header.webp"
-                alt="3D Custom Lab Logo"
-                className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <span className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
-              3DCustomLab
-            </span>
+            <img src="/img/logo-header.webp" className="w-11 group-hover:rotate-6 transition" />
+            <h1 className="text-2xl font-bold text-white tracking-wide">
+              3DCustom<span className="text-cyan-400">Lab</span>
+            </h1>
           </div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {menuItems.map((item) => (
-              <a
+              <p
                 key={item.name}
-                onClick={() => {
-                  if (item.navigate.startsWith("#")) {
-                    const section = document.querySelector(item.navigate);
-                    section.scrollIntoView({ behavior: "smooth" });
-                  } else {
-                    navigate(item.navigate);
-                  }
-                }}
-                className="text-gray-300 hover:text-cyan-400 transition-colors font-medium relative group cursor-pointer"
+                className="relative text-gray-300 hover:text-cyan-400 cursor-pointer font-medium transition"
+                onClick={() => navigate(item.navigate)}
               >
                 {item.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-blue-500 group-hover:w-full transition-all duration-300" />
-              </a>
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+              </p>
             ))}
 
-            {/* User Menu - Desktop */}
-            {isAuthenticated && user ? (
-              <div className="relative" ref={userMenuRef}>
-                <button
+            {isAuthenticated && displayUser ? (
+              <div ref={userMenuRef} className="relative">
+                <div
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-linear-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
+                  className="cursor-pointer w-11 h-11 rounded-full overflow-hidden border border-cyan-500/50 shadow-md hover:shadow-cyan-500/20 bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center"
                 >
-                  {/* Avatar Icon */}
-                  <div className="w-8 h-8 rounded-full bg-linear-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
-                    <User className="w-5 h-5" />
-                  </div>
-                </button>
+                  {displayUser.avatar ? (
+                    <img src={displayUser.avatar} className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-5 h-5 text-white" />
+                  )}
+                </div>
 
-                {/* Dropdown Menu */}
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-3 w-60 bg-gray-950 border border-cyan-500/40 rounded-2xl shadow-xl shadow-cyan-500/30 overflow-hidden backdrop-blur-md">
-                    {/* User Info */}
-                    <div className="px-4 py-4 bg-linear-to-r from-cyan-600/20 to-blue-700/20 border-b border-cyan-500/30">
-                      <p className="text-white font-semibold truncate text-sm mt-1">
-                        {user.email}
-                      </p>
-                      <p className="text-xs text-cyan-400 mt-1 tracking-wide">
-                        Role: {user.role}
-                      </p>
+                  <div className="absolute right-0 mt-4 w-64 bg-[#0D1329]/95 backdrop-blur-xl border border-cyan-500/40 rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+                    <div className="px-4 py-4 border-b border-cyan-500/30">
+                      <p className="text-white font-semibold truncate">{displayUser.email}</p>
+                      <p className="text-xs text-cyan-400 mt-1">Role: {displayUser.type || displayUser.role}</p>
                     </div>
-
-                    {/* Menu Items */}
-                    <div className="py-2">
-                      <button
-                        onClick={() => {
-                          setIsUserMenuOpen(false);
-                          navigate("/profile");
-                        }}
-                        className=" cursor-pointer w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-all duration-200 flex items-center gap-3 rounded-lg"
+                    <div className="p-2 space-y-1">
+                      <p
+                        onClick={() => { navigate("/profile"); setIsUserMenuOpen(false); }}
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-300 cursor-pointer"
                       >
-                        <User className="w-4 h-4" />
-                        <span className="text-sm">Profile</span>
-                      </button>
-
-                      <button
+                        <User size={18} /> Profile
+                      </p>
+                      <p
                         onClick={handleGaraRegister}
-                        className="cursor-pointer w-full px-4 py-2.5 text-left text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-all duration-200 flex items-center gap-3 rounded-lg"
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-300 cursor-pointer"
                       >
-                        <Wrench className="w-4 h-4" />
-                        <span className="text-sm">Đăng kí trở thành Gara</span>
-                      </button>
-
-                      <button
+                        <Wrench size={18} /> Đăng kí trở thành Gara
+                      </p>
+                      <p
                         onClick={handleLogout}
-                        className="cursor-pointer w-full px-4 py-2.5 text-left text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-200 flex items-center gap-3 rounded-lg"
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 cursor-pointer"
                       >
-                        <FaSignOutAlt className="w-4 h-4" />
-                        <span className="text-sm">Đăng xuất</span>
-                      </button>
+                        <FaSignOutAlt size={18} /> Đăng xuất
+                      </p>
                     </div>
                   </div>
                 )}
@@ -145,104 +128,76 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => navigate("/auth")}
-                className="bg-linear-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
+                className="px-6 py-2 rounded-full text-white font-semibold cursor-pointer bg-gradient-to-r from-cyan-500 to-blue-600 hover:shadow-lg hover:shadow-cyan-500/40 transition"
               >
                 Đăng nhập
               </button>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-3">
-            {isAuthenticated && user && (
-              <div className="w-8 h-8 rounded-full bg-linear-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white">
-                <User className="w-5 h-5" />
+          <div className="md:hidden flex items-center gap-4">
+            {isAuthenticated && displayUser && (
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-cyan-500/50 shadow-md">
+                {displayUser.avatar ? (
+                  <img src={displayUser.avatar} className="w-full h-full object-cover" />
+                ) : <User className="w-5 h-5 text-white m-auto" />}
               </div>
             )}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-cyan-400 hover:text-blue-400"
+              className="text-white cursor-pointer hover:text-cyan-400 transition"
             >
-              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+              {isMenuOpen ? <FaTimes size={26} /> : <FaBars size={26} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-gray-900 border-t border-cyan-500/20">
-          <div className="px-4 py-4 space-y-3">
-            {/* User Info Mobile */}
-            {isAuthenticated && user && (
-              <div className="pb-3 mb-3 border-b border-gray-800">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white">
-                    <User className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-white font-semibold text-sm">
-                      {user.email}
-                    </p>
-                    <p className="text-xs text-cyan-400">Role: {user.role}</p>
-                  </div>
-                </div>
+        <div className="md:hidden bg-[#10172B] border-t border-cyan-500/20 animate-slide-down">
+          <div className="px-5 py-4 space-y-3">
+            {isAuthenticated && displayUser && (
+              <div className="pb-4 border-b border-cyan-500/10">
+                <p className="text-white font-semibold">{displayUser.email}</p>
+                <p className="text-xs text-cyan-400">Role: {displayUser.type || displayUser.role}</p>
               </div>
             )}
 
-            {/* Menu Items */}
             {menuItems.map((item) => (
-              <a
+              <p
                 key={item.name}
-                href={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="block text-gray-300 hover:text-cyan-400 py-2 font-medium transition-colors"
+                onClick={() => { setIsMenuOpen(false); navigate(item.navigate); }}
+                className="text-gray-300 hover:text-cyan-400 font-medium cursor-pointer py-2"
               >
                 {item.name}
-              </a>
+              </p>
             ))}
 
-            {/* Auth Buttons Mobile */}
-            {isAuthenticated && user ? (
-              <div className="pt-3 border-t border-gray-800 space-y-2">
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    navigate("/profile");
-                  }}
-                  className="w-full text-left px-4 py-2 text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-lg transition-colors flex items-center gap-2"
+            {isAuthenticated ? (
+              <div className="pt-3 border-t border-cyan-500/10 space-y-2">
+                <p
+                  onClick={() => { setIsMenuOpen(false); navigate("/profile"); }}
+                  className="flex items-center gap-2 text-gray-300 hover:text-cyan-400 cursor-pointer py-2"
                 >
-                  <User className="w-4 h-4" />
-                  Profile
-                </button>
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    handleGaraRegister();
-                  }}
-                  className="w-full text-left px-4 py-2 text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 rounded-lg transition-colors flex items-center gap-2"
+                  <User size={18} /> Profile
+                </p>
+                <p
+                  onClick={() => { setIsMenuOpen(false); handleGaraRegister(); }}
+                  className="flex items-center gap-2 text-gray-300 hover:text-cyan-400 cursor-pointer py-2"
                 >
-                  <Wrench className="w-4 h-4" />
-                  Đăng kí trở thành Gara
-                </button>
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    handleLogout();
-                  }}
-                  className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors flex items-center gap-2"
+                  <Wrench size={18} /> Đăng kí Gara
+                </p>
+                <p
+                  onClick={() => { setIsMenuOpen(false); handleLogout(); }}
+                  className="flex items-center gap-2 text-rose-400 hover:text-rose-300 cursor-pointer py-2"
                 >
-                  <FaSignOutAlt />
-                  Đăng xuất
-                </button>
+                  <FaSignOutAlt /> Đăng xuất
+                </p>
               </div>
             ) : (
               <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  navigate("/auth");
-                }}
-                className="w-full bg-linear-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
+                onClick={() => { setIsMenuOpen(false); navigate("/auth"); }}
+                className="w-full py-2 rounded-lg text-white font-medium bg-gradient-to-r from-cyan-500 to-blue-600 hover:shadow-md hover:shadow-cyan-500/40 cursor-pointer"
               >
                 Đăng nhập
               </button>
@@ -251,14 +206,8 @@ export default function Header() {
         </div>
       )}
 
-      {/* Toast Notification */}
       {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={hideToast}
-          duration={toast.duration}
-        />
+        <Toast message={toast.message} type={toast.type} onClose={hideToast} duration={toast.duration} />
       )}
     </nav>
   );

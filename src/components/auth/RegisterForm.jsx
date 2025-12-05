@@ -4,6 +4,8 @@ import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import OTPModal from "./OTPModal";
 import { register } from "../../services/authService";
+import { useToast } from "../../hooks/useToast";
+import Toast from "../ui/Toast";
 
 export default function RegisterForm({ onSwitchToLogin }) {
   const [formData, setFormData] = useState({
@@ -15,27 +17,24 @@ export default function RegisterForm({ onSwitchToLogin }) {
 
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const { toast, showSuccess, showError, hideToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
-    setSuccess(null);
 
     try {
       // Đăng ký tài khoản (API register tự động gửi OTP)
       const registerResponse = await register(formData);
 
       if (registerResponse.code === 1000) {
-        setSuccess(
+        showSuccess(
           "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
         );
         setShowOTPModal(true);
       } else {
-        setError(
+        showError(
           registerResponse.message || "Đăng ký thất bại. Vui lòng thử lại."
         );
       }
@@ -44,7 +43,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
       const errorMessage =
         err.response?.data?.message ||
         "Đăng ký thất bại. Email có thể đã tồn tại.";
-      setError(errorMessage);
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -53,7 +52,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
   // Xử lý khi OTP được xác thực thành công
   const handleOTPVerified = () => {
     setShowOTPModal(false);
-    setSuccess("Xác thực email thành công! Đang chuyển đến trang đăng nhập...");
+    showSuccess("Xác thực email thành công! Đang chuyển đến trang đăng nhập...");
 
     // Chuyển về trang login sau 1.5s
     setTimeout(() => {
@@ -73,20 +72,6 @@ export default function RegisterForm({ onSwitchToLogin }) {
           <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
           <p className="text-gray-400">Join us today</p>
         </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl">
-            <p className="text-red-400 text-sm text-center">{error}</p>
-          </div>
-        )}
-
-        {/* Success Message */}
-        {success && (
-          <div className="mb-6 p-4 bg-green-500/10 border border-green-500/50 rounded-xl">
-            <p className="text-green-400 text-sm text-center">{success}</p>
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name Input */}
@@ -206,6 +191,16 @@ export default function RegisterForm({ onSwitchToLogin }) {
           email={formData.email}
           onClose={handleCloseOTP}
           onVerified={handleOTPVerified}
+        />
+      )}
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+          duration={toast.duration}
         />
       )}
     </>

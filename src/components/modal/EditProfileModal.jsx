@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Image as ImageIcon, Save, Loader2, Upload } from "lucide-react";
+import { X, User, Save, Loader2, Upload } from "lucide-react";
 import useToast from "../../hooks/useToast";
 import { uploadFile } from "../../services/fileService";
 
@@ -15,18 +15,20 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Initialize form data when modal opens
   useEffect(() => {
     if (isOpen && userInfo) {
       setFormData({
         name: userInfo.name || "",
         gender: userInfo.gender || "MALE",
-        avatar: null, // Reset file input
+        avatar: null,
       });
       setAvatarPreview(userInfo.avatar || "");
       setErrors({});
     }
   }, [isOpen, userInfo]);
 
+  // Control body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -40,17 +42,20 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
 
   const validateForm = () => {
     const newErrors = {};
+
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
     } else if (formData.name.trim().length < 2) {
       newErrors.name = "Name must be at least 2 characters";
     }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
@@ -58,38 +63,40 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith("image/")) {
-        setErrors((prev) => ({ ...prev, avatar: "Please select an image file" }));
-        return;
-      }
-      // Validate file size (e.g., 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({ ...prev, avatar: "Image size must be less than 5MB" }));
-        return;
-      }
+    if (!file) return;
 
-      setFormData((prev) => ({ ...prev, avatar: file }));
-      setAvatarPreview(URL.createObjectURL(file));
-      if (errors.avatar) {
-        setErrors((prev) => ({ ...prev, avatar: "" }));
-      }
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      setErrors((prev) => ({ ...prev, avatar: "Please select an image file" }));
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, avatar: "Image size must be less than 5MB" }));
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, avatar: file }));
+    setAvatarPreview(URL.createObjectURL(file));
+
+    if (errors.avatar) {
+      setErrors((prev) => ({ ...prev, avatar: "" }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) return;
 
     setLoading(true);
-    try {
-      let avatarUrl = userInfo.avatar; // Default to existing avatar URL
 
-      // Step 1: Check if the user selected a new avatar file
-      // If yes, upload the file to get the new URL
+    try {
+      let avatarUrl = userInfo.avatar;
+
+      // Step 1: Upload avatar if user selected a new file
       if (formData.avatar instanceof File) {
-        // Call API to upload avatar
         const uploadResponse = await uploadFile(
           formData.avatar,
           "USER",
@@ -97,29 +104,30 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
           userInfo.id.toString()
         );
 
-        if (uploadResponse.code === 0 && uploadResponse.result) {
-          // Get the returned URL from the upload response
+        if (uploadResponse.code === 1000 && uploadResponse.result?.url) {
           avatarUrl = uploadResponse.result.url;
         } else {
           throw new Error("Failed to upload avatar image");
         }
       }
 
-      // Step 2: Update user profile with the new data (including the avatar URL)
+      // Step 2: Update user profile with new data
       const updateData = {
-        name: formData.name,
+        name: formData.name.trim(),
         gender: formData.gender,
-        avatar: avatarUrl // Use the new URL if uploaded, otherwise keep the old one
+        avatar: avatarUrl,
       };
 
-      // Call API to update profile
       await onSave(updateData);
-
-      showSuccess("Profile updated successfully!");
       onClose();
+
     } catch (error) {
       console.error("Update profile error:", error);
-      showError(error.response?.data?.message || error.message || "Failed to update profile");
+      showError(
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to update profile"
+      );
     } finally {
       setLoading(false);
     }

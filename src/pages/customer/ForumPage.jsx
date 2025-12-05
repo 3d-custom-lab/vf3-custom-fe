@@ -5,6 +5,8 @@ import PostList from "../../components/forum/PostList";
 import Header from "../../components/layout/Header";
 import { useAuth } from "../../contexts/AuthContext";
 import { getAllPosts } from "../../services/postService";
+import { useToast } from "../../hooks/useToast";
+import Toast from "../../components/ui/Toast";
 
 function ForumPage() {
   const [keyword, setKeyword] = useState("");
@@ -17,6 +19,7 @@ function ForumPage() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { isAuthenticated, checkAuth } = useAuth();
+  const { toast, showSuccess, hideToast } = useToast();
 
   useEffect(() => {
     checkAuth();
@@ -47,8 +50,8 @@ function ForumPage() {
         const postsData = Array.isArray(res?.result?.content)
           ? res.result.content
           : Array.isArray(res?.result)
-          ? res.result
-          : [];
+            ? res.result
+            : [];
 
         setPosts(postsData);
       } catch (err) {
@@ -176,9 +179,10 @@ function ForumPage() {
                 onPostUpdated={() =>
                   fetchPosts({ keyword: debouncedKeyword, page, size })
                 }
-                onPostDeleted={(id) =>
-                  setPosts((prev) => prev.filter((p) => p.id !== id))
-                }
+                onPostDeleted={(id) => {
+                  setPosts((prev) => prev.filter((p) => p.id !== id));
+                  showSuccess("Post deleted successfully!");
+                }}
               />
             </>
           ) : (
@@ -211,6 +215,14 @@ function ForumPage() {
             </div>
           )}
         </main>
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={hideToast}
+            duration={toast.duration}
+          />
+        )}
       </div>
     </>
   );

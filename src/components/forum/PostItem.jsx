@@ -150,7 +150,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       const response = await deletePost(post.id);
       if (response.code === 1000) {
         if (onPostDeleted) onPostDeleted(post.id);
-        showSuccess("Post deleted");
+        // showSuccess("Post deleted"); // Handled by parent
       }
     } catch (error) {
       showError("Failed to delete post");
