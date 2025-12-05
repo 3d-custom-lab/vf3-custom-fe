@@ -4,10 +4,13 @@ import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../../contexts/AuthContext";
+import { useToast } from "../../hooks/useToast";
+import Toast from "../ui/Toast";
 
 export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
   const navigate = useNavigate();
   const { login, loading, error, clearError, getHomeRoute } = useAuth();
+  const { toast, showSuccess, hideToast } = useToast();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -46,6 +49,7 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
     const result = await login(formData.email, password);
 
     if (result.success) {
+      showSuccess("Login successful! Welcome back.");
       // Clear password input after use
       if (passwordRef.current) passwordRef.current.value = "";
 
@@ -176,6 +180,15 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
           </button>
         </p>
       </div>
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+          duration={toast.duration}
+        />
+      )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Package, ShoppingCart, TrendingUp, AlertCircle, Eye, Trash2 } from "lucide-react";
+import { Package, ShoppingCart, TrendingUp, AlertCircle, Eye, Trash2, Star } from "lucide-react";
 import AdminHeader from "../../components/layout/AdminHeader";
 import AdminSidebar from "../../components/layout/AdminSidebar";
 import { getAllGaras, deleteGara } from "../../services/garaService";
@@ -41,7 +41,7 @@ function ManageGaraPage() {
     try {
       setLoading(true);
       const response = await getAllGaras();
-      
+
       if (response.code === 1000 && response.result) {
         setGaras(response.result);
         // Calculate stats
@@ -143,7 +143,7 @@ function ManageGaraPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="overflow-x-auto">
               <table className="w-full min-w-[900px]">
                 <thead>
@@ -182,8 +182,8 @@ function ManageGaraPage() {
                     </tr>
                   ) : (
                     garas.map((gara, index) => (
-                      <tr 
-                        key={gara.id} 
+                      <tr
+                        key={gara.id}
                         className="hover:bg-blue-50/50 transition-all duration-200 group"
                       >
                         <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">

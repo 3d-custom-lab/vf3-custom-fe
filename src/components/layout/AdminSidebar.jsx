@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, Warehouse, Car, Podcast, LogOut, X } from "lucide-react";
+import { LayoutDashboard, Users, Warehouse, Car, Podcast, LogOut, X, Cuboid } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminSidebar({ isOpen, onClose }) {
@@ -87,6 +87,11 @@ export default function AdminSidebar({ isOpen, onClose }) {
         <NavLink to="/admin/forum" className={linkClass}>
           <Podcast size={20} />
           <span className="font-medium text-sm">Forum Management</span>
+        </NavLink>
+
+        <NavLink to="/admin/models" className={linkClass}>
+          <Cuboid size={20} />
+          <span className="font-medium text-sm">Model Management</span>
         </NavLink>
 
         {/* <NavLink to="/admin/settings" className={linkClass}>

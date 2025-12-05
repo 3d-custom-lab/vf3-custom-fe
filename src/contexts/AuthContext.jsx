@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const savedToken = getCookie('auth_token');
-      
+
       if (!savedToken) {
         setIsAuthenticated(false);
         setUser(null);
@@ -193,12 +193,12 @@ export const AuthProvider = ({ children }) => {
    */
   const getHomeRoute = useCallback(() => {
     if (!user?.role) return '/';
-    
+
     const role = user.role.toUpperCase();
-    
+
     if (role === 'ADMIN') return '/admin/dashboard';
     if (role === 'CUSTOMER') return '/';
-    
+
     // Default fallback
     return '/';
   }, [user]);

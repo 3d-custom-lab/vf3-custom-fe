@@ -1,30 +1,34 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Image as ImageIcon, Save, Loader2 } from "lucide-react";
-import { Input } from "../ui/Input";
+import { X, User, Save, Loader2, Upload } from "lucide-react";
 import useToast from "../../hooks/useToast";
+import { uploadFile } from "../../services/fileService";
 
 export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) {
   const { showSuccess, showError } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     gender: "MALE",
-    avatar: "",
+    avatar: null,
   });
+  const [avatarPreview, setAvatarPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Initialize form data when modal opens
   useEffect(() => {
     if (isOpen && userInfo) {
       setFormData({
         name: userInfo.name || "",
         gender: userInfo.gender || "MALE",
-        avatar: userInfo.avatar || "",
+        avatar: null,
       });
+      setAvatarPreview(userInfo.avatar || "");
       setErrors({});
     }
   }, [isOpen, userInfo]);
 
+  // Control body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -38,45 +42,92 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
 
   const validateForm = () => {
     const newErrors = {};
+
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
     } else if (formData.name.trim().length < 2) {
       newErrors.name = "Name must be at least 2 characters";
     }
-    if (formData.avatar && !isValidUrl(formData.avatar)) {
-      newErrors.avatar = "Please enter a valid URL";
-    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const isValidUrl = (string) => {
-    try {
-      new URL(string);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  };
-
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      setErrors((prev) => ({ ...prev, avatar: "Please select an image file" }));
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, avatar: "Image size must be less than 5MB" }));
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, avatar: file }));
+    setAvatarPreview(URL.createObjectURL(file));
+
+    if (errors.avatar) {
+      setErrors((prev) => ({ ...prev, avatar: "" }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) return;
 
     setLoading(true);
+
     try {
-      await onSave(formData);
-      showSuccess("Profile updated successfully!");
+      let avatarUrl = userInfo.avatar;
+
+      // Step 1: Upload avatar if user selected a new file
+      if (formData.avatar instanceof File) {
+        const uploadResponse = await uploadFile(
+          formData.avatar,
+          "USER",
+          userInfo.id.toString(),
+          userInfo.id.toString()
+        );
+
+        if (uploadResponse.code === 1000 && uploadResponse.result?.url) {
+          avatarUrl = uploadResponse.result.url;
+        } else {
+          throw new Error("Failed to upload avatar image");
+        }
+      }
+
+      // Step 2: Update user profile with new data
+      const updateData = {
+        name: formData.name.trim(),
+        gender: formData.gender,
+        avatar: avatarUrl,
+      };
+
+      await onSave(updateData);
       onClose();
+
     } catch (error) {
-      showError(error.response?.data?.message || "Failed to update profile");
+      console.error("Update profile error:", error);
+      showError(
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to update profile"
+      );
     } finally {
       setLoading(false);
     }
@@ -150,10 +201,9 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                       className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200
                         bg-slate-800/50 text-slate-100 placeholder:text-slate-500
                         focus:outline-none focus:bg-slate-800
-                        ${
-                          errors.name
-                            ? "border-red-500 focus:border-red-400"
-                            : "border-slate-700 focus:border-indigo-500"
+                        ${errors.name
+                          ? "border-red-500 focus:border-red-400"
+                          : "border-slate-700 focus:border-indigo-500"
                         }`}
                       disabled={loading}
                     />
@@ -182,10 +232,9 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                         onClick={() => handleChange("gender", gender)}
                         disabled={loading}
                         className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 border-2
-                          ${
-                            formData.gender === gender
-                              ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-500/20"
-                              : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300"
+                          ${formData.gender === gender
+                            ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                            : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300"
                           }
                           disabled:opacity-50 disabled:cursor-not-allowed`}
                       >
@@ -195,33 +244,61 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                   </div>
                 </div>
 
-                {/* Avatar URL Field */}
+                {/* Avatar Upload Field */}
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-slate-300 mb-2">
-                    Avatar URL{" "}
+                    Avatar Image{" "}
                     <span className="text-slate-500 font-normal">
                       (Optional)
                     </span>
                   </label>
-                  <div className="relative">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">
-                      <ImageIcon size={18} />
+                  <div className="flex items-center gap-4">
+                    <div className="relative group cursor-pointer">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-700 bg-slate-800 flex items-center justify-center">
+                        {avatarPreview ? (
+                          <img
+                            src={avatarPreview}
+                            alt="Avatar preview"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <User className="w-8 h-8 text-slate-500" />
+                        )}
+                      </div>
+                      <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Upload className="w-6 h-6 text-white" />
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        disabled={loading}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      value={formData.avatar}
-                      onChange={(e) => handleChange("avatar", e.target.value)}
-                      placeholder="https://example.com/avatar.jpg"
-                      className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200
-                        bg-slate-800/50 text-slate-100 placeholder:text-slate-500
-                        focus:outline-none focus:bg-slate-800
-                        ${
-                          errors.avatar
-                            ? "border-red-500 focus:border-red-400"
-                            : "border-slate-700 focus:border-indigo-500"
-                        }`}
-                      disabled={loading}
-                    />
+                    <div className="flex-1">
+                      <div className="relative">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="w-full text-sm text-slate-400
+                            file:mr-4 file:py-2.5 file:px-4
+                            file:rounded-xl file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-slate-800 file:text-indigo-400
+                            hover:file:bg-slate-700
+                            cursor-pointer"
+                          disabled={loading}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500 mt-2">
+                        Recommended: Square image, max 5MB. Supported: JPG, PNG, WEBP.
+                      </p>
+                    </div>
                   </div>
                   {errors.avatar && (
                     <motion.p
@@ -231,23 +308,6 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                     >
                       {errors.avatar}
                     </motion.p>
-                  )}
-                  {formData.avatar && !errors.avatar && (
-                    <div className="mt-3 p-3 bg-slate-800/50 rounded-xl border border-slate-700">
-                      <p className="text-xs text-slate-400 mb-2">Preview:</p>
-                      <img
-                        src={formData.avatar}
-                        alt="Avatar preview"
-                        className="w-20 h-20 rounded-full object-cover border-2 border-slate-700"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                          setErrors((prev) => ({
-                            ...prev,
-                            avatar: "Failed to load image",
-                          }));
-                        }}
-                      />
-                    </div>
                   )}
                 </div>
 

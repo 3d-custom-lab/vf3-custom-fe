@@ -13,8 +13,8 @@ import {
   updatePost,
   deletePost,
   likePost,
-  uploadPostImage,
 } from "../../services/postService";
+import { uploadFile } from "../../services/fileService";
 import { getCommentsByPostId } from "../../services/commentService";
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../hooks/useToast";
@@ -108,16 +108,29 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       return showError("Title and content required");
     setIsUpdating(true);
     try {
+      let imageUrl = firstImageUrl;
+
+      if (imageFile) {
+        const uploadResponse = await uploadFile(
+          imageFile,
+          "POST",
+          post.id.toString(),
+          user.id.toString()
+        );
+        if (uploadResponse.code === 0 && uploadResponse.result) {
+          imageUrl = uploadResponse.result.url;
+        } else {
+          throw new Error("Failed to upload image");
+        }
+      }
+
       const response = await updatePost(post.id, {
         title: editTitle.trim(),
         content: editContent.trim(),
+        image: imageUrl
       });
+
       if (response.code === 1000) {
-        if (imageFile) {
-          const formData = new FormData();
-          formData.append("image", imageFile);
-          await uploadPostImage(post.id, formData);
-        }
         setIsEditing(false);
         setImageFile(null);
         if (onPostUpdated) onPostUpdated();
@@ -137,7 +150,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       const response = await deletePost(post.id);
       if (response.code === 1000) {
         if (onPostDeleted) onPostDeleted(post.id);
-        showSuccess("Post deleted");
+        // showSuccess("Post deleted"); // Handled by parent
       }
     } catch (error) {
       showError("Failed to delete post");
@@ -149,18 +162,18 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
   // Hàm hiển thị thời gian: relative nếu < 24h, ngược lại hiển thị ngày tháng cụ thể
   const formatPostTime = (dateString) => {
     if (!dateString) return "N/A";
-    
+
     try {
       const date = new Date(dateString);
       const now = new Date();
       const diffMs = now - date;
       const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-      
+
       // Nếu < 24 giờ → hiển thị relative time
       if (diffHours < 24) {
         return getRelativeTime(dateString);
       }
-      
+
       // Nếu >= 24 giờ → hiển thị ngày tháng cụ thể
       return formatDate(dateString, 'time'); // Format: 24/11/2025 15:58
     } catch (error) {
@@ -309,16 +322,14 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
             <button
               onClick={handleLike}
               disabled={isUpdating}
-              className={`group flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-                isLiked
-                  ? "bg-red-500/10 text-red-500"
-                  : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-red-400"
-              }`}
+              className={`group flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked
+                ? "bg-red-500/10 text-red-500"
+                : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-red-400"
+                }`}
             >
               <div
-                className={`transition-transform duration-300 ${
-                  isLikeAnimating ? "scale-150" : "scale-100"
-                }`}
+                className={`transition-transform duration-300 ${isLikeAnimating ? "scale-150" : "scale-100"
+                  }`}
               >
                 {isLiked ? <FaHeart /> : <FaRegHeart />}
               </div>
@@ -330,11 +341,10 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                 setShowComments(!showComments);
                 if (!showComments) loadCommentCount();
               }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
-                showComments
-                  ? "bg-blue-500/10 text-blue-400"
-                  : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-blue-400"
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${showComments
+                ? "bg-blue-500/10 text-blue-400"
+                : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-blue-400"
+                }`}
             >
               <FaCommentAlt className="text-sm" />
               <span className="font-semibold text-sm">{commentCount}</span>

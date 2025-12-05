@@ -6,6 +6,7 @@ import EditProfileModal from "../../components/modal/EditProfileModal";
 import ChangePasswordModal from "../../components/modal/ChangePasswordModal";
 import { getUserInfo, updateUserProfile } from "../../services/userService";
 import useToast from "../../hooks/useToast";
+import Toast from "../../components/ui/Toast";
 import {
   User,
   Mail,
@@ -21,38 +22,39 @@ import {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { showSuccess, showError } = useToast();
+  const { toast, showSuccess, showError, hideToast } = useToast();
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
-    useState(false);
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
 
   useEffect(() => {
-    const loadUserInfo = async () => {
-      try {
-        setLoading(true);
-        const response = await getUserInfo();
-        if (response.code === 0 || response.code === 1000) {
-          setUserInfo(response.result);
-        } else {
-          setError("Failed to load user information");
-        }
-      } catch (err) {
-        setError(err.response?.data?.message || "Failed to load profile");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadUserInfo();
   }, []);
+
+  const loadUserInfo = async () => {
+    try {
+      setLoading(true);
+      const response = await getUserInfo();
+
+      if (response.code === 1000 && response.result) {
+        setUserInfo(response.result);
+      } else {
+        setError("Failed to load user information");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to load profile");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSaveProfile = async (formData) => {
     try {
       const response = await updateUserProfile(userInfo.id, formData);
-      if (response.code === 0 || response.code === 1000) {
+
+      if (response.code === 1000 && response.result) {
         setUserInfo(response.result);
         showSuccess("Profile updated successfully!");
         setIsEditModalOpen(false);
@@ -62,8 +64,8 @@ export default function ProfilePage() {
     } catch (error) {
       showError(
         error.response?.data?.message ||
-          error.message ||
-          "Failed to update profile"
+        error.message ||
+        "Failed to update profile"
       );
       throw error;
     }
@@ -172,11 +174,10 @@ export default function ProfilePage() {
                   {/* Status Indicator */}
                   <div className="absolute bottom-3 right-3 w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center">
                     <div
-                      className={`w-5 h-5 rounded-full border-2 border-slate-900 ${
-                        userInfo?.status === "ACTIVE"
-                          ? "bg-emerald-500"
-                          : "bg-slate-500"
-                      }`}
+                      className={`w-5 h-5 rounded-full border-2 border-slate-900 ${userInfo?.status === "ACTIVE"
+                        ? "bg-emerald-500"
+                        : "bg-slate-500"
+                        }`}
                     ></div>
                   </div>
                 </div>
@@ -194,22 +195,20 @@ export default function ProfilePage() {
 
                     {/* Dynamic Role Badge */}
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide border ${
-                        userInfo?.type === "ADMIN"
-                          ? "bg-rose-500/10 border-rose-500/20 text-rose-400"
-                          : "bg-blue-500/10 border-blue-500/20 text-blue-400"
-                      }`}
+                      className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide border ${userInfo?.type === "ADMIN"
+                        ? "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                        : "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                        }`}
                     >
                       {userInfo?.type}
                     </span>
 
                     {/* Dynamic Payment Badge */}
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide border flex items-center gap-1 ${
-                        userInfo?.paymentType === "FREE"
-                          ? "bg-slate-700/30 border-slate-600 text-slate-400"
-                          : "bg-amber-500/10 border-amber-500/20 text-amber-400"
-                      }`}
+                      className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide border flex items-center gap-1 ${userInfo?.paymentType === "FREE"
+                        ? "bg-slate-700/30 border-slate-600 text-slate-400"
+                        : "bg-amber-500/10 border-amber-500/20 text-amber-400"
+                        }`}
                     >
                       <CreditCard size={12} />
                       {userInfo?.paymentType}
@@ -263,9 +262,9 @@ export default function ProfilePage() {
                   value={
                     userInfo?.createdAt
                       ? new Date(userInfo.createdAt).toLocaleDateString(
-                          undefined,
-                          { year: "numeric", month: "short", day: "numeric" }
-                        )
+                        undefined,
+                        { year: "numeric", month: "short", day: "numeric" }
+                      )
                       : null
                   }
                   colorClass="text-emerald-400"
@@ -276,9 +275,9 @@ export default function ProfilePage() {
                   value={
                     userInfo?.updatedAt
                       ? new Date(userInfo.updatedAt).toLocaleDateString(
-                          undefined,
-                          { year: "numeric", month: "short", day: "numeric" }
-                        )
+                        undefined,
+                        { year: "numeric", month: "short", day: "numeric" }
+                      )
                       : null
                   }
                   colorClass="text-orange-400"
@@ -289,11 +288,10 @@ export default function ProfilePage() {
               <div className="bg-linear-to-r from-slate-800/50 to-slate-800/30 rounded-2xl p-6 border border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      userInfo?.status === "ACTIVE"
-                        ? "bg-emerald-500/10 text-emerald-500"
-                        : "bg-slate-500/10 text-slate-400"
-                    }`}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center ${userInfo?.status === "ACTIVE"
+                      ? "bg-emerald-500/10 text-emerald-500"
+                      : "bg-slate-500/10 text-slate-400"
+                      }`}
                   >
                     <CheckCircle2 size={24} />
                   </div>
@@ -349,6 +347,16 @@ export default function ProfilePage() {
         onClose={() => setIsChangePasswordModalOpen(false)}
         userId={userInfo?.id}
       />
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+          duration={toast.duration}
+        />
+      )}
     </>
   );
 }
