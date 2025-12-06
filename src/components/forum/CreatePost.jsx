@@ -26,11 +26,11 @@ function CreatePost({ onPostCreated }) {
 
     files.forEach((file) => {
       if (!file.type.startsWith("image/")) {
-        showError(`File ${file.name} is not an image`);
+        showError(`Tệp ${file.name} không phải là hình ảnh`);
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
-        showError(`File ${file.name} exceeds 5MB`);
+        showError(`Tệp ${file.name} vượt quá 5MB`);
         return;
       }
       validFiles.push(file);
@@ -53,8 +53,8 @@ function CreatePost({ onPostCreated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim()) return showError("Please enter post title");
-    if (!content.trim()) return showError("Please enter post content");
+    if (!title.trim()) return showError("Vui lòng nhập tiêu đề bài viết");
+    if (!content.trim()) return showError("Vui lòng nhập nội dung bài viết");
 
     setIsSubmitting(true);
     try {
@@ -68,15 +68,15 @@ function CreatePost({ onPostCreated }) {
         setShowImageInput(false);
         setIsExpanded(false);
         if (onPostCreated) onPostCreated();
-        showSuccess("Post published successfully!");
+        showSuccess("Đăng bài thành công!");
       } else {
-        throw new Error(response.message || "Failed to create post");
+        throw new Error(response.message || "Đăng bài thất bại");
       }
     } catch (error) {
       const msg =
         error.response?.data?.message ||
         error.message ||
-        "Failed to create post.";
+        "Đăng bài thất bại.";
       showError(msg);
     } finally {
       setIsSubmitting(false);
@@ -150,7 +150,7 @@ function CreatePost({ onPostCreated }) {
 
             <input
               type="text"
-              placeholder="Give your topic a catchy title..."
+              placeholder="Đặt tiêu đề cho bài viết..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full bg-transparent text-lg font-bold text-white placeholder-slate-500 border-none focus:ring-0 px-0 py-1"
@@ -161,7 +161,7 @@ function CreatePost({ onPostCreated }) {
             <div className="w-full h-px bg-slate-800"></div>
 
             <textarea
-              placeholder="What's happening? Share your thoughts..."
+              placeholder="Bạn đang nghĩ gì? Chia sẻ ngay..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows="3"
@@ -196,7 +196,7 @@ function CreatePost({ onPostCreated }) {
                     ))}
                     <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-slate-700 rounded-xl cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all group/upload">
                       <FaImage className="w-6 h-6 text-slate-500 group-hover/upload:text-blue-400 mb-2 transition-colors" />
-                      <span className="text-xs text-slate-400">Add more</span>
+                      <span className="text-xs text-slate-400">Thêm ảnh</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -211,7 +211,7 @@ function CreatePost({ onPostCreated }) {
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <FaImage className="w-8 h-8 text-slate-500 group-hover/upload:text-blue-400 mb-2 transition-colors" />
                       <p className="text-sm text-slate-400">
-                        Click to upload images
+                        Nhấn để tải ảnh lên
                       </p>
                     </div>
                     <input
@@ -237,7 +237,7 @@ function CreatePost({ onPostCreated }) {
                 disabled={isSubmitting}
               >
                 <FaImage />
-                <span>{showImageInput ? "Hide Media" : "Add Media"}</span>
+                <span>{showImageInput ? "Ẩn ảnh" : "Thêm ảnh"}</span>
               </button>
 
               <button
@@ -249,7 +249,7 @@ function CreatePost({ onPostCreated }) {
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 ) : (
                   <>
-                    <span>Post</span>
+                    <span>Đăng</span>
                     <FaPaperPlane className="text-xs" />
                   </>
                 )}

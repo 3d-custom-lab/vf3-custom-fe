@@ -38,7 +38,7 @@ export default function ImageLightbox({ images, initialIndex, onClose }) {
             <div className="relative w-full h-full flex items-center justify-center p-4 md:p-10">
                 <img
                     src={images[currentIndex].path || images[currentIndex].url}
-                    alt={`Image ${currentIndex + 1}`}
+                    alt={`Ảnh ${currentIndex + 1}`}
                     className="max-w-full max-h-full object-contain rounded-lg shadow-2xl animate-scaleIn"
                     onClick={(e) => e.stopPropagation()}
                 />

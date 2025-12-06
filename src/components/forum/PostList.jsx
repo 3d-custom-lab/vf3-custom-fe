@@ -17,7 +17,7 @@ function PostList({
           <div className="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
         <p className="text-slate-400 font-medium animate-pulse">
-          Fetching amazing content...
+          Đang tải nội dung...
         </p>
       </div>
     );
@@ -28,14 +28,14 @@ function PostList({
       <div className="rounded-2xl bg-red-500/5 border border-red-500/20 p-8 text-center backdrop-blur-sm">
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4 opacity-80" />
         <h3 className="text-lg font-semibold text-red-200 mb-2">
-          Oops! Something went wrong
+          Ôi! Có lỗi xảy ra
         </h3>
         <p className="text-red-300/80 mb-6 max-w-md mx-auto">{error}</p>
         <button
           onClick={onRetry}
           className="inline-flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl transition-colors shadow-lg shadow-red-600/20 font-medium cursor-pointer"
         >
-          <RefreshCw className="w-4 h-4" /> Try Again
+          <RefreshCw className="w-4 h-4" /> Thử lại
         </button>
       </div>
     );
@@ -48,10 +48,10 @@ function PostList({
           <Ghost className="w-12 h-12 text-slate-500" />
         </div>
         <h3 className="text-2xl font-bold text-slate-200 mb-2">
-          It's quiet here...
+          Chưa có bài viết nào...
         </h3>
         <p className="text-slate-400 max-w-sm mx-auto">
-          No posts found. Be the first one to spark a conversation!
+          Không tìm thấy bài viết. Hãy là người đầu tiên bắt đầu cuộc trò chuyện!
         </p>
       </div>
     );

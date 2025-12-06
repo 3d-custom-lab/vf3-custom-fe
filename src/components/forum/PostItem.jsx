@@ -37,7 +37,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
   // Prioritize fetched userInfo if it's the current user, otherwise use post.author
   const displayAuthor = isAuthor && userInfo ? userInfo : post.author;
-  const authorName = displayAuthor?.name || displayAuthor?.email || "Unknown User";
+  const authorName = displayAuthor?.name || displayAuthor?.email || "Người dùng ẩn danh";
   const authorAvatar = displayAuthor?.avatar;
 
   useEffect(() => {
@@ -131,7 +131,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
         );
       }
     } catch (error) {
-      showError(error.response?.data?.message || "Failed to like post.");
+      showError(error.response?.data?.message || "Thích bài viết thất bại.");
     }
   };
 
@@ -145,11 +145,11 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
     files.forEach((file) => {
       if (!file.type.startsWith("image/")) {
-        showError(`File ${file.name} is not an image`);
+        showError(`Tệp ${file.name} không phải là hình ảnh`);
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
-        showError(`File ${file.name} exceeds 5MB`);
+        showError(`Tệp ${file.name} vượt quá 5MB`);
         return;
       }
       validFiles.push(file);
@@ -182,7 +182,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
 
   const handleSaveEdit = async () => {
     if (!editTitle.trim() || !editContent.trim())
-      return showError("Title and content required");
+      return showError("Tiêu đề và nội dung là bắt buộc");
 
     setIsUpdating(true);
     try {
@@ -210,11 +210,11 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       // Success
       setIsEditing(false);
       if (onPostUpdated) onPostUpdated();
-      showSuccess("Post updated successfully!");
+      showSuccess("Cập nhật bài viết thành công!");
 
     } catch (error) {
       console.error("Update failed:", error);
-      showError(error.response?.data?.message || "Failed to update post");
+      showError(error.response?.data?.message || "Cập nhật bài viết thất bại");
     } finally {
       setIsUpdating(false);
     }
@@ -229,7 +229,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
         if (onPostDeleted) onPostDeleted(post.id);
       }
     } catch (error) {
-      showError("Failed to delete post");
+      showError("Xóa bài viết thất bại");
     } finally {
       setIsUpdating(false);
     }
@@ -295,14 +295,14 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                 <button
                   onClick={() => setIsEditing(true)}
                   className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
-                  title="Edit"
+                  title="Sửa"
                 >
                   <FaPen className="text-sm" />
                 </button>
                 <button
                   onClick={() => setShowDeleteModal(true)}
                   className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
-                  title="Delete"
+                  title="Xóa"
                 >
                   <FaTrashAlt className="text-sm" />
                 </button>
@@ -318,7 +318,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
                 className="w-full bg-slate-800/50 text-white rounded-xl px-4 py-3 border border-slate-700 focus:ring-2 focus:ring-blue-500/50 outline-none font-bold"
-                placeholder="Title"
+                placeholder="Tiêu đề"
                 disabled={isUpdating}
               />
 
@@ -328,13 +328,13 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                 onChange={(e) => setEditContent(e.target.value)}
                 rows="4"
                 className="w-full bg-slate-800/50 text-white rounded-xl px-4 py-3 border border-slate-700 focus:ring-2 focus:ring-blue-500/50 outline-none resize-none"
-                placeholder="Content"
+                placeholder="Nội dung"
                 disabled={isUpdating}
               />
 
               {/* Image Management Section */}
               <div className="space-y-3">
-                <p className="text-sm text-slate-400 font-medium">Images</p>
+                <p className="text-sm text-slate-400 font-medium">Hình ảnh</p>
 
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                   {/* Existing Images */}
@@ -353,7 +353,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                               onClick={() => undoImageDeletion(img.id)}
                               className="px-2 py-1 bg-green-600 text-white text-xs rounded-full hover:bg-green-500 cursor-pointer"
                             >
-                              Undo
+                              Hoàn tác
                             </button>
                           ) : (
                             <button
@@ -383,7 +383,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                         </button>
                       </div>
                       <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-blue-600 text-white text-[10px] rounded-sm font-bold">
-                        NEW
+                        MỚI
                       </div>
                     </div>
                   ))}
@@ -391,7 +391,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                   {/* Add Image Button */}
                   <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-slate-700 rounded-lg cursor-pointer bg-slate-800/30 hover:bg-slate-800/60 hover:border-blue-500/50 transition-all">
                     <FaCamera className="text-slate-500 mb-1" />
-                    <span className="text-[10px] text-slate-400">Add</span>
+                    <span className="text-[10px] text-slate-400">Thêm</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -410,7 +410,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                   className="px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition cursor-pointer"
                   disabled={isUpdating}
                 >
-                  Cancel
+                  Hủy
                 </button>
                 <button
                   onClick={handleSaveEdit}
@@ -420,10 +420,10 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
                   {isUpdating ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      Saving...
+                      Đang lưu...
                     </>
                   ) : (
-                    "Save Changes"
+                    "Lưu thay đổi"
                   )}
                 </button>
               </div>
@@ -579,24 +579,24 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
       <Modal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        title="Delete Post"
+        title="Xóa bài viết"
       >
         <div className="p-1">
           <p className="text-slate-300 mb-6">
-            Are you sure you want to remove this post permanently?
+            Bạn có chắc chắn muốn xóa bài viết này vĩnh viễn không?
           </p>
           <div className="flex justify-end gap-3">
             <button
               onClick={() => setShowDeleteModal(false)}
               className="px-4 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-600 transition cursor-pointer"
             >
-              Cancel
+              Hủy
             </button>
             <button
               onClick={confirmDelete}
               className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 transition cursor-pointer"
             >
-              Delete
+              Xóa
             </button>
           </div>
         </div>
