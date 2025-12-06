@@ -1,14 +1,14 @@
 // Danh sách các màu cơ bản VF3 (theo hình mẫu)
 export const PRESET_COLORS = [
   { name: "Trắng", value: "#FFFFFF" },
-  { name: "Đỏ", value: "#E53E3E" },
+  { name: "Đỏ", value: "#cb2828" },
   { name: "Xanh Dương Đậm", value: "#2B6CB0" },
-  { name: "Xám", value: "#718096" },
-  { name: "Vàng", value: "#ECC94B" },
-  { name: "Hồng Tím", value: "#B794F4" },
-  { name: "Xanh Lá Nhạt", value: "#9AE6B4" },
-  { name: "Xanh Dương Nhạt", value: "#63B3ED" },
-  { name: "Hồng Phấn", value: "#FBB6CE" },
+  { name: "Xám", value: "#878a8a" },
+  { name: "Vàng", value: "#e9b714" },
+  { name: "Hồng Tím", value: "#967399" },
+  { name: "Xanh Lá Nhạt", value: "#5b7b5f" },
+  { name: "Xanh Dương Đậm", value: "#113bbe" },
+  { name: "Hồng Phấn", value: "#e79e9f" },
 ];
 
 // Các bộ phận xe có thể đổi màu

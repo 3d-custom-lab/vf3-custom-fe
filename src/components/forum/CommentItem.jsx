@@ -18,12 +18,12 @@ function CommentItem({ comment, postId, onReplyCreated }) {
   const [isLoadingReplies, setIsLoadingReplies] = useState(false);
 
   const authorName =
-    comment.author?.name || comment.author?.email || "Unknown User";
+    comment.author?.name || comment.author?.email || "Người dùng ẩn danh";
   const authorAvatar = comment.author?.avatar;
   const replyCount = comment.replies?.length || 0;
 
   const formatDate = (dateString) => {
-    if (!dateString) return "Just now";
+    if (!dateString) return "Vừa xong";
 
     const date = new Date(dateString);
     const now = new Date();
@@ -32,10 +32,10 @@ function CommentItem({ comment, postId, onReplyCreated }) {
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffMins < 1) return "Vừa xong";
+    if (diffMins < 60) return `${diffMins} phút trước`;
+    if (diffHours < 24) return `${diffHours} giờ trước`;
+    if (diffDays < 7) return `${diffDays} ngày trước`;
     return date.toLocaleDateString();
   };
 
@@ -43,7 +43,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
     e.preventDefault();
 
     if (!replyContent.trim()) {
-      showError("Please enter a reply");
+      showError("Vui lòng nhập nội dung trả lời");
       return;
     }
 
@@ -61,7 +61,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
       if (response.code === 1000 || response.result) {
         setReplyContent("");
         setShowReplyInput(false);
-        showSuccess("Reply added successfully!");
+        showSuccess("Đã thêm câu trả lời!");
 
         await loadReplies();
 
@@ -73,7 +73,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
       console.error("Error creating reply:", error);
       const errorMessage =
         error.response?.data?.message ||
-        "Failed to add reply. Please try again.";
+        "Lỗi thêm câu trả lời. Vui lòng thử lại.";
       showError(errorMessage);
     } finally {
       setIsSubmittingReply(false);
@@ -91,7 +91,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
       setShowReplies(true);
     } catch (error) {
       console.error("Error loading replies:", error);
-      showError("Failed to load replies");
+      showError("Lỗi tải câu trả lời");
     } finally {
       setIsLoadingReplies(false);
     }
@@ -136,7 +136,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
               onClick={() => setShowReplyInput(!showReplyInput)}
               className="text-slate-300 hover:text-blue-400 cursor-pointer transition"
             >
-              Reply
+              Trả lời
             </button>
             {replyCount > 0 && (
               <button
@@ -150,7 +150,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
                   <>
                     <FaReply className="text-xs text-slate-300" />
                     <span>
-                      {showReplies ? "Hide" : "View"} {replyCount}
+                      {showReplies ? "Ẩn" : "Xem"} {replyCount}
                     </span>
                   </>
                 )}
@@ -163,7 +163,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
               <div className="flex-1">
                 <input
                   type="text"
-                  placeholder={`Reply to ${authorName}...`}
+                  placeholder={`Trả lời ${authorName}...`}
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-800 text-white rounded-md border border-slate-700 placeholder-slate-400"
@@ -218,7 +218,7 @@ function CommentItem({ comment, postId, onReplyCreated }) {
                       <p className="font-medium text-white text-xs">
                         {reply.author?.name ||
                           reply.author?.email ||
-                          "Unknown User"}
+                          "Người dùng ẩn danh"}
                       </p>
                       <p className="text-slate-200 text-xs mt-1">
                         {reply.content}

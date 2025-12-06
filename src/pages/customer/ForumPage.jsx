@@ -57,7 +57,7 @@ function ForumPage() {
       } catch (err) {
         setPosts([]);
         if (err.response?.data?.message) setError(err.response.data.message);
-        else setError("Failed to load posts. Please try again later.");
+        else setError("Lỗi tải bài viết. Vui lòng thử lại sau.");
       } finally {
         setLoading(false);
       }
@@ -104,11 +104,11 @@ function ForumPage() {
                 <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                   <div>
                     <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 drop-shadow-lg">
-                      Community Forum
+                      Diễn Đàn Cộng Đồng
                     </h1>
                     <p className="text-blue-200/80 text-lg font-medium flex items-center gap-2">
                       <Sparkles className="w-5 h-5 text-yellow-400" />
-                      Join the conversation, share your world.
+                      Tham gia trò chuyện, chia sẻ niềm đam mê.
                     </p>
                   </div>
                 </div>
@@ -127,7 +127,7 @@ function ForumPage() {
                     <input
                       type="text"
                       className="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-700/50 rounded-xl leading-5 text-slate-200 placeholder-slate-500 focus:outline-none focus:bg-slate-800 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 sm:text-sm transition-all shadow-inner"
-                      placeholder="Search discussions..."
+                      placeholder="Tìm kiếm thảo luận..."
                       value={keyword}
                       onChange={(e) => setKeyword(e.target.value)}
                     />
@@ -138,7 +138,7 @@ function ForumPage() {
                     <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:border-blue-500/30 transition-colors group/size">
                       <Filter className="w-4 h-4 text-slate-400 group-hover/size:text-blue-400 transition-colors" />
                       <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">
-                        Size
+                        Hiển thị
                       </span>
                       <select
                         value={size}
@@ -162,7 +162,7 @@ function ForumPage() {
                       </button>
 
                       <div className="flex items-center gap-2 px-1 border-x border-slate-700/50 mx-1">
-                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider hidden sm:inline-block">Page</span>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider hidden sm:inline-block">Trang</span>
                         <input
                           type="number"
                           min={1}
@@ -198,7 +198,7 @@ function ForumPage() {
                 }
                 onPostDeleted={(id) => {
                   setPosts((prev) => prev.filter((p) => p.id !== id));
-                  showSuccess("Post deleted successfully!");
+                  showSuccess("Đã xóa bài viết!");
                 }}
               />
             </>
@@ -215,18 +215,17 @@ function ForumPage() {
                 </div>
 
                 <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
-                  Access Restricted
+                  Yêu cầu đăng nhập
                 </h2>
                 <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                  Join our vibrant community to read stories, share moments, and
-                  connect with like-minded people.
+                  Tham gia cộng đồng để chia sẻ câu chuyện và kết nối với những người cùng đam mê.
                 </p>
 
                 <a
                   href="/auth"
                   className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg shadow-blue-600/25 w-full"
                 >
-                  Sign In to Continue
+                  Đăng nhập ngay
                 </a>
               </div>
             </div>

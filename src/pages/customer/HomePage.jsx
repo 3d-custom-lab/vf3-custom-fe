@@ -12,8 +12,8 @@ function HomePage() {
       <Header />
       <HeroSection />
       <FeaturesSection />
-      <VisionMissionSection />
       <ShowcaseSection />
+      <VisionMissionSection />
       <TestimonialsSection />
       <Footer />
     </div>

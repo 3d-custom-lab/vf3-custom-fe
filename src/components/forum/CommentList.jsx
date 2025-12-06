@@ -35,7 +35,7 @@ function CommentList({ postId, onCommentChange }) {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!newCommentContent.trim()) return showError("Please enter a comment");
+    if (!newCommentContent.trim()) return showError("Vui lòng nhập bình luận");
 
     setIsSubmitting(true);
     try {
@@ -46,11 +46,11 @@ function CommentList({ postId, onCommentChange }) {
       });
       if (response.code === 1000 || response.result) {
         setNewCommentContent("");
-        showSuccess("Comment added");
+        showSuccess("Đã thêm bình luận");
         await loadComments();
       }
     } catch (error) {
-      showError(error.response?.data?.message || "Failed to comment");
+      showError(error.response?.data?.message || "Bình luận thất bại");
     } finally {
       setIsSubmitting(false);
     }
@@ -60,7 +60,7 @@ function CommentList({ postId, onCommentChange }) {
     <div className="space-y-6">
       <div className="flex items-center gap-3 pb-2">
         <h3 className="text-slate-200 font-bold text-sm uppercase tracking-wider">
-          Discussion
+          Thảo luận
         </h3>
         <div className="h-px flex-1 bg-slate-800"></div>
       </div>
@@ -74,7 +74,7 @@ function CommentList({ postId, onCommentChange }) {
         </div>
         <div className="flex-1 relative">
           <textarea
-            placeholder="Add to the discussion..."
+            placeholder="Tham gia thảo luận..."
             value={newCommentContent}
             onChange={(e) => setNewCommentContent(e.target.value)}
             rows="1"
@@ -107,7 +107,7 @@ function CommentList({ postId, onCommentChange }) {
       ) : comments.length === 0 ? (
         <div className="text-center py-8 opacity-60">
           <p className="text-slate-500 text-sm">
-            No comments yet. Start the conversation!
+            Chưa có bình luận. Hãy bắt đầu cuộc trò chuyện!
           </p>
         </div>
       ) : (
