@@ -145,9 +145,6 @@ export const Studio = () => {
             <h1 className="text-4xl font-bold text-slate-800 dark:text-white mb-2">
               Studio 3D tùy chỉnh xe
             </h1>
-            <p className="text-slate-600 dark:text-slate-300">
-              Thiết kế chiếc VF3 độc đáo của riêng bạn với các bộ phận thực tế
-            </p>
           </motion.div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -212,8 +209,8 @@ export const Studio = () => {
                         onClick={() => setActiveTab(tab.id)}
                         title={tab.description}
                         className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${activeTab === tab.id
-                            ? "bg-linear-to-br from-blue-600 to-purple-600 text-white shadow-lg scale-105"
-                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
+                          ? "bg-linear-to-br from-blue-600 to-purple-600 text-white shadow-lg scale-105"
+                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
                           }`}
                       >
                         <Icon className="w-5 h-5" />
