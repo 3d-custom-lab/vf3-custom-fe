@@ -17,8 +17,8 @@ const PART_LABELS = {
   roof: "Nóc xe",
   "body-plastic": "Nhựa thân",
   mirrors: "Gương",
-  "front-chrome": "Crom trước",
-  "rear-chrome": "Crom sau",
+  "front-chrome": "Thanh chữ V trước",
+  "rear-chrome": "Thanh chữ V sau",
 };
 
 export const PartColorSelector = () => {
@@ -29,7 +29,7 @@ export const PartColorSelector = () => {
       <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
         Chọn bộ phận để tô màu
       </h3>
-      
+
       <div className="grid grid-cols-2 gap-3">
         {COLORABLE_PARTS.map((part) => {
           const Icon = PART_ICONS[part];
@@ -44,10 +44,9 @@ export const PartColorSelector = () => {
               onClick={() => setSelectedColorPart(part)}
               className={`
                 relative p-4 rounded-xl border-2 transition-all duration-200
-                ${
-                  isSelected
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg"
-                    : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-blue-400 hover:shadow-md"
+                ${isSelected
+                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg"
+                  : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-blue-400 hover:shadow-md"
                 }
               `}
             >
@@ -59,10 +58,10 @@ export const PartColorSelector = () => {
                   <Icon
                     className={`w-5 h-5 ${
                       // Chọn màu icon dựa trên độ sáng của background
-                      currentColor === "#FFFFFF" || currentColor === "#ECC94B" || currentColor === "#9AE6B4" || currentColor === "#FBB6CE"
+                      ["#FFFFFF", "#e9b714", "#e79e9f"].includes(currentColor)
                         ? "text-slate-700"
                         : "text-white"
-                    }`}
+                      }`}
                     strokeWidth={2}
                   />
                 </div>

@@ -20,8 +20,8 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
           <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Màu {partName}
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {value}
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+            {PRESET_COLORS.find((c) => c.value.toLowerCase() === value?.toLowerCase())?.name || value}
           </p>
         </div>
         <div
@@ -35,20 +35,20 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
         <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
           Màu cơ bản
         </p>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-5 gap-2">
           {PRESET_COLORS.map((color) => (
             <motion.button
               key={color.value}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onChange(color.value)}
-              className="relative aspect-square rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="relative aspect-square rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer group"
               style={{ backgroundColor: color.value }}
               title={color.name}
             >
-              {/* Border cho màu trắng để dễ nhìn */}
-              {color.value === "#FFFFFF" && (
-                <div className="absolute inset-0 rounded-xl border-2 border-slate-200 dark:border-slate-700" />
+              {/* Border cho màu trắng/đen để dễ nhìn */}
+              {(color.value === "#FFFFFF" || color.value === "#000000") && (
+                <div className={`absolute inset-0 rounded-xl border-2 ${color.value === "#FFFFFF" ? "border-slate-200 dark:border-slate-700" : "border-slate-600 dark:border-slate-500"}`} />
               )}
 
               {/* Checkmark khi được chọn */}
@@ -58,18 +58,18 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
-                    className="absolute inset-0 flex items-center justify-center"
+                    className="absolute inset-0 flex items-center justify-center z-10"
                   >
-                    <div className="w-7 h-7 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-lg">
-                      <Check className="w-4 h-4 text-blue-600" strokeWidth={3} />
+                    <div className="w-6 h-6 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-lg">
+                      <Check className="w-3.5 h-3.5 text-blue-600" strokeWidth={3} />
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Tên màu */}
-              <div className="absolute bottom-1 left-0 right-0 text-center">
-                <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-slate-800/80 px-2 py-0.5 rounded-full">
+              {/* Tên màu - Chỉ hiện khi hover hoặc active để gọn */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none whitespace-nowrap">
+                <span className="text-[10px] font-medium text-white bg-slate-800 px-2 py-1 rounded-md shadow-lg">
                   {color.name}
                 </span>
               </div>
