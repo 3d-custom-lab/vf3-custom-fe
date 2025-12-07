@@ -1,13 +1,14 @@
 // Danh sách các màu cơ bản VF3 (theo hình mẫu)
 export const PRESET_COLORS = [
+  { name: "Đen", value: "#000000" },
   { name: "Trắng", value: "#FFFFFF" },
-  { name: "Đỏ", value: "#cb2828" },
-  { name: "Xanh Dương Đậm", value: "#2B6CB0" },
   { name: "Xám", value: "#878a8a" },
+  { name: "Đỏ", value: "#cb2828" },
   { name: "Vàng", value: "#e9b714" },
+  { name: "Xanh Lá", value: "#5b7b5f" },
+  { name: "Xanh Dương", value: "#113bbe" },
+  { name: "Xanh Titan", value: "#2B6CB0" },
   { name: "Hồng Tím", value: "#967399" },
-  { name: "Xanh Lá Nhạt", value: "#5b7b5f" },
-  { name: "Xanh Dương Đậm", value: "#113bbe" },
   { name: "Hồng Phấn", value: "#e79e9f" },
 ];
 
@@ -58,14 +59,14 @@ export const BASE_CAR_PARTS = [
   },
   {
     id: "front-chrome",
-    name: "Crom trước",
+    name: "Thanh chữ V trước",
     modelPath: "/model/base_car/Crom trước gốc.glb",
     applyBodyColor: true,
     isGrillePart: true, // Ẩn khi có ca-lăng tùy chỉnh
   },
   {
     id: "rear-chrome",
-    name: "Crom sau",
+    name: "Thanh chữ V sau",
     modelPath: "/model/base_car/Crom sau gốc.glb",
     applyBodyColor: true,
   },
@@ -99,7 +100,7 @@ export const CUSTOM_CAR_PARTS = {
       },
       {
         id: "grille-1",
-        name: "Ca-lăng 1",
+        name: "Tiểu G63",
         description: "Ca-lăng tiêu chuẩn",
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang1.glb",
@@ -107,7 +108,7 @@ export const CUSTOM_CAR_PARTS = {
       },
       {
         id: "grille-2",
-        name: "Ca-lăng 2",
+        name: "Mặt đèn tròn 1",
         description: "Ca-lăng thể thao",
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang2.glb",
@@ -115,7 +116,7 @@ export const CUSTOM_CAR_PARTS = {
       },
       {
         id: "grille-3",
-        name: "Ca-lăng 3",
+        name: "Tiểu Defender",
         description: "Ca-lăng sang trọng",
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang3.glb",
@@ -123,7 +124,7 @@ export const CUSTOM_CAR_PARTS = {
       },
       {
         id: "grille-4",
-        name: "Ca-lăng 4",
+        name: "Mặt đèn tròn 2",
         description: "Ca-lăng đặc biệt",
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang4.glb",
@@ -254,16 +255,16 @@ export const CUSTOM_CAR_PARTS = {
       },
       {
         id: "body-vay-x-xanh",
-        name: "Vây X xanh",
-        description: "Vây X màu xanh",
+        name: "Vây phản quang xanh",
+        description: "Vây phản quang màu xanh",
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Vây X xanh.glb",
         thumbnail: "/model/custom_car/Thân xe/Vây X xanh.glb",
       },
       {
         id: "body-vay-x-do",
-        name: "Vây X đỏ",
-        description: "Vây X màu đỏ",
+        name: "Vây phản quang đỏ",
+        description: "Vây phản quang màu đỏ",
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Vây X đỏ.glb",
         thumbnail: "/model/custom_car/Thân xe/Vây X đỏ.glb",

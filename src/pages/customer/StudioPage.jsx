@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Save, RotateCcw, Palette, Car, Wind, Box, Package, Disc3, Zap, Settings2 } from "lucide-react";
+import { Save, RotateCcw, Palette, Car, Wind, Box, Package, Disc3, Zap, Settings2, CarTaxiFront, CarFront } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
 import { ColorPicker } from "../../components/ui/ColorPicker";
@@ -102,20 +102,20 @@ export const Studio = () => {
     },
     {
       id: "wheels",
-      label: "Vành xe",
+      label: "Bánh xe",
       icon: Disc3,
       description: "Chọn kiểu vành"
     },
     {
       id: "front",
-      label: "Mặt xe",
-      icon: Car,
+      label: "Mặt Ca-lăng",
+      icon: CarFront,
       description: "Ca-lăng & Cản"
     },
     {
       id: "roof",
       label: "Nóc xe",
-      icon: Wind,
+      icon: CarTaxiFront,
       description: "Phụ kiện nóc"
     },
     {
@@ -167,12 +167,12 @@ export const Studio = () => {
 
                 <div className="p-6 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
                   <div className="flex flex-wrap gap-3">
-                    <button
+                    {/* <button
                       onClick={() => setShowSaveModal(true)}
                       className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
                     >
                       <Save className="w-5 h-5" /> Tải xuống
-                    </button>
+                    </button> */}
                     <button
                       onClick={resetCustomization}
                       className="px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-300 rounded-xl font-semibold transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
