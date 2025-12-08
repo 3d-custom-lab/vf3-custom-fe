@@ -145,7 +145,7 @@ export default function CreateModelModal({ isOpen, onClose, onSuccess, garas }) 
                                     <option value="" className="text-slate-400">Choose a garage...</option>
                                     {garas.map(gara => (
                                         <option key={gara.id} value={gara.id} className="text-slate-900">
-                                            {gara.name} (ID: {gara.id})
+                                            {gara.name}
                                         </option>
                                     ))}
                                 </select>

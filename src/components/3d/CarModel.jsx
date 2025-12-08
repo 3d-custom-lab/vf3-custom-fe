@@ -5,15 +5,6 @@ import { CUSTOM_CAR_PARTS } from "../../utils/constants";
 import { ModelPart } from "./ModelPart";
 import { BaseCar } from "./BaseCar";
 
-/**
- * CarModel Component - Lắp ráp toàn bộ xe VF3 với customization
- * Sử dụng cấu trúc từ folder custom_car với 5 nhóm chính:
- * 1. Mặt xe (Front) - Ca-lăng, Cản
- * 2. Nóc xe (Roof) - Giá nóc, Tai, Capo
- * 3. Thân xe (Body) - Bệ chân, Phụ kiện thân
- * 4. Đuôi xe (Rear) - Cốp sau
- * 5. Vành (Wheels)
- */
 export const CarModel = ({ autoRotate = false }) => {
   const groupRef = useRef(null);
   
