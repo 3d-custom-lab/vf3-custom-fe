@@ -2,17 +2,6 @@ import { useMemo } from "react";
 import { BASE_CAR_PARTS } from "../../utils/constants";
 import { ModelPart } from "./ModelPart";
 
-/**
- * BaseCar Component - Ghép các bộ phận cơ bản của xe VF3
- *
- * Thân xe được chia thành 4 phần từ folder /model/base_car/Thân xe/:
- * 1. Thân.glb - Phần thân chính (đổi màu độc lập theo partColors.body)
- * 2. Thân ko đổi màu.glb - Phần thân cố định (giữ màu gốc)
- * 3. Nóc.glb - Phần nóc xe (đổi màu độc lập theo partColors.roof)
- * 4. Nhựa thân nhám.glb - Phần nhựa thân (đổi màu độc lập theo partColors['body-plastic'])
- *
- * Các bộ phận khác: đèn trước/sau, crom, gương, bánh xe gốc
- */
 export const BaseCar = ({
   partColors = {
     body: "#FFFFFF",

@@ -26,7 +26,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-linear-to-br from-blue-900/10 via-transparent to-cyan-900/10" />
+      <div className="absolute inset-0 bg-blue-900/10" />
 
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
@@ -39,19 +39,19 @@ export default function AuthPage() {
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
             className="inline-flex items-center justify-center"
           >
-            <img 
-              src="/img/logo-auth.webp" 
-              alt="VF3 Logo" 
-              className="w-full h-full object-contain drop-shadow-2xl" 
+            <img
+              src="/img/logo-auth.webp"
+              alt="VF3 Logo"
+              className="w-full h-full object-contain drop-shadow-2xl"
               style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))' }}
             />
           </motion.div>
         </div>
 
-        <div className="bg-linear-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-cyan-500/5" />
+        <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
+          <div className="absolute inset-0 bg-blue-500/5" />
 
-          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-blue-500" />
 
           <div className="relative">
             <AnimatePresence mode="wait">
@@ -63,7 +63,7 @@ export default function AuthPage() {
                   exit={{ opacity: 0, x: 50 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <LoginForm 
+                  <LoginForm
                     onSwitchToRegister={() => setIsLogin(false)}
                     onForgotPassword={() => setShowForgotPasswordModal(true)}
                   />

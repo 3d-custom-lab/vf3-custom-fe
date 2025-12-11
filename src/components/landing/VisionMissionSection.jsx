@@ -22,7 +22,7 @@ function VisionMissionSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Về Chúng Tôi
           </h2>
-          <div className="w-24 h-1 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
         </motion.div>
 
         {/* About Section */}
@@ -34,7 +34,7 @@ function VisionMissionSection() {
           className="mb-20 bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl"
         >
           <div className="flex items-start gap-4 mb-6">
-            <div className="p-3 bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl">
+            <div className="p-3 bg-blue-500 rounded-2xl">
               <Heart className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -57,18 +57,18 @@ function VisionMissionSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="group relative bg-linear-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20"
+            className="group relative bg-slate-900/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20"
           >
             <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all"></div>
-            
+
             <div className="relative">
               <div className="flex items-center gap-4 mb-6">
-                <div className="p-4 bg-linear-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
+                <div className="p-4 bg-blue-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
                   <Target className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-white">Tầm Nhìn</h3>
               </div>
-              
+
               <p className="text-slate-300 text-lg leading-relaxed">
                 Trở thành <span className="text-blue-400 font-semibold">nền tảng số hàng đầu Việt Nam</span> về cá nhân hóa và trải nghiệm độ xe, đồng thời là sàn thương mại điện tử uy tín cho phụ kiện và dịch vụ độ xe, nơi người dùng có thể{" "}
                 <span className="text-white font-medium">mua sắm – trải nghiệm – kết nối</span> một cách an toàn và tiện lợi.
@@ -82,18 +82,18 @@ function VisionMissionSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="group relative bg-linear-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-700 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20"
+            className="group relative bg-slate-900/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-700 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20"
           >
             <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/20 transition-all"></div>
-            
+
             <div className="relative">
               <div className="flex items-center gap-4 mb-6">
-                <div className="p-4 bg-linear-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
+                <div className="p-4 bg-purple-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
                   <Compass className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-white">Sứ Mệnh</h3>
               </div>
-              
+
               <div className="space-y-4 text-slate-300 text-lg leading-relaxed">
                 <p>
                   <span className="text-purple-400 font-semibold">Đặt người dùng làm trung tâm</span> trong mọi quyết định, chúng tôi xây dựng một hệ sinh thái độ xe minh bạch và dễ tiếp cận.
@@ -116,7 +116,7 @@ function VisionMissionSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="bg-linear-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-slate-700"
+          className="bg-slate-900/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-slate-700"
         >
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -132,7 +132,7 @@ function VisionMissionSection() {
               className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700 hover:border-blue-500/50 transition-all"
             >
               <div className="flex justify-center mb-4">
-                <div className="p-4 bg-linear-to-br from-blue-500 to-cyan-500 rounded-2xl">
+                <div className="p-4 bg-blue-500 rounded-2xl">
                   <Zap className="w-10 h-10 text-white" />
                 </div>
               </div>
@@ -150,7 +150,7 @@ function VisionMissionSection() {
               className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700 hover:border-purple-500/50 transition-all"
             >
               <div className="flex justify-center mb-4">
-                <div className="p-4 bg-linear-to-br from-purple-500 to-pink-500 rounded-2xl">
+                <div className="p-4 bg-purple-500 rounded-2xl">
                   <Users className="w-10 h-10 text-white" />
                 </div>
               </div>
@@ -168,7 +168,7 @@ function VisionMissionSection() {
               className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700 hover:border-green-500/50 transition-all"
             >
               <div className="flex justify-center mb-4">
-                <div className="p-4 bg-linear-to-br from-green-500 to-emerald-500 rounded-2xl">
+                <div className="p-4 bg-green-500 rounded-2xl">
                   <Link2 className="w-10 h-10 text-white" />
                 </div>
               </div>

@@ -82,7 +82,7 @@ export const ColorPicker = ({ value, onChange, partName = "bộ phận" }) => {
       <div className="space-y-2">
         <button
           onClick={() => setShowSketchPicker(!showSketchPicker)}
-          className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl font-medium transition-all duration-200 inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
+          className="w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
         >
           <Palette className="w-5 h-5" />
           {showSketchPicker ? "Đóng bảng màu nâng cao" : "Mở bảng màu nâng cao"}

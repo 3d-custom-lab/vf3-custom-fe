@@ -34,7 +34,7 @@ const TestimonialsSection = () => {
   return (
     <section
       ref={ref}
-      className="py-16 md:py-24 gradient-dark relative overflow-hidden"
+      className="py-16 md:py-24 bg-[#0A0F1F] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
@@ -59,7 +59,7 @@ const TestimonialsSection = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.03, y: -5 }}
-              className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-2xl hover:shadow-2xl transition-all border border-cyan-500/30 hover:border-cyan-500/60 backdrop-blur-sm glow-cyan"
+              className="bg-gray-800/50 p-8 rounded-2xl hover:shadow-2xl transition-all border border-cyan-500/30 hover:border-cyan-500/60 backdrop-blur-sm glow-cyan"
             >
               <div className="flex items-center mb-6">
                 <span className="w-16 h-16 rounded-full object-cover mr-4 border-2 border-cyan-500" />

@@ -13,7 +13,7 @@ export const LoadingOverlay = ({ isLoading }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 z-50 flex items-center justify-center bg-linear-to-br from-blue-100/95 via-purple-100/95 to-pink-100/95 dark:from-slate-900/95 dark:via-slate-800/95 dark:to-slate-900/95 backdrop-blur-sm"
+          className="absolute inset-0 z-50 flex items-center justify-center bg-blue-100/95 dark:bg-slate-900/95 backdrop-blur-sm"
         >
           <div className="text-center space-y-6">
             {/* Animated Car Icon */}
@@ -29,7 +29,7 @@ export const LoadingOverlay = ({ isLoading }) => {
               }}
               className="relative mx-auto w-24 h-24"
             >
-              <div className="absolute inset-0 bg-linear-to-br from-blue-500 to-purple-600 rounded-full opacity-20 blur-xl" />
+              <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 blur-xl" />
               <div className="relative bg-white dark:bg-slate-800 rounded-full p-5 shadow-2xl">
                 <Car className="w-14 h-14 text-blue-600 dark:text-blue-400" />
               </div>
@@ -53,7 +53,7 @@ export const LoadingOverlay = ({ isLoading }) => {
               <motion.h3
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                className="text-2xl font-bold text-blue-600"
               >
                 Đang tải mô hình 3D...
               </motion.h3>

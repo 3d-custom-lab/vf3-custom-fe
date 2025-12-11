@@ -78,8 +78,8 @@ export default function GoogleCallbackPage() {
         }
       } catch (error) {
         // Xử lý lỗi invalid_grant (code đã được sử dụng)
-        if (error.response?.data?.message?.includes('invalid_grant') || 
-            error.message?.includes('invalid_grant')) {
+        if (error.response?.data?.message?.includes('invalid_grant') ||
+          error.message?.includes('invalid_grant')) {
           // Không hiển thị lỗi, im lặng redirect về home
           navigate('/', { replace: true });
           return;
@@ -98,7 +98,7 @@ export default function GoogleCallbackPage() {
   }, [searchParams, navigate, checkAuth, getHomeRoute]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-gray-900 via-gray-800 to-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-[#0A0F1F]">
       <div className="text-center">
         {/* Loading spinner */}
         <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500 mx-auto mb-6"></div>

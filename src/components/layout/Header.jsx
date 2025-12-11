@@ -87,7 +87,7 @@ export default function Header() {
               <div ref={userMenuRef} className="relative">
                 <div
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="cursor-pointer w-11 h-11 rounded-full overflow-hidden border border-cyan-500/50 shadow-md hover:shadow-cyan-500/20 bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center"
+                  className="cursor-pointer w-11 h-11 rounded-full overflow-hidden border border-cyan-500/50 shadow-md hover:shadow-cyan-500/20 bg-cyan-600 flex items-center justify-center"
                 >
                   {displayUser.avatar ? (
                     <img src={displayUser.avatar} className="w-full h-full object-cover" />
@@ -128,7 +128,7 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => navigate("/auth")}
-                className="px-6 py-2 rounded-full text-white font-semibold cursor-pointer bg-gradient-to-r from-cyan-500 to-blue-600 hover:shadow-lg hover:shadow-cyan-500/40 transition"
+                className="px-6 py-2 rounded-full text-white font-semibold cursor-pointer bg-cyan-600 hover:shadow-lg hover:shadow-cyan-500/40 transition"
               >
                 Đăng nhập
               </button>
@@ -197,7 +197,7 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => { setIsMenuOpen(false); navigate("/auth"); }}
-                className="w-full py-2 rounded-lg text-white font-medium bg-gradient-to-r from-cyan-500 to-blue-600 hover:shadow-md hover:shadow-cyan-500/40 cursor-pointer"
+                className="w-full py-2 rounded-lg text-white font-medium bg-cyan-600 hover:shadow-md hover:shadow-cyan-500/40 cursor-pointer"
               >
                 Đăng nhập
               </button>

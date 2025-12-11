@@ -156,7 +156,7 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
               className="bg-slate-900 rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-800"
             >
               {/* Header with Gradient */}
-              <div className="relative bg-linear-to-r from-indigo-600 via-purple-600 to-blue-600 p-6">
+              <div className="relative bg-indigo-600 p-6">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                 <div className="relative flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -324,7 +324,7 @@ export default function EditProfileModal({ isOpen, onClose, userInfo, onSave }) 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3.5 px-6 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3.5 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {loading ? (
                       <>

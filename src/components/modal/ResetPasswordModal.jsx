@@ -142,7 +142,7 @@ export default function ResetPasswordModal({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 20 }}
               transition={{ type: "spring", duration: 0.45 }}
-              className="bg-linear-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl shadow-xl shadow-blue-500/20 max-w-md w-full"
+              className="bg-gray-900 border border-gray-700 rounded-2xl shadow-xl shadow-blue-500/20 max-w-md w-full"
             >
               <div className="relative p-6 border-b border-gray-700 flex items-center gap-3">
                 <button
@@ -153,7 +153,7 @@ export default function ResetPasswordModal({
                   <X className="w-6 h-6" />
                 </button>
 
-                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-cyan-500 shadow-blue-500/30 shadow-lg">
+                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-blue-600 shadow-blue-500/30 shadow-lg">
                   <ShieldCheck className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -306,7 +306,7 @@ export default function ResetPasswordModal({
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-semibold transition transform hover:scale-[1.02] hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3.5 bg-blue-600 text-white rounded-xl font-semibold transition transform hover:scale-[1.02] hover:bg-blue-500 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {loading ? (
                       <>
