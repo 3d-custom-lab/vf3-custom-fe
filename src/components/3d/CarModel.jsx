@@ -41,12 +41,13 @@ export const CarModel = ({ autoRotate = false }) => {
         partColors={partColors}
         scale={2.5}
         position={[0, 0, 0]}
-        hideDefaultWheels={!!selectedWheelData?.modelPath}
+        hideDefaultWheels={false}
         hideDefaultGrille={!!selectedGrilleData?.modelPath}
       />
       
-      {/* === VÀNH XE === */}
-      {selectedWheelData?.modelPath && (
+      {/* === VÀNH XE (ỐP MÂM) === */}
+      {/* Giữ nguyên bánh gốc (lốp), chỉ thêm phần ốp mâm custom */}
+      {selectedWheelData?.modelPath && selectedWheel !== "wheel-default" && (
         <ModelPart
           key={`wheel-${selectedWheel}`}
           modelPath={selectedWheelData.modelPath}

@@ -1,16 +1,31 @@
 import { useState, useRef, useEffect } from "react";
-import { Save, RotateCcw, Palette, Car, Wind, Box, Package, Disc3, Zap, Settings2, CarTaxiFront, CarFront } from "lucide-react";
+import {
+  Save,
+  RotateCcw,
+  Palette,
+  Car,
+  Wind,
+  Box,
+  Package,
+  Disc3,
+  Zap,
+  Settings2,
+  CarTaxiFront,
+  CarFront,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Scene } from "../../components/3d/Scene";
 import { ColorPicker } from "../../components/ui/ColorPicker";
 import { PartColorSelector } from "../../components/ui/PartColorSelector";
-import { PartSelector } from "../../components/ui/PartSelector";
+import { WheelSelector } from "../../components/ui/WheelSelector";
 import { Modal } from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
 import { Textarea } from "../../components/ui/Textarea";
 import { LoadingOverlay } from "../../components/ui/LoadingOverlay";
+import Toast from "../../components/ui/Toast";
 import Header from "../../components/layout/Header";
 import { useCustomizationStore } from "../../store/customizationStore";
+import { useToast } from "../../hooks/useToast";
 import { CUSTOM_CAR_PARTS } from "../../utils/constants";
 
 const PART_LABELS = {
@@ -29,6 +44,9 @@ export const Studio = () => {
   const [description, setDescription] = useState("");
   const [activeTab, setActiveTab] = useState("color");
   const canvasRef = useRef(null);
+
+  // Toast hook
+  const { toast, showInfo, hideToast } = useToast();
 
   const {
     partColors,
@@ -89,8 +107,12 @@ export const Studio = () => {
     }
   };
 
-  const currentColor = selectedColorPart ? partColors[selectedColorPart] : "#FFFFFF";
-  const currentPartLabel = selectedColorPart ? PART_LABELS[selectedColorPart] : "bộ phận";
+  const currentColor = selectedColorPart
+    ? partColors[selectedColorPart]
+    : "#FFFFFF";
+  const currentPartLabel = selectedColorPart
+    ? PART_LABELS[selectedColorPart]
+    : "bộ phận";
 
   // Tabs mới với 8 categories
   const tabs = [
@@ -98,37 +120,37 @@ export const Studio = () => {
       id: "color",
       label: "Màu sắc",
       icon: Palette,
-      description: "Tùy chỉnh màu sắc xe"
+      description: "Tùy chỉnh màu sắc xe",
     },
     {
       id: "wheels",
       label: "Bánh xe",
       icon: Disc3,
-      description: "Chọn kiểu vành"
+      description: "Chọn kiểu vành",
     },
     {
       id: "front",
       label: "Mặt Ca-lăng",
       icon: CarFront,
-      description: "Ca-lăng & Cản"
+      description: "Ca-lăng & Cản",
     },
     {
       id: "roof",
       label: "Nóc xe",
       icon: CarTaxiFront,
-      description: "Phụ kiện nóc"
+      description: "Phụ kiện nóc",
     },
     {
       id: "body",
       label: "Thân xe",
       icon: Box,
-      description: "Bệ chân & Phụ kiện"
+      description: "Bệ chân & Phụ kiện",
     },
     {
       id: "rear",
       label: "Đuôi xe",
       icon: Package,
-      description: "Phụ kiện đuôi"
+      description: "Phụ kiện đuôi",
     },
   ];
 
@@ -208,10 +230,11 @@ export const Studio = () => {
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         title={tab.description}
-                        className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${activeTab === tab.id
-                          ? "bg-blue-600 text-white shadow-lg scale-105"
-                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
-                          }`}
+                        className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${
+                          activeTab === tab.id
+                            ? "bg-blue-600 text-white shadow-lg scale-105"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
+                        }`}
                       >
                         <Icon className="w-5 h-5" />
                         <span className="text-xs">{tab.label}</span>
@@ -243,7 +266,9 @@ export const Studio = () => {
                         ) : (
                           <div className="text-center py-8 text-slate-500 dark:text-slate-400">
                             <Palette className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                            <p className="text-sm">Vui lòng chọn bộ phận để bắt đầu tô màu</p>
+                            <p className="text-sm">
+                              Vui lòng chọn bộ phận để bắt đầu tô màu
+                            </p>
                           </div>
                         )}
                       </motion.div>
@@ -259,12 +284,13 @@ export const Studio = () => {
                       >
                         <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                           <Disc3 className="w-5 h-5" />
-                          Chọn vành xe
+                          Chọn Ốp Lazang
                         </h3>
-                        <PartSelector
+                        <WheelSelector
                           parts={CUSTOM_CAR_PARTS.WHEELS}
                           selectedId={selectedWheel}
                           onSelect={setSelectedWheel}
+                          showToast={showInfo}
                         />
                       </motion.div>
                     )}
@@ -283,10 +309,11 @@ export const Studio = () => {
                             <Car className="w-5 h-5" />
                             Ca-lăng
                           </h3>
-                          <PartSelector
+                          <WheelSelector
                             parts={CUSTOM_CAR_PARTS.FRONT.GRILLES}
                             selectedId={selectedGrille}
                             onSelect={setSelectedGrille}
+                            showToast={showInfo}
                           />
                         </div>
 
@@ -295,10 +322,11 @@ export const Studio = () => {
                             <Zap className="w-5 h-5" />
                             Cản trước & sau
                           </h3>
-                          <PartSelector
+                          <WheelSelector
                             parts={CUSTOM_CAR_PARTS.FRONT.BUMPERS}
                             selectedId={selectedBumper}
                             onSelect={setSelectedBumper}
+                            showToast={showInfo}
                           />
                         </div>
                       </motion.div>
@@ -316,10 +344,11 @@ export const Studio = () => {
                           <Wind className="w-5 h-5" />
                           Phụ kiện nóc xe
                         </h3>
-                        <PartSelector
+                        <WheelSelector
                           parts={CUSTOM_CAR_PARTS.ROOF.ACCESSORIES}
                           selectedId={selectedRoofAccessory}
                           onSelect={setSelectedRoofAccessory}
+                          showToast={showInfo}
                         />
                       </motion.div>
                     )}
@@ -338,10 +367,11 @@ export const Studio = () => {
                             <Box className="w-5 h-5" />
                             Bệ chân
                           </h3>
-                          <PartSelector
+                          <WheelSelector
                             parts={CUSTOM_CAR_PARTS.BODY.CHASSIS}
                             selectedId={selectedChassis}
                             onSelect={setSelectedChassis}
+                            showToast={showInfo}
                           />
                         </div>
 
@@ -350,10 +380,11 @@ export const Studio = () => {
                             <Package className="w-5 h-5" />
                             Phụ kiện thân
                           </h3>
-                          <PartSelector
+                          <WheelSelector
                             parts={CUSTOM_CAR_PARTS.BODY.ACCESSORIES}
                             selectedId={selectedBodyAccessory}
                             onSelect={setSelectedBodyAccessory}
+                            showToast={showInfo}
                           />
                         </div>
                       </motion.div>
@@ -371,10 +402,11 @@ export const Studio = () => {
                           <Package className="w-5 h-5" />
                           Phụ kiện đuôi xe
                         </h3>
-                        <PartSelector
+                        <WheelSelector
                           parts={CUSTOM_CAR_PARTS.REAR.ACCESSORIES}
                           selectedId={selectedRearAccessory}
                           onSelect={setSelectedRearAccessory}
+                          showToast={showInfo}
                         />
                       </motion.div>
                     )}
@@ -415,6 +447,16 @@ export const Studio = () => {
           </Modal>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+          duration={toast.duration}
+        />
+      )}
     </>
   );
 };
