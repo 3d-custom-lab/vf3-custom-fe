@@ -13,7 +13,14 @@ export const PRESET_COLORS = [
 ];
 
 // Các bộ phận xe có thể đổi màu
-export const COLORABLE_PARTS = ["body", "roof", "body-plastic", "mirrors", "front-chrome", "rear-chrome"];
+export const COLORABLE_PARTS = [
+  "body",
+  "roof",
+  "body-plastic",
+  "mirrors",
+  "front-chrome",
+  "rear-chrome",
+];
 
 // Các bộ phận cơ bản của xe (không thể thay đổi)
 export const BASE_CAR_PARTS = [
@@ -97,6 +104,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: null,
         thumbnail: null,
+        affiliateLink: "",
       },
       {
         id: "grille-1",
@@ -105,6 +113,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang1.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang1.glb",
+        affiliateLink: "",
       },
       {
         id: "grille-2",
@@ -113,6 +122,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang2.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang2.glb",
+        affiliateLink: "",
       },
       {
         id: "grille-3",
@@ -121,6 +131,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang3.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang3.glb",
+        affiliateLink: "",
       },
       {
         id: "grille-4",
@@ -129,6 +140,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang4.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang4.glb",
+        affiliateLink: "",
       },
     ],
     // Cản trước + sau
@@ -140,6 +152,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: null,
         thumbnail: null,
+        affiliateLink: "",
       },
       {
         id: "bumper-1",
@@ -148,6 +161,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Mặt xe",
         modelPath: "/model/custom_car/Mặt xe/Cản trước + sau.glb",
         thumbnail: "/model/custom_car/Mặt xe/Cản trước + sau.glb",
+        affiliateLink: "",
       },
     ],
   },
@@ -162,6 +176,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: null,
         thumbnail: null,
+        affiliateLink: "",
       },
       {
         id: "roof-rack",
@@ -170,6 +185,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: "/model/custom_car/Nóc xe/Giá nóc.glb",
         thumbnail: "/model/custom_car/Nóc xe/Giá nóc.glb",
+        affiliateLink: "",
       },
       {
         id: "roof-rack-full",
@@ -178,6 +194,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: "/model/custom_car/Nóc xe/Giá nóc + Thang + Cốp hông.glb",
         thumbnail: "/model/custom_car/Nóc xe/Giá nóc + Thang + Cốp hông.glb",
+        affiliateLink: "",
       },
       {
         id: "roof-capo",
@@ -186,6 +203,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: "/model/custom_car/Nóc xe/Nắp Capo + Cánh Gió.glb",
         thumbnail: "/model/custom_car/Nóc xe/Nắp Capo + Cánh Gió.glb",
+        affiliateLink: "",
       },
       {
         id: "roof-tai-1",
@@ -194,6 +212,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: "/model/custom_car/Nóc xe/Tai1.glb",
         thumbnail: "/model/custom_car/Nóc xe/Tai1.glb",
+        affiliateLink: "",
       },
       {
         id: "roof-tai-2",
@@ -202,6 +221,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: "/model/custom_car/Nóc xe/Tai2.glb",
         thumbnail: "/model/custom_car/Nóc xe/Tai2.glb",
+        affiliateLink: "",
       },
       {
         id: "roof-tai-3",
@@ -210,6 +230,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Nóc xe",
         modelPath: "/model/custom_car/Nóc xe/Tai3.glb",
         thumbnail: "/model/custom_car/Nóc xe/Tai3.glb",
+        affiliateLink: "",
       },
     ],
   },
@@ -225,6 +246,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: null,
         thumbnail: null,
+        affiliateLink: "",
       },
       {
         id: "chassis-1",
@@ -233,6 +255,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Bệ chân/Bệ chân1.glb",
         thumbnail: "/model/custom_car/Thân xe/Bệ chân/Bệ chân1.glb",
+        affiliateLink: "",
       },
     ],
     // Phụ kiện thân
@@ -244,6 +267,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: null,
         thumbnail: null,
+        affiliateLink: "",
       },
       {
         id: "body-ban-le",
@@ -252,6 +276,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Bản lề.glb",
         thumbnail: "/model/custom_car/Thân xe/Bản lề.glb",
+        affiliateLink: "",
       },
       {
         id: "body-vay-x-xanh",
@@ -260,6 +285,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Vây X xanh.glb",
         thumbnail: "/model/custom_car/Thân xe/Vây X xanh.glb",
+        affiliateLink: "",
       },
       {
         id: "body-vay-x-do",
@@ -268,6 +294,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Vây X đỏ.glb",
         thumbnail: "/model/custom_car/Thân xe/Vây X đỏ.glb",
+        affiliateLink: "",
       },
       {
         id: "body-nap-cop-vn",
@@ -276,6 +303,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Thân xe",
         modelPath: "/model/custom_car/Thân xe/Nắp cốp cờ vn.glb",
         thumbnail: "/model/custom_car/Thân xe/Nắp cốp cờ vn.glb",
+        affiliateLink: "",
       },
     ],
   },
@@ -290,6 +318,7 @@ export const CUSTOM_CAR_PARTS = {
         category: "Đuôi xe",
         modelPath: null,
         thumbnail: null,
+        affiliateLink: "",
       },
       {
         id: "rear-cop-sau",
@@ -298,19 +327,291 @@ export const CUSTOM_CAR_PARTS = {
         category: "Đuôi xe",
         modelPath: "/model/custom_car/Đuôi xe/Cốp sau.glb",
         thumbnail: "/model/custom_car/Đuôi xe/Cốp sau.glb",
+        affiliateLink: "",
       },
     ],
   },
 
-  // 5. VÀNH XE - Wheels
+  // 5. BÁNH XE - Wheels
   WHEELS: [
+    // Vành 1B
+    {
+      id: "wheel-1b",
+      name: "Vành 1B",
+      description: "Vành 1B - Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1B/1B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1B/1B.png",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
+    },
+    // Vành 1BL
+    {
+      id: "wheel-1bl",
+      name: "Vành 1BL",
+      description: "Vành 1BL - Đen Bóng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1BL/1BL.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1BL/1BL.png",
+      affiliateLink: "",
+    },
+    // Vành 1R
+    {
+      id: "wheel-1r",
+      name: "Vành 1R",
+      description: "Vành 1R - Đỏ",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1R/1R.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1R/1R.png",
+      affiliateLink: "",
+    },
+    // Vành 1W
+    {
+      id: "wheel-1w",
+      name: "Vành 1W",
+      description: "Vành 1W - Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1W/1W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1W/1W.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-B-B
+    {
+      id: "wheel-2b-b-b",
+      name: "Vành 2B-B-B",
+      description: "Vành 2B-B-B - Đen/Đen/Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-B/2B-B-B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-B/2B-B-B.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-B-W
+    {
+      id: "wheel-2b-b-w",
+      name: "Vành 2B-B-W",
+      description: "Vành 2B-B-W - Đen/Đen/Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-W/2B-B-W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-W/2B-B-W.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-BL-B
+    {
+      id: "wheel-2b-bl-b",
+      name: "Vành 2B-BL-B",
+      description: "Vành 2B-BL-B - Đen/Đen Bóng/Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-BL-B/2B-BL-B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-BL-B/2B-BL-B.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-R-B
+    {
+      id: "wheel-2b-r-b",
+      name: "Vành 2B-R-B",
+      description: "Vành 2B-R-B - Đen/Đỏ/Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-R-B/2B-R-B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-R-B/2B-R-B.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-W-B
+    {
+      id: "wheel-2b-w-b",
+      name: "Vành 2B-W-B",
+      description: "Vành 2B-W-B - Đen/Trắng/Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-B/2B-W-B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-B/2B-W-B.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-W-G
+    {
+      id: "wheel-2b-w-g",
+      name: "Vành 2B-W-G",
+      description: "Vành 2B-W-G - Đen/Trắng/Xanh Lá",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-G/2B-W-G.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-G/2B-W-G.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-W-GR
+    {
+      id: "wheel-2b-w-gr",
+      name: "Vành 2B-W-GR",
+      description: "Vành 2B-W-GR - Đen/Trắng/Xám",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-GR/2B-W-GR.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-GR/2B-W-GR.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-W-R
+    {
+      id: "wheel-2b-w-r",
+      name: "Vành 2B-W-R",
+      description: "Vành 2B-W-R - Đen/Trắng/Đỏ",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-R/2B-W-R.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-R/2B-W-R.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-W-W
+    {
+      id: "wheel-2b-w-w",
+      name: "Vành 2B-W-W",
+      description: "Vành 2B-W-W - Đen/Trắng/Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-W/2B-W-W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-W/2B-W-W.png",
+      affiliateLink: "",
+    },
+    // Vành 2B-W-Y
+    {
+      id: "wheel-2b-w-y",
+      name: "Vành 2B-W-Y",
+      description: "Vành 2B-W-Y - Đen/Trắng/Vàng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-Y/2B-W-Y.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-Y/2B-W-Y.png",
+      affiliateLink: "",
+    },
+    // Vành 2W-W-W
+    {
+      id: "wheel-2w-w-w",
+      name: "Vành 2W-W-W",
+      description: "Vành 2W-W-W - Trắng/Trắng/Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2W-W-W/2W-W-W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2W-W-W/2W-W-W.png",
+      affiliateLink: "",
+    },
+    // Vành 3B
+    {
+      id: "wheel-3b",
+      name: "Vành 3B",
+      description: "Vành 3B - Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3B/3B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3B/3B.png",
+      affiliateLink: "",
+    },
+    // Vành 3BL
+    {
+      id: "wheel-3bl",
+      name: "Vành 3BL",
+      description: "Vành 3BL - Đen Bóng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3BL/3BL.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3BL/3BL.png",
+      affiliateLink: "",
+    },
+    // Vành 3R
+    {
+      id: "wheel-3r",
+      name: "Vành 3R",
+      description: "Vành 3R - Đỏ",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3R/3R.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3R/3R.png",
+      affiliateLink: "",
+    },
+    // Vành 3W
+    {
+      id: "wheel-3w",
+      name: "Vành 3W",
+      description: "Vành 3W - Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3W/3W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3W/3W.png",
+      affiliateLink: "",
+    },
+    // Vành 4B
+    {
+      id: "wheel-4b",
+      name: "Vành 4B",
+      description: "Vành 4B - Đen",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4B/4B.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4B/4B.png",
+      affiliateLink: "",
+    },
+    // Vành 4BL
+    {
+      id: "wheel-4bl",
+      name: "Vành 4BL",
+      description: "Vành 4BL - Đen Bóng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4BL/4BL.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4BL/4BL.png",
+      affiliateLink: "",
+    },
+    // Vành 4R
+    {
+      id: "wheel-4r",
+      name: "Vành 4R",
+      description: "Vành 4R - Đỏ",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4R/4R.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4R/4R.png",
+      affiliateLink: "",
+    },
+    // Vành 4W
+    {
+      id: "wheel-4w",
+      name: "Vành 4W",
+      description: "Vành 4W - Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4W/4W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4W/4W.png",
+      affiliateLink: "",
+    },
+    // Vành 5R
+    {
+      id: "wheel-5r",
+      name: "Vành 5R",
+      description: "Vành 5R - Đỏ",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/5R/5R.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/5R/5R.png",
+      affiliateLink: "",
+    },
+    // Vành 5W
+    {
+      id: "wheel-5w",
+      name: "Vành 5W",
+      description: "Vành 5W - Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/5W/5W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/5W/5W.png",
+      affiliateLink: "",
+    },
+    // Vành 6W
+    {
+      id: "wheel-6w",
+      name: "Vành 6W",
+      description: "Vành 6W - Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/6W/6W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/6W/6W.png",
+      affiliateLink: "",
+    },
+    // Vành 8W
+    {
+      id: "wheel-8w",
+      name: "Vành 8W",
+      description: "Vành 8W - Trắng",
+      category: "Vành",
+      modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/8W/8W.glb",
+      thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/8W/8W.png",
+      affiliateLink: "",
+    },
     {
       id: "wheel-default",
       name: "Bánh gốc",
       description: "Bánh xe tiêu chuẩn",
       category: "Vành",
       modelPath: null,
-      thumbnail: "/model/base_car/Bánh gốc.glb",
+      thumbnail: null,
+      affiliateLink: "",
     },
     {
       id: "wheel-1",
@@ -319,6 +620,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Vành/Lốp Vành 1.glb",
       thumbnail: "/model/custom_car/Vành/Lốp Vành 1.glb",
+      affiliateLink: "",
     },
     {
       id: "wheel-2",
@@ -327,6 +629,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Vành/Lốp Vành 2.glb",
       thumbnail: "/model/custom_car/Vành/Lốp Vành 2.glb",
+      affiliateLink: "",
     },
     {
       id: "wheel-3",
@@ -335,6 +638,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Vành/Lốp Vành 3.glb",
       thumbnail: "/model/custom_car/Vành/Lốp Vành 3.glb",
+      affiliateLink: "",
     },
     {
       id: "wheel-x-xanh",
@@ -343,6 +647,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Vành/Lốp MâmX xanh.glb",
       thumbnail: "/model/custom_car/Vành/Lốp MâmX xanh.glb",
+      affiliateLink: "",
     },
     {
       id: "wheel-x-do",
@@ -351,7 +656,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Vành/Lốp MâmX đỏ.glb",
       thumbnail: "/model/custom_car/Vành/Lốp MâmX đỏ.glb",
+      affiliateLink: "",
     },
   ],
 };
-
