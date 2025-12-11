@@ -342,7 +342,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1B/1B.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1B/1B.png",
-      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXQQ4MRW55-DaN4k/",
     },
     // Vành 1BL
     {
@@ -352,7 +352,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1BL/1BL.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1BL/1BL.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXQQ4MRW55-DaN4k/",
     },
     // Vành 1R
     {
@@ -362,7 +362,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1R/1R.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1R/1R.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 1W
     {
@@ -372,7 +372,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/1W/1W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/1W/1W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2B-B-B
     {
@@ -382,7 +382,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-B/2B-B-B.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-B/2B-B-B.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2B-B-W
     {
@@ -392,7 +392,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-W/2B-B-W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-B-W/2B-B-W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2B-BL-B
     {
@@ -402,7 +402,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-BL-B/2B-BL-B.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-BL-B/2B-BL-B.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2B-R-B
     {
@@ -422,7 +422,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-B/2B-W-B.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-B/2B-W-B.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2B-W-G
     {
@@ -452,7 +452,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-R/2B-W-R.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-R/2B-W-R.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2B-W-W
     {
@@ -472,7 +472,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-Y/2B-W-Y.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2B-W-Y/2B-W-Y.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 2W-W-W
     {
@@ -482,7 +482,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/2W-W-W/2W-W-W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/2W-W-W/2W-W-W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXVoyP3sw2-rEita/",
     },
     // Vành 3B
     {
@@ -492,7 +492,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3B/3B.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3B/3B.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXQQ4MRW55-DaN4k/",
     },
     // Vành 3BL
     {
@@ -502,7 +502,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3BL/3BL.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3BL/3BL.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 3R
     {
@@ -512,7 +512,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3R/3R.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3R/3R.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXQQ4MRW55-DaN4k/",
     },
     // Vành 3W
     {
@@ -522,7 +522,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/3W/3W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/3W/3W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 4B
     {
@@ -532,7 +532,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4B/4B.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4B/4B.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 4BL
     {
@@ -552,7 +552,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4R/4R.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4R/4R.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXQQ4MRW55-DaN4k/",
     },
     // Vành 4W
     {
@@ -562,7 +562,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/4W/4W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/4W/4W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXm5L6VRNa-priAh/",
     },
     // Vành 5R
     {
@@ -582,7 +582,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/5W/5W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/5W/5W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXVoyP3sw2-rEita/",
     },
     // Vành 6W
     {
@@ -602,7 +602,7 @@ export const CUSTOM_CAR_PARTS = {
       category: "Vành",
       modelPath: "/model/custom_car/Bánh xe/Ốp Lazang/8W/8W.glb",
       thumbnail: "/model/custom_car/Bánh xe/Ốp Lazang/8W/8W.png",
-      affiliateLink: "",
+      affiliateLink: "https://vt.tiktok.com/ZSHTXVoyP3sw2-rEita/",
     },
     {
       id: "wheel-default",

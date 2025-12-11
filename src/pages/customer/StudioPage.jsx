@@ -284,7 +284,7 @@ export const Studio = () => {
                       >
                         <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                           <Disc3 className="w-5 h-5" />
-                          Chọn vành xe
+                          Chọn Ốp Lazang
                         </h3>
                         <WheelSelector
                           parts={CUSTOM_CAR_PARTS.WHEELS}
