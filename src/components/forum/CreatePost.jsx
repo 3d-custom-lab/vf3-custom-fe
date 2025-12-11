@@ -104,7 +104,7 @@ function CreatePost({ onPostCreated }) {
       )}
 
       <div className="group relative bg-slate-900/80 backdrop-blur-xl rounded-2xl p-1 border border-slate-700/50 shadow-xl transition-all hover:border-blue-500/30">
-        <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="absolute inset-0 bg-blue-500/5 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
         {!isExpanded ? (
           <button
@@ -112,7 +112,7 @@ function CreatePost({ onPostCreated }) {
             className="relative w-full bg-slate-900 rounded-xl p-6 text-left hover:bg-slate-800/80 transition-all group/button cursor-pointer"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover/button:shadow-blue-500/40 transition-all group-hover/button:scale-110">
+              <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover/button:shadow-blue-500/40 transition-all group-hover/button:scale-110">
                 <FaPen className="text-white text-lg" />
               </div>
               <div className="flex-1">

@@ -6,31 +6,31 @@ const showcaseItems = [
     title: "Off-road",
     color: "pazo design",
     image:
-    "/img/products/Off-road (pazo design).webp",
+      "/img/products/Off-road (pazo design).webp",
   },
   {
     title: "Tiểu Defender",
     color: "Xuân Hoàn Mastercare",
     image:
-    "/img/products/Tiểu Defender (Xuân Hoàn Mastercare).webp",
+      "/img/products/Tiểu Defender (Xuân Hoàn Mastercare).webp",
   },
   {
     title: "Tiểu G63",
     color: "phamvinh auto",
     image:
-    "/img/products/Tiểu G63 ( phamvinh auto).webp",
+      "/img/products/Tiểu G63 ( phamvinh auto).webp",
   },
   {
     title: "Bodykit hầm hố",
     color: "ZKAR",
     image:
-    "/img/products/Bodykit hầm hố ( ZKAR).webp",
+      "/img/products/Bodykit hầm hố ( ZKAR).webp",
   },
   {
     title: "Full hồng",
     color: "MMK auto",
     image:
-    "/img/products/Full hồng (MMK auto).webp",
+      "/img/products/Full hồng (MMK auto).webp",
   },
   {
     title: "Hello Kitty",
@@ -48,7 +48,7 @@ const ShowcaseSection = () => {
     <section
       id="showcase"
       ref={ref}
-      className="py-16 md:py-24 gradient-dark relative overflow-hidden"
+      className="py-16 md:py-24 bg-[#0A0F1F] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
@@ -90,7 +90,7 @@ const ShowcaseSection = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileHover={{ opacity: 1, y: 0 }}
-                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute inset-0 bg-black/70 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 <h3 className="text-white text-2xl font-bold mb-2">
                   {item.title}

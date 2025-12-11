@@ -37,7 +37,7 @@ const FeaturesSection = () => {
     <section
       id="features"
       ref={ref}
-      className="py-16 md:py-24 gradient-dark relative overflow-hidden"
+      className="py-16 md:py-24 bg-[#0A0F1F] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
@@ -66,12 +66,12 @@ const FeaturesSection = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-2xl hover:shadow-2xl transition-all cursor-pointer border border-cyan-500/30 hover:border-cyan-500/60 backdrop-blur-sm glow-cyan"
+                className="bg-gray-800/50 p-8 rounded-2xl hover:shadow-2xl transition-all cursor-pointer border border-cyan-500/30 hover:border-cyan-500/60 backdrop-blur-sm glow-cyan"
               >
                 <motion.div
                   whileHover={{ rotate: 360, scale: 1.2 }}
                   transition={{ duration: 0.6 }}
-                  className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6"
+                  className="w-16 h-16 bg-cyan-600 rounded-2xl flex items-center justify-center mb-6"
                 >
                   <Icon className="text-white text-2xl" />
                 </motion.div>

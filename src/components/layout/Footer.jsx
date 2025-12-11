@@ -37,7 +37,7 @@ function Footer() {
       </div>
 
       {/* Top Border with Gradient */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/50 to-transparent"></div>
+      <div className="absolute top-0 left-0 right-0 h-px bg-blue-500/50"></div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content */}
@@ -54,7 +54,7 @@ function Footer() {
               {/* Brand */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="relative p-2.5 bg-linear-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl shadow-lg shadow-blue-900/30">
+                  <div className="relative p-2.5 bg-blue-600 rounded-xl shadow-lg shadow-blue-900/30">
                     <div className="absolute inset-0 bg-white/20 rounded-xl blur-sm"></div>
                     <Heart className="relative w-6 h-6 text-white" />
                   </div>
@@ -70,8 +70,8 @@ function Footer() {
                 </div>
 
                 <p className="text-slate-400 text-sm leading-relaxed max-w-md">
-                  Nền tảng tùy chỉnh xe VF3 bằng công nghệ 3D hàng đầu Việt Nam. 
-                  Biến ý tưởng thành hiện thực với trải nghiệm trực quan, chính xác 
+                  Nền tảng tùy chỉnh xe VF3 bằng công nghệ 3D hàng đầu Việt Nam.
+                  Biến ý tưởng thành hiện thực với trải nghiệm trực quan, chính xác
                   và đầy cảm hứng.
                 </p>
               </div>
@@ -122,7 +122,7 @@ function Footer() {
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-green-500/20 rounded-lg blur-lg group-hover:blur-xl transition-all"></div>
-                  <div className="relative p-2.5 rounded-lg bg-linear-to-br from-green-500 to-emerald-500 shadow-lg">
+                  <div className="relative p-2.5 rounded-lg bg-green-500 shadow-lg">
                     <Phone className="w-5 h-5 text-white" />
                   </div>
                 </div>
@@ -144,7 +144,7 @@ function Footer() {
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-lg group-hover:blur-xl transition-all"></div>
-                  <div className="relative p-2.5 rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 shadow-lg">
+                  <div className="relative p-2.5 rounded-lg bg-blue-500 shadow-lg">
                     <Mail className="w-5 h-5 text-white" />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ function Footer() {
               {/* Additional Info */}
               <div className="pt-2 pl-1">
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Chúng tôi luôn sẵn sàng hỗ trợ bạn trong hành trình 
+                  Chúng tôi luôn sẵn sàng hỗ trợ bạn trong hành trình
                   <span className="text-slate-400 font-medium"> tùy chỉnh và cá nhân hóa</span> chiếc VF3 của mình.
                 </p>
               </div>

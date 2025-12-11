@@ -18,7 +18,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="pt-24 pb-16 md:pt-32 md:pb-48 gradient-dark relative overflow-hidden"
+      className="pt-24 pb-16 md:pt-32 md:pb-48 bg-[#0A0F1F] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -35,10 +35,10 @@ const HeroSection = () => {
               transition={{ delay: 0.2 }}
             >
               3DCustomLab
-              <span className="block bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mt-2">
+              <span className="block text-cyan-400 mt-2">
                 Tự tay tạo nên phong cách
               </span>
-              <span className="block bg-linear-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+              <span className="block text-blue-400">
                 cho chiếc VF3 của bạn
               </span>
             </motion.h1>
@@ -79,7 +79,7 @@ const HeroSection = () => {
                 onClick={handleGetStarted}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="cursor-pointer bg-linear-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
+                className="cursor-pointer bg-cyan-600 text-white px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center justify-center gap-2 glow-cyan"
               >
                 {isAuthenticated
                   ? "Bắt đầu tùy chỉnh ngay"

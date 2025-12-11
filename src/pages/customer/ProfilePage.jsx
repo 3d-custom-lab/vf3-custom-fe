@@ -139,7 +139,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-[#0B1120] relative overflow-hidden font-sans selection:bg-indigo-500/30">
         {/* Ambient Background Effects */}
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-[500px] bg-linear-to-b from-indigo-900/20 to-transparent opacity-50" />
+          <div className="absolute top-0 left-0 w-full h-[500px] bg-indigo-900/20 opacity-50" />
           <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px]" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]" />
         </div>
@@ -148,9 +148,9 @@ export default function ProfilePage() {
           {/* Main Profile Card */}
           <div className="bg-slate-900/60 backdrop-blur-2xl rounded-[2.5rem] border border-slate-800 shadow-2xl overflow-hidden">
             {/* Cover Banner */}
-            <div className="h-48 w-full bg-linear-to-r from-indigo-600 via-purple-600 to-blue-600 relative">
+            <div className="h-48 w-full bg-indigo-600 relative">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-              <div className="absolute inset-0 bg-linear-to-b from-transparent to-slate-900/90"></div>
+              <div className="absolute inset-0 bg-slate-900/90"></div>
             </div>
 
             <div className="px-8 pb-8 md:px-12 md:pb-12 -mt-20 relative">
@@ -158,7 +158,7 @@ export default function ProfilePage() {
               <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-10">
                 {/* Avatar with Rings */}
                 <div className="relative group">
-                  <div className="absolute -inset-0.5 bg-linear-to-br from-indigo-500 to-fuchsia-500 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                  <div className="absolute -inset-0.5 bg-indigo-500 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
                   <div className="relative w-40 h-40 rounded-full p-1 bg-slate-900">
                     <img
                       src={
@@ -220,7 +220,7 @@ export default function ProfilePage() {
                 <div className="hidden md:flex gap-3">
                   <button
                     onClick={() => setIsEditModalOpen(true)}
-                    className="cursor-pointer px-6 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl transition-all duration-300 font-semibold flex items-center gap-2 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 group"
+                    className="cursor-pointer px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl transition-all duration-300 font-semibold flex items-center gap-2 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 group"
                   >
                     <Edit3
                       size={18}
@@ -240,7 +240,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Divider */}
-              <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700 to-transparent mb-10"></div>
+              <div className="h-px w-full bg-slate-700 mb-10"></div>
 
               {/* Bento Grid Layout for Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -285,7 +285,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Account Status Banner */}
-              <div className="bg-linear-to-r from-slate-800/50 to-slate-800/30 rounded-2xl p-6 border border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
+              <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center ${userInfo?.status === "ACTIVE"
@@ -315,7 +315,7 @@ export default function ProfilePage() {
               <div className="md:hidden mt-8 grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setIsEditModalOpen(true)}
-                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20 cursor-pointer"
+                  className="col-span-2 flex items-center justify-center gap-2 py-3 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20 cursor-pointer"
                 >
                   <Edit3 size={18} />
                   Edit Profile

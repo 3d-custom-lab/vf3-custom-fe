@@ -144,7 +144,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative bg-linear-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl shadow-2xl shadow-blue-500/20 max-w-md w-full p-8"
+          className="relative bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl shadow-blue-500/20 max-w-md w-full p-8"
         >
           {/* Close Button */}
           <button
@@ -157,7 +157,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
 
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-linear-to-br from-blue-600 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30">
+            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30">
               <svg
                 className="w-8 h-8 text-white"
                 fill="none"
@@ -219,7 +219,7 @@ export default function OTPModal({ email, onClose, onVerified }) {
           <button
             onClick={handleVerify}
             disabled={otp.some((digit) => !digit) || loading}
-            className="w-full py-3.5 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
+            className="w-full py-3.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 transform hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
           >
             {loading ? "Verifying..." : "Verify"}
           </button>

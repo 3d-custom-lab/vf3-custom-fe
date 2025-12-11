@@ -113,7 +113,7 @@ export default function CreateModelModal({ isOpen, onClose, onSuccess, garas }) 
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all scale-100">
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 to-white">
+                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white">
                     <div>
                         <h3 className="text-xl font-bold text-slate-800">Add New Model</h3>
                         <p className="text-xs text-slate-500 mt-0.5">Upload a new 3D model component</p>

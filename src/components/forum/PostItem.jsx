@@ -271,7 +271,7 @@ function PostItem({ post, onPostUpdated, onPostDeleted }) {
           <div className="flex items-start justify-between mb-5">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-12 h-12 rounded-full bg-linear-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg ring-2 ring-slate-800 overflow-hidden">
+                <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg ring-2 ring-slate-800 overflow-hidden">
                   {authorAvatar ? (
                     <img src={authorAvatar} alt={authorName} className="w-full h-full object-cover" />
                   ) : (

@@ -135,7 +135,7 @@ export const Studio = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 pt-20">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -157,7 +157,7 @@ export const Studio = () => {
               >
                 <div
                   ref={canvasRef}
-                  className="w-full h-[600px] bg-linear-to-b from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 relative"
+                  className="w-full h-[600px] bg-slate-100 dark:bg-slate-800 relative"
                 >
                   <Scene autoRotate={false} enableControls={true} />
 
@@ -209,7 +209,7 @@ export const Studio = () => {
                         onClick={() => setActiveTab(tab.id)}
                         title={tab.description}
                         className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${activeTab === tab.id
-                          ? "bg-linear-to-br from-blue-600 to-purple-600 text-white shadow-lg scale-105"
+                          ? "bg-blue-600 text-white shadow-lg scale-105"
                           : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
                           }`}
                       >

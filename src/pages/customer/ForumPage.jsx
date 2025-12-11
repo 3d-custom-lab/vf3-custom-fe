@@ -100,7 +100,7 @@ function ForumPage() {
           {isAuthenticated ? (
             <>
               {/* Hero Section */}
-              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-violet-600/20 backdrop-blur-md border border-white/10 p-8 sm:p-10 shadow-2xl ring-1 ring-white/5">
+              <div className="relative overflow-hidden rounded-3xl bg-blue-900/20 backdrop-blur-md border border-white/10 p-8 sm:p-10 shadow-2xl ring-1 ring-white/5">
                 <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                   <div>
                     <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 drop-shadow-lg">
@@ -205,7 +205,7 @@ function ForumPage() {
           ) : (
             <div className="flex items-center justify-center min-h-[60vh]">
               <div className="relative w-full max-w-lg overflow-hidden bg-slate-900/60 backdrop-blur-2xl rounded-[2rem] border border-slate-700/50 p-12 text-center shadow-2xl">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
 
                 <div className="mb-8 relative inline-flex items-center justify-center">
                   <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
