@@ -21,8 +21,13 @@ export const BaseCar = ({
   // Memoize để tránh re-render không cần thiết
   const basePartsToRender = useMemo(() => {
     return BASE_CAR_PARTS.filter((part) => {
-      // Ẩn bánh gốc nếu user chọn vành tùy chỉnh
-      if (hideDefaultWheels && part.id === "default-wheels") {
+      // Ẩn toàn bộ bánh xe nếu user chọn thay thế cả bánh (hideDefaultWheels = true)
+      if (hideDefaultWheels && ["tire-default", "rim-default", "hubcap-default"].includes(part.id)) {
+        return false;
+      }
+
+      // Chỉ ẩn ốp lazang nếu user chọn custom hubcap (hideDefaultRim = true)
+      if (hideDefaultRim && part.id === "hubcap-default") {
         return false;
       }
       // Ẩn crom trước gốc khi user chọn ca-lăng tùy chỉnh
@@ -69,11 +74,7 @@ export const BaseCar = ({
           position={[0, 0, 0]}
           scale={scale}
           applyBodyColor={part.applyBodyColor}
-          hiddenNodes={
-            part.id === "default-wheels" && hideDefaultRim
-              ? ["Lazang", "Vành", "Rim", "Op_Lazang", "Hubcap"]
-              : []
-          }
+          hiddenNodes={[]}
         />
       ))}
     </group>
