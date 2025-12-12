@@ -30,7 +30,7 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3">
       {parts.map((part) => {
         const isSelected = selectedId === part.id;
         const hasError = imageLoadErrors[part.id];
@@ -46,11 +46,10 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
           <motion.div
             key={part.id}
             whileHover={{ y: -4 }}
-            className={`relative rounded-xl overflow-hidden transition-all duration-300 ${
-              isSelected
-                ? "ring-4 ring-blue-500 ring-offset-2 shadow-2xl"
-                : "ring-2 ring-slate-200 dark:ring-slate-700 hover:ring-blue-300 dark:hover:ring-blue-600 shadow-md hover:shadow-xl"
-            }`}
+            className={`relative rounded-xl overflow-hidden transition-all duration-300 ${isSelected
+              ? "ring-4 ring-blue-500 ring-offset-2 shadow-2xl"
+              : "ring-2 ring-slate-200 dark:ring-slate-700 hover:ring-blue-300 dark:hover:ring-blue-600 shadow-md hover:shadow-xl"
+              }`}
           >
             {/* Thumbnail Image - Clickable */}
             <button
@@ -58,11 +57,10 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
               className="w-full cursor-pointer"
             >
               <div
-                className={`aspect-square bg-gradient-to-br ${
-                  isSelected
-                    ? "from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800"
-                    : "from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"
-                } flex items-center justify-center p-3 relative`}
+                className={`aspect-square bg-gradient-to-br ${isSelected
+                  ? "from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800"
+                  : "from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"
+                  } flex items-center justify-center p-3 relative`}
               >
                 {hasImage ? (
                   <img
@@ -94,19 +92,17 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
             {/* Info Section - Clickable */}
             <button
               onClick={() => onSelect(part.id)}
-              className={`w-full p-3 text-left cursor-pointer ${
-                isSelected
-                  ? "bg-blue-600 text-white"
-                  : "bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-              }`}
+              className={`w-full p-3 text-left cursor-pointer ${isSelected
+                ? "bg-blue-600 text-white"
+                : "bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+                }`}
             >
               <div className="font-bold text-sm mb-1 truncate">{part.name}</div>
               <div
-                className={`text-xs truncate ${
-                  isSelected
-                    ? "text-blue-100"
-                    : "text-slate-500 dark:text-slate-400"
-                }`}
+                className={`text-xs truncate ${isSelected
+                  ? "text-blue-100"
+                  : "text-slate-500 dark:text-slate-400"
+                  }`}
               >
                 {part.description}
               </div>
@@ -118,11 +114,10 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
                 onClick={(e) =>
                   handleBuyClick(e, part.affiliateLink, part.name)
                 }
-                className={`cursor-pointer w-full py-2.5 px-3 font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
-                  hasLink
-                    ? "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-md hover:shadow-lg"
-                    : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400"
-                }`}
+                className={`cursor-pointer w-full py-2.5 px-3 font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${hasLink
+                  ? "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-md hover:shadow-lg"
+                  : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400"
+                  }`}
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span>{hasLink ? "Mua ngay" : "Sắp có"}</span>
