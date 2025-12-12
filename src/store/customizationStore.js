@@ -12,21 +12,21 @@ const initialState = {
   },
   // Bộ phận đang được chọn để đổi màu
   selectedColorPart: "body",
-  
+
   // CUSTOM CAR PARTS - Các bộ phận tùy chỉnh
   // Mặt xe
   selectedGrille: "grille-default",
   selectedBumper: "bumper-default",
-  // Nóc xe  
+  // Nóc xe
   selectedRoofAccessory: "roof-standard",
   // Thân xe
   selectedChassis: "chassis-standard",
-  selectedBodyAccessory: "body-acc-none",
+  selectedBodyAccessory: ["body-acc-none"], // Array, default to none
   // Đuôi xe
   selectedRearAccessory: "rear-none",
   // Vành xe
   selectedWheel: "wheel-default",
-  
+
   // Loading state - chỉ dùng cho lần đầu load trang
   isInitialLoading: true,
 };
@@ -59,17 +59,51 @@ export const useCustomizationStore = create((set, get) => ({
   // Mặt xe
   setSelectedGrille: (grilleId) => set({ selectedGrille: grilleId }),
   setSelectedBumper: (bumperId) => set({ selectedBumper: bumperId }),
-  
+
   // Nóc xe
   setSelectedRoofAccessory: (roofId) => set({ selectedRoofAccessory: roofId }),
-  
+
   // Thân xe
   setSelectedChassis: (chassisId) => set({ selectedChassis: chassisId }),
-  setSelectedBodyAccessory: (bodyAccId) => set({ selectedBodyAccessory: bodyAccId }),
-  
+  setSelectedBodyAccessory: (bodyAccId) =>
+    set((state) => {
+      // Đảm bảo luôn làm việc với array
+      const current = Array.isArray(state.selectedBodyAccessory)
+        ? state.selectedBodyAccessory
+        : [state.selectedBodyAccessory || "body-acc-none"]; // Fallback nếu là string/null
+
+      // Nếu chọn "Không có"
+      if (bodyAccId === "body-acc-none") {
+        return { selectedBodyAccessory: ["body-acc-none"] };
+      }
+
+      // Nếu chọn phụ kiện khác
+      let newSelection = [...current];
+
+      // 1. Nếu đang có "body-acc-none", xóa nó đi
+      if (newSelection.includes("body-acc-none")) {
+        newSelection = newSelection.filter((id) => id !== "body-acc-none");
+      }
+
+      // 2. Toggle item được chọn
+      if (newSelection.includes(bodyAccId)) {
+        newSelection = newSelection.filter((id) => id !== bodyAccId);
+      } else {
+        newSelection.push(bodyAccId);
+      }
+
+      // 3. Nếu danh sách trống, quay về "body-acc-none"
+      if (newSelection.length === 0) {
+        newSelection = ["body-acc-none"];
+      }
+
+      return { selectedBodyAccessory: newSelection };
+    }),
+
   // Đuôi xe
-  setSelectedRearAccessory: (rearAccId) => set({ selectedRearAccessory: rearAccId }),
-  
+  setSelectedRearAccessory: (rearAccId) =>
+    set({ selectedRearAccessory: rearAccId }),
+
   // Vành xe
   setSelectedWheel: (wheelId) => set({ selectedWheel: wheelId }),
 

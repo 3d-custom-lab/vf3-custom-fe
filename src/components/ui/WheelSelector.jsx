@@ -32,7 +32,9 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3">
       {parts.map((part) => {
-        const isSelected = selectedId === part.id;
+        const isSelected = Array.isArray(selectedId)
+          ? selectedId.includes(part.id)
+          : selectedId === part.id;
         const hasError = imageLoadErrors[part.id];
         const hasImage =
           part.thumbnail && part.thumbnail.endsWith(".png") && !hasError;

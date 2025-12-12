@@ -169,9 +169,9 @@ export const Studio = () => {
             </h1>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-5 gap-8">
             {/* 3D Canvas */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-3">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -207,7 +207,7 @@ export const Studio = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-2">
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -414,36 +414,6 @@ export const Studio = () => {
               </motion.div>
             </div>
           </div>
-
-          {/* Save Modal */}
-          <Modal
-            isOpen={showSaveModal}
-            onClose={() => setShowSaveModal(false)}
-            title="Lưu thiết kế"
-          >
-            <div className="space-y-4">
-              <Input
-                label="Tên thiết kế *"
-                placeholder="VD: VF3 Blue Dream"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <Textarea
-                label="Mô tả"
-                placeholder="Chia sẻ về thiết kế của bạn..."
-                rows={4}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <button
-                className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                onClick={handleSave}
-                disabled={isSaving}
-              >
-                {isSaving ? "Đang lưu..." : "Lưu và chia sẻ"}
-              </button>
-            </div>
-          </Modal>
         </div>
       </div>
 
