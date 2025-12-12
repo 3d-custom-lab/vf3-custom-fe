@@ -31,7 +31,11 @@ export const CarModel = ({ autoRotate = false }) => {
   const selectedBumperData = CUSTOM_CAR_PARTS.FRONT.BUMPERS.find(b => b.id === selectedBumper);
   const selectedRoofData = CUSTOM_CAR_PARTS.ROOF.ACCESSORIES.find(r => r.id === selectedRoofAccessory);
   const selectedChassisData = CUSTOM_CAR_PARTS.BODY.CHASSIS.find(c => c.id === selectedChassis);
-  const selectedBodyAccData = CUSTOM_CAR_PARTS.BODY.ACCESSORIES.find(a => a.id === selectedBodyAccessory);
+  const selectedBodyAccList = CUSTOM_CAR_PARTS.BODY.ACCESSORIES.filter((a) =>
+    Array.isArray(selectedBodyAccessory)
+      ? selectedBodyAccessory.includes(a.id)
+      : a.id === selectedBodyAccessory
+  );
   const selectedRearData = CUSTOM_CAR_PARTS.REAR.ACCESSORIES.find(r => r.id === selectedRearAccessory);
 
   return (
@@ -104,14 +108,18 @@ export const CarModel = ({ autoRotate = false }) => {
         />
       )}
       {/* Phụ kiện thân */}
-      {selectedBodyAccData?.modelPath && (
-        <ModelPart
-          key={`body-acc-${selectedBodyAccessory}`}
-          modelPath={selectedBodyAccData.modelPath}
-          position={[0, 0, 0]}
-          scale={2.5}
-          applyBodyColor={false}
-        />
+      {/* Phụ kiện thân (Multi-select) */}
+      {selectedBodyAccList.map(
+        (acc) =>
+          acc.modelPath && (
+            <ModelPart
+              key={`body-acc-${acc.id}`}
+              modelPath={acc.modelPath}
+              position={[0, 0, 0]}
+              scale={2.5}
+              applyBodyColor={false}
+            />
+          )
       )}
 
       {/* === ĐUÔI XE === */}
