@@ -7,7 +7,7 @@ import { BaseCar } from "./BaseCar";
 
 export const CarModel = ({ autoRotate = false }) => {
   const groupRef = useRef(null);
-  
+
   // Lấy customization state từ store
   const partColors = useCustomizationStore((state) => state.partColors);
   const selectedWheel = useCustomizationStore((state) => state.selectedWheel);
@@ -37,14 +37,15 @@ export const CarModel = ({ autoRotate = false }) => {
   return (
     <group ref={groupRef} position={[0, -0.6, 0]} dispose={null}>
       {/* Base Car - Các bộ phận cơ bản từ base_car */}
-      <BaseCar 
+      <BaseCar
         partColors={partColors}
         scale={2.5}
         position={[0, 0, 0]}
         hideDefaultWheels={false}
         hideDefaultGrille={!!selectedGrilleData?.modelPath}
+        hideDefaultLights={selectedGrilleData?.hidesOriginalLights}
       />
-      
+
       {/* === VÀNH XE (ỐP MÂM) === */}
       {/* Giữ nguyên bánh gốc (lốp), chỉ thêm phần ốp mâm custom */}
       {selectedWheelData?.modelPath && selectedWheel !== "wheel-default" && (

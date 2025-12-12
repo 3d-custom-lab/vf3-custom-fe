@@ -15,6 +15,7 @@ export const BaseCar = ({
   position = [0, 0, 0],
   hideDefaultWheels = false,
   hideDefaultGrille = false,
+  hideDefaultLights = false,
 }) => {
   // Memoize để tránh re-render không cần thiết
   const basePartsToRender = useMemo(() => {
@@ -27,9 +28,13 @@ export const BaseCar = ({
       if (hideDefaultGrille && part.isGrillePart) {
         return false;
       }
+      // Ẩn đèn trước nếu grille custom yêu cầu
+      if (hideDefaultLights && part.id === "front-lights") {
+        return false;
+      }
       return true;
     });
-  }, [hideDefaultWheels, hideDefaultGrille]);
+  }, [hideDefaultWheels, hideDefaultGrille, hideDefaultLights]);
 
   // Hàm lấy màu cho từng part
   const getPartColor = (partId) => {

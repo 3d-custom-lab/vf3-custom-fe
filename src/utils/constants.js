@@ -123,6 +123,7 @@ export const CUSTOM_CAR_PARTS = {
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang2.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang2.glb",
         affiliateLink: "",
+        hidesOriginalLights: true,
       },
       {
         id: "grille-3",
@@ -132,6 +133,7 @@ export const CUSTOM_CAR_PARTS = {
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang3.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang3.glb",
         affiliateLink: "",
+        hidesOriginalLights: true,
       },
       {
         id: "grille-4",
@@ -141,6 +143,7 @@ export const CUSTOM_CAR_PARTS = {
         modelPath: "/model/custom_car/Mặt xe/Calang/Calang4.glb",
         thumbnail: "/model/custom_car/Mặt xe/Calang/Calang4.glb",
         affiliateLink: "",
+        hidesOriginalLights: true,
       },
     ],
     // Cản trước + sau
