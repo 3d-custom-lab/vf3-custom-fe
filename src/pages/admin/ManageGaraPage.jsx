@@ -90,7 +90,7 @@ function ManageGaraPage() {
               </div>
 
               {/* Orders Card */}
-              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              {/* <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
                     <ShoppingCart className="text-blue-600" size={20} />
@@ -100,10 +100,10 @@ function ManageGaraPage() {
                     <p className="text-xs sm:text-sm text-slate-500">Orders</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Total Stock Card */}
-              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              {/* <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
                     <TrendingUp className="text-purple-600" size={20} />
@@ -113,10 +113,10 @@ function ManageGaraPage() {
                     <p className="text-xs sm:text-sm text-slate-500">Total Stock</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Out of Stock Card */}
-              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              {/* <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-100 rounded-lg flex items-center justify-center shrink-0">
                     <AlertCircle className="text-amber-600" size={20} />
@@ -126,7 +126,7 @@ function ManageGaraPage() {
                     <p className="text-xs sm:text-sm text-slate-500">Out of Stock</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
