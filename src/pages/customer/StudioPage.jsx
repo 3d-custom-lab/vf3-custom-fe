@@ -158,7 +158,7 @@ export const Studio = () => {
     <>
       <Header />
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-full px-4 py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -175,11 +175,11 @@ export const Studio = () => {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden"
+                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[600px] lg:h-[calc(100vh-180px)]"
               >
                 <div
                   ref={canvasRef}
-                  className="w-full h-[600px] bg-slate-100 dark:bg-slate-800 relative"
+                  className="w-full flex-1 bg-slate-100 dark:bg-slate-800 relative"
                 >
                   <Scene autoRotate={false} enableControls={true} />
 
@@ -211,7 +211,7 @@ export const Studio = () => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden sticky top-24"
+                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-180px)] sticky top-24 lg:static"
               >
                 {/* Header */}
                 <div className="p-6 border-b border-slate-200 dark:border-slate-700">
@@ -230,11 +230,10 @@ export const Studio = () => {
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         title={tab.description}
-                        className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${
-                          activeTab === tab.id
-                            ? "bg-blue-600 text-white shadow-lg scale-105"
-                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
-                        }`}
+                        className={`p-3 rounded-xl text-sm font-semibold transition-all flex flex-col items-center gap-2 cursor-pointer ${activeTab === tab.id
+                          ? "bg-blue-600 text-white shadow-lg scale-105"
+                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-700"
+                          }`}
                       >
                         <Icon className="w-5 h-5" />
                         <span className="text-xs">{tab.label}</span>
@@ -244,7 +243,7 @@ export const Studio = () => {
                 </div>
 
                 {/* Tab Content */}
-                <div className="p-6 max-h-[600px] overflow-y-auto">
+                <div className="p-6 overflow-y-auto flex-1">
                   <AnimatePresence mode="wait">
                     {/* Màu sắc */}
                     {activeTab === "color" && (

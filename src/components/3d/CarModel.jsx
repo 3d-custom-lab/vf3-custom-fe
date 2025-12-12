@@ -41,9 +41,10 @@ export const CarModel = ({ autoRotate = false }) => {
         partColors={partColors}
         scale={2.5}
         position={[0, 0, 0]}
-        hideDefaultWheels={false}
+        hideDefaultWheels={!!selectedWheelData?.modelPath && (selectedWheelData?.modelPath?.includes("Lốp") || !selectedWheelData?.modelPath?.includes("Ốp Lazang"))}
         hideDefaultGrille={!!selectedGrilleData?.modelPath}
         hideDefaultLights={selectedGrilleData?.hidesOriginalLights}
+        hideDefaultRim={!!selectedWheelData?.modelPath && selectedWheelData?.modelPath?.includes("Ốp Lazang")}
       />
 
       {/* === VÀNH XE (ỐP MÂM) === */}

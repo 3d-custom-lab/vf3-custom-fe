@@ -16,6 +16,7 @@ export const BaseCar = ({
   hideDefaultWheels = false,
   hideDefaultGrille = false,
   hideDefaultLights = false,
+  hideDefaultRim = false,
 }) => {
   // Memoize để tránh re-render không cần thiết
   const basePartsToRender = useMemo(() => {
@@ -68,6 +69,11 @@ export const BaseCar = ({
           position={[0, 0, 0]}
           scale={scale}
           applyBodyColor={part.applyBodyColor}
+          hiddenNodes={
+            part.id === "default-wheels" && hideDefaultRim
+              ? ["Lazang", "Vành", "Rim", "Op_Lazang", "Hubcap"]
+              : []
+          }
         />
       ))}
     </group>

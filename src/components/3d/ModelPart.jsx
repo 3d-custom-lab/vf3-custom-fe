@@ -8,6 +8,7 @@ export const ModelPart = ({
   position = [0, 0, 0],
   scale = 2.5,
   applyBodyColor = false,
+  hiddenNodes = [],
 }) => {
   // Nếu không có modelPath, không render gì
   if (!modelPath) return null;
@@ -42,6 +43,12 @@ export const ModelPart = ({
         // Enable shadows
         child.castShadow = true;
         child.receiveShadow = true;
+
+        if (hiddenNodes && hiddenNodes.some(name => child.name.includes(name))) {
+          child.visible = false;
+        } else {
+          child.visible = true;
+        }
 
         if (child.material) {
           // Clone material lần đầu tiên
