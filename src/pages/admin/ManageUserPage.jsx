@@ -154,22 +154,22 @@ function ManageUserPage() {
   // Filter users theo search term (client-side search)
   const filteredUsers = Array.isArray(users)
     ? users.filter((user) => {
-        const term = searchTerm.trim().toLowerCase();
-        if (!term) return true;
-        const searchValues = [
-          user?.name,
-          user?.email,
-          user?.type, // Thay role = type
-          user?.paymentType, // Thêm paymentType
-          user?.gender, // Thêm gender
-          user?.status, // Thêm status
-          user?.id?.toString(),
-        ];
+      const term = searchTerm.trim().toLowerCase();
+      if (!term) return true;
+      const searchValues = [
+        user?.name,
+        user?.email,
+        user?.type, // Thay role = type
+        user?.paymentType, // Thêm paymentType
+        user?.gender, // Thêm gender
+        user?.status, // Thêm status
+        user?.id?.toString(),
+      ];
 
-        return searchValues
-          .filter(Boolean)
-          .some((field) => field.toString().toLowerCase().includes(term));
-      })
+      return searchValues
+        .filter(Boolean)
+        .some((field) => field.toString().toLowerCase().includes(term));
+    })
     : [];
 
   return (
@@ -198,7 +198,7 @@ function ManageUserPage() {
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              {/* <div className="bg-white rounded-xl p-3 sm:p-4 md:p-5 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 rounded-lg flex items-center justify-center shrink-0">
                     <UserCheck className="text-emerald-600" size={20} />
@@ -218,9 +218,9 @@ function ManageUserPage() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-xl sm:text-2xl font-bold text-slate-800 truncate">
-                      {stats.newUsersToday}
+                      34.58$
                     </p>
-                    <p className="text-xs sm:text-sm text-slate-500">New Today</p>
+                    <p className="text-xs sm:text-sm text-slate-500">Revenue</p>
                   </div>
                 </div>
               </div>
@@ -236,7 +236,7 @@ function ManageUserPage() {
                     <p className="text-xs sm:text-sm text-slate-500">Banned/Inactive</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -439,13 +439,12 @@ function ManageUserPage() {
                               )}`}
                             >
                               <span
-                                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full mr-1 sm:mr-1.5 ${
-                                  normalizeStatus(user.status) === "active"
-                                    ? "bg-emerald-500"
-                                    : normalizeStatus(user.status) === "pending"
+                                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full mr-1 sm:mr-1.5 ${normalizeStatus(user.status) === "active"
+                                  ? "bg-emerald-500"
+                                  : normalizeStatus(user.status) === "pending"
                                     ? "bg-yellow-500"
                                     : "bg-red-500"
-                                }`}
+                                  }`}
                               ></span>
                               {user.status || "Unknown"}
                             </span>
@@ -562,11 +561,10 @@ function ManageUserPage() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all cursor-pointer ${
-                          currentPage === pageNum
-                            ? "bg-blue-600 text-white shadow-md"
-                            : "text-slate-600 hover:bg-white border border-slate-300"
-                        }`}
+                        className={`px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all cursor-pointer ${currentPage === pageNum
+                          ? "bg-blue-600 text-white shadow-md"
+                          : "text-slate-600 hover:bg-white border border-slate-300"
+                          }`}
                       >
                         {pageNum + 1}
                       </button>
