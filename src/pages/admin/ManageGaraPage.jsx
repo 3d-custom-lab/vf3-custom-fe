@@ -61,7 +61,7 @@ function ManageGaraPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#cae3ed]">
+    <div className="flex min-h-screen bg-emerald-50">
       {/* Sidebar */}
       <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
@@ -147,7 +147,7 @@ function ManageGaraPage() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[900px]">
                 <thead>
-                  <tr className="bg-slate-100 border-b-2 border-slate-200">
+                  <tr className="bg-emerald-100/50 border-b-2 border-emerald-100">
                     <th className="px-3 sm:px-4 md:px-6 py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
                       <div className="flex items-center gap-2">ID</div>
                     </th>
@@ -184,7 +184,7 @@ function ManageGaraPage() {
                     garas.map((gara, index) => (
                       <tr
                         key={gara.id}
-                        className="hover:bg-blue-50/50 transition-all duration-200 group"
+                        className="hover:bg-emerald-50/60 transition-all duration-200 group"
                       >
                         <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                           <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-100 text-xs sm:text-sm font-bold text-slate-700 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
@@ -199,7 +199,7 @@ function ManageGaraPage() {
                         <td className="px-3 sm:px-4 md:px-6 py-3 md:py-4">
                           <div className="flex items-center gap-2 sm:gap-3">
                             <div>
-                              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors max-w-[120px] sm:max-w-none truncate">
+                              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors max-w-[120px] sm:max-w-none truncate">
                                 {gara.name}
                               </div>
                             </div>
@@ -209,7 +209,7 @@ function ManageGaraPage() {
                           <img
                             src={gara.image}
                             alt={gara.name}
-                            className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl shadow-md border-2 border-white group-hover:border-blue-200 group-hover:shadow-lg transition-all duration-200"
+                            className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl shadow-md border-2 border-white group-hover:border-emerald-200 group-hover:shadow-lg transition-all duration-200"
                             onError={(e) => {
                               e.target.src = "https://via.placeholder.com/80?text=No+Image";
                             }}
@@ -239,7 +239,7 @@ function ManageGaraPage() {
                             {gara.services.slice(0, 2).map((service, idx) => (
                               <span
                                 key={idx}
-                                className="inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200"
+                                className="inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200"
                               >
                                 {service}
                               </span>
@@ -255,10 +255,10 @@ function ManageGaraPage() {
                           <div className="flex items-center justify-center gap-1 sm:gap-2">
                             <button
                               onClick={() => handleViewGara(gara)}
-                              className="group/btn p-1.5 sm:p-2 md:p-2.5 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 hover:shadow-md cursor-pointer"
+                              className="group/btn p-1.5 sm:p-2 md:p-2.5 rounded-lg bg-emerald-50 hover:bg-emerald-500 border border-emerald-200 hover:border-emerald-500 transition-all duration-200 hover:shadow-md cursor-pointer"
                               title="View Details"
                             >
-                              <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
+                              <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 group-hover/btn:text-white transition-colors" />
                             </button>
                             <button
                               onClick={() => handleDeleteGara(gara)}
@@ -287,7 +287,7 @@ function ManageGaraPage() {
                     <span className="hidden sm:inline">Previous</span>
                     <span className="sm:hidden">Prev</span>
                   </button>
-                  <button className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold bg-blue-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer">
+                  <button className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold bg-emerald-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer">
                     1
                   </button>
                   <button className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-300 rounded-lg transition-all duration-200 hover:shadow-sm cursor-pointer">
