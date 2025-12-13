@@ -29,7 +29,7 @@ export default function AdminSidebar({ isOpen, onClose }) {
   };
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-6 py-3 mx-3 rounded-lg transition-all duration-200 ${isActive ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5"
+    `flex items-center gap-3 px-6 py-3 mx-3 rounded-lg transition-all duration-200 ${isActive ? "bg-emerald-800 text-white shadow-md shadow-emerald-900/20" : "text-emerald-100/70 hover:bg-emerald-800/50 hover:text-white"
     }`;
 
   return (
@@ -43,7 +43,7 @@ export default function AdminSidebar({ isOpen, onClose }) {
       )}
 
       {/* Sidebar */}
-      <aside className={`w-64 bg-[#265267] min-h-screen flex flex-col fixed left-0 top-0 bottom-0 z-50 shadow-lg transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+      <aside className={`w-64 bg-emerald-900 min-h-screen flex flex-col fixed left-0 top-0 bottom-0 z-50 shadow-xl transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}>
         {/* Close button for mobile */}
         <button
@@ -54,8 +54,8 @@ export default function AdminSidebar({ isOpen, onClose }) {
         </button>
 
         {/* User Profile Section */}
-        <div className="pt-8 pb-6 px-6 flex flex-col items-center border-b border-white/10">
-          <div className="w-20 h-20 rounded-full bg-white p-1 mb-3 overflow-hidden shadow-lg">
+        <div className="pt-8 pb-6 px-6 flex flex-col items-center border-b border-emerald-800">
+          <div className="w-20 h-20 rounded-full bg-emerald-800 p-1 mb-3 overflow-hidden shadow-lg ring-2 ring-emerald-700">
             {userInfo?.avatar ? (
               <img
                 src={userInfo.avatar}
@@ -63,15 +63,15 @@ export default function AdminSidebar({ isOpen, onClose }) {
                 className="w-full h-full object-cover rounded-full"
               />
             ) : (
-              <div className="w-full h-full rounded-full bg-slate-200 flex items-center justify-center">
-                <Users className="text-slate-500" size={32} />
+              <div className="w-full h-full rounded-full bg-emerald-100 flex items-center justify-center">
+                <Users className="text-emerald-600" size={32} />
               </div>
             )}
           </div>
           <h3 className="text-white font-semibold text-base mb-1">
             {userInfo?.name || "Admin"}
           </h3>
-          <p className="text-slate-300 text-xs">
+          <p className="text-emerald-200/70 text-xs">
             {userInfo?.email || "Loading..."}
           </p>
         </div>
@@ -107,21 +107,15 @@ export default function AdminSidebar({ isOpen, onClose }) {
             <Podcast size={20} />
             <span className="font-medium text-sm">Forum Management</span>
           </NavLink>
-
-
-          {/* <NavLink to="/admin/settings" className={linkClass}>
-          <Settings size={20} />
-          <span className="font-medium text-sm">Settings</span>
-        </NavLink> */}
         </nav>
 
         {/* Logout Button */}
-        <div className="p-4">
+        <div className="p-4 border-t border-emerald-800">
           <button
             onClick={handleLogout}
-            className="cursor-pointer w-full flex items-center gap-3 px-6 py-3 rounded-lg text-slate-300 hover:bg-white/5 transition-all duration-200"
+            className="cursor-pointer w-full flex items-center gap-3 px-6 py-3 rounded-lg text-emerald-100/70 hover:bg-red-500/10 hover:text-red-200 transition-all duration-200 group"
           >
-            <LogOut size={20} />
+            <LogOut size={20} className="group-hover:text-red-200" />
             <span className="font-medium text-sm">Logout</span>
           </button>
         </div>

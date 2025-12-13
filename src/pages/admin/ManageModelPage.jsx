@@ -70,7 +70,7 @@ function ManageModelPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#cae3ed]">
+    <div className="flex min-h-screen bg-emerald-50">
       {/* Sidebar */}
       <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
@@ -88,7 +88,7 @@ function ManageModelPage() {
             </div>
             <button
               onClick={() => setIsCreateModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-sm cursor-pointer"
             >
               <Plus size={20} />
               <span>Add New Model</span>
@@ -109,7 +109,7 @@ function ManageModelPage() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[900px]">
                 <thead>
-                  <tr className="bg-slate-100 border-b-2 border-slate-200">
+                  <tr className="bg-emerald-100/50 border-b-2 border-emerald-100">
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">ID</th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Gara ID</th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Type</th>
@@ -140,7 +140,7 @@ function ManageModelPage() {
                     </tr>
                   ) : (
                     models.map((model) => (
-                      <tr key={model.id} className="hover:bg-blue-50/50 transition-all duration-200">
+                      <tr key={model.id} className="hover:bg-emerald-50/60 transition-all duration-200">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="text-sm font-bold text-slate-700">#{model.id}</span>
                         </td>
@@ -150,7 +150,7 @@ function ManageModelPage() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                             {getModelTypeLabel(model.type)}
                           </span>
                         </td>
@@ -172,10 +172,10 @@ function ManageModelPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-center">
                           <button
                             onClick={() => handleViewModel(model.id)}
-                            className="p-2 rounded-lg bg-blue-50 hover:bg-blue-500 border border-blue-200 hover:border-blue-500 transition-all duration-200 group/btn cursor-pointer"
+                            className="p-2 rounded-lg bg-emerald-50 hover:bg-emerald-500 border border-emerald-200 hover:border-emerald-500 transition-all duration-200 group/btn cursor-pointer"
                             title="View Details"
                           >
-                            <Eye className="w-4 h-4 text-blue-600 group-hover/btn:text-white transition-colors" />
+                            <Eye className="w-4 h-4 text-emerald-600 group-hover/btn:text-white transition-colors" />
                           </button>
                         </td>
                       </tr>
@@ -200,11 +200,11 @@ function ManageModelPage() {
       {isViewModalOpen && selectedModel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-lg font-bold text-slate-800">Model Details</h3>
+            <div className="px-6 py-4 border-b border-emerald-100 flex items-center justify-between bg-emerald-50/50">
+              <h3 className="text-lg font-bold text-emerald-900">Model Details</h3>
               <button
                 onClick={() => setIsViewModalOpen(false)}
-                className="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors cursor-pointer"
+                className="p-2 rounded-full hover:bg-emerald-100 text-emerald-600 transition-colors cursor-pointer"
               >
                 <X size={20} />
               </button>
@@ -221,7 +221,7 @@ function ManageModelPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-500 uppercase">Type</label>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 mt-1">
                     {getModelTypeLabel(selectedModel.type)}
                   </span>
                 </div>
@@ -246,7 +246,7 @@ function ManageModelPage() {
             <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end">
               <button
                 onClick={() => setIsViewModalOpen(false)}
-                className="px-4 py-2 text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 font-medium transition-colors cursor-pointer"
+                className="px-4 py-2 text-emerald-700 bg-white border border-emerald-200 rounded-lg hover:bg-emerald-50 font-medium transition-colors cursor-pointer"
               >
                 Close
               </button>

@@ -59,9 +59,9 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
               className="w-full cursor-pointer"
             >
               <div
-                className={`aspect-square bg-gradient-to-br ${isSelected
-                  ? "from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800"
-                  : "from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"
+                className={`aspect-square ${isSelected
+                  ? "bg-blue-100 dark:bg-blue-900"
+                  : "bg-slate-100 dark:bg-slate-800"
                   } flex items-center justify-center p-3 relative`}
               >
                 {hasImage ? (
@@ -117,7 +117,7 @@ export const WheelSelector = ({ parts, selectedId, onSelect, showToast }) => {
                   handleBuyClick(e, part.affiliateLink, part.name)
                 }
                 className={`cursor-pointer w-full py-2.5 px-3 font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${hasLink
-                  ? "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-md hover:shadow-lg"
+                  ? "bg-green-600 hover:bg-green-700 text-white shadow-md hover:shadow-lg"
                   : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400"
                   }`}
               >

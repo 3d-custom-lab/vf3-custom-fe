@@ -28,7 +28,7 @@ export const BuyNowButton = ({ affiliateLink, itemName, isVisible = true }) => {
       <div className="border-t border-slate-200 dark:border-slate-700"></div>
 
       {/* Buy Section */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 p-4 rounded-xl border-2 border-green-200 dark:border-green-800">
+      <div className="bg-slate-50 dark:bg-slate-900/20 p-4 rounded-xl border-2 border-green-200 dark:border-green-800">
         <div className="flex items-start gap-3 mb-3">
           <div className="bg-green-500 text-white p-2 rounded-lg">
             <ShoppingCart className="w-5 h-5" />
@@ -48,11 +48,10 @@ export const BuyNowButton = ({ affiliateLink, itemName, isVisible = true }) => {
           whileTap={{ scale: hasLink ? 0.98 : 1 }}
           onClick={handleBuyClick}
           disabled={!hasLink}
-          className={`cursor-pointer w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
-            hasLink
-              ? "cursor-pointer from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl"
+          className={`cursor-pointer w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${hasLink
+              ? "cursor-pointer bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
               : "cursor-not-allowed bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400"
-          }`}
+            }`}
         >
           <ShoppingCart className="w-5 h-5 cursor-pointer" />
           <span>{hasLink ? "Mua ngay" : "Sắp có hàng"}</span>
